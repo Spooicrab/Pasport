@@ -1,0 +1,57 @@
+<h1>Registro</h1>
+<form
+  action="/api/users/signup"
+  method="post"
+  style="font-family: Arial, sans-serif;"
+>
+  <label for="first_name">Nombre:</label>
+  <input
+    type="text"
+    name="first_name"
+    id="first_name"
+    style="margin-bottom: 10px; padding: 5px;"
+    required
+  />
+
+  <label for="last_name">Apellido:</label>
+  <input
+    type="text"
+    name="last_name"
+    id="last_name"
+    style="margin-bottom: 10px; padding: 5px;"
+    required
+  />
+
+  <label for="age">Edad:</label>
+  <input
+    type="text"
+    name="age"
+    id="age"
+    style="margin-bottom: 10px; padding: 5px;"
+    required
+  />
+
+  <label for="email">Email:</label>
+  <input
+    type="email"
+    name="email"
+    id="email"
+    style="margin-bottom: 10px; padding: 5px;"
+    required
+  />
+
+  <label for="password">Contraseña:</label>
+  <input
+    type="password"
+    name="password"
+    id="password"
+    style="margin-bottom: 10px; padding: 5px;"
+    required
+  />
+
+  <input
+    type="submit"
+    value="REGISTRARSE"
+    style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px;"
+  />
+</form>
