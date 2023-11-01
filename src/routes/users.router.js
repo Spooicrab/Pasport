@@ -37,7 +37,8 @@ const UserRouter = Router();
 // });
 
 UserRouter.post('/signup', passport.authenticate('signup'), (req, res) => {
-    res.send('Registrado')
+    res.redirect('/views/login')
+
 })
 
 UserRouter.post('/login', passport.authenticate('login'), (req, res) => {

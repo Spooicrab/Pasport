@@ -30,7 +30,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(session({
     secret: 'key',
     cookie: { maxAge: 600000 },
-    // store: new mongoStore({ mongoUrl: URI })
+    store: new mongoStore({ mongoUrl: URI })
 }))
 
 app.use(passport.initialize());
