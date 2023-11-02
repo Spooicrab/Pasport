@@ -51,6 +51,10 @@ ViewsRouter.get('/signup', async (req, res) => {
     res.render('registro')
 })
 
+ViewsRouter.get('/error', async (req, res) => {
+    res.render('error')
+})
+
 ViewsRouter.get('/logout', async (req, res) => {
     req.session.destroy(() => {
         res.redirect('/views/login')

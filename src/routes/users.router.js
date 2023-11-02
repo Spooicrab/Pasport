@@ -40,8 +40,11 @@ UserRouter.post('/signup', passport.authenticate('signup'), (req, res) => {
     res.redirect('/views/login')
 })
 
-UserRouter.post('/login', passport.authenticate('login'), (req, res) => {
-    res.redirect('/views/products')
-})
+UserRouter.post('/login', passport.authenticate('login',
+    {
+        successRedirect: '/views/products',
+        failureRedirect: '/views/error'
+    }
+))
 
 export default UserRouter;
