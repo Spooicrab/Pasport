@@ -38,7 +38,6 @@ const UserRouter = Router();
 
 UserRouter.post('/signup', passport.authenticate('signup'), (req, res) => {
     res.redirect('/views/login')
-
 })
 
 UserRouter.post('/login', passport.authenticate('login'), (req, res) => {

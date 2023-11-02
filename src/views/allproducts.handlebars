@@ -9,31 +9,30 @@
 <section>
   <h2>Bienvenido, {{first_name}}</h2>
   <p>mail: {{email}}</p>
-  <p>Rol: {{isAdmin}}</p>
   <button onclick="location.href='/views/logout'">Desconectarse</button>
 </section>
-<div id="productos">
+<div id='productos'>
   {{#each Productos.docs}}
     <div>
       <h3>{{title}}</h3>
       <h2>{{_id}}</h2>
       <p>${{price}}</p>
       <p>stock:{{stock}}</p>
-      <button class="AddToCart" data-product-id="{{_id}}">Añadir al Carrito</button>
+      <button class='AddToCart' data-product-id='{{_id}}'>Añadir al Carrito</button>
     </div>
   {{/each}}
 </div>
 <div>
   {{#if Productos.hasPrevPage}}
     <a
-      href="/views/products?page={{Productos.prevPage}}"
-      class="pagination-link"
+      href='/views/products?page={{Productos.prevPage}}'
+      class='pagination-link'
     >Página anterior</a>
   {{/if}}
   {{#if Productos.hasNextPage}}
     <a
-      href="/views/products?page={{Productos.nextPage}}"
-      class="pagination-link"
+      href='/views/products?page={{Productos.nextPage}}'
+      class='pagination-link'
     >Página siguiente</a>
   {{/if}}
 </div>
@@ -51,5 +50,5 @@
   <input type="text" name="description" id="description" style="padding: 5px; width: 200px;" />
   <input type="submit" value="CREAR" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; cursor: pointer; margin-top: 10px;" />
 </form> }}
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/allproducts.js"></script>
+<script src='/socket.io/socket.io.js'></script>
+<script src='/js/allproducts.js'></script>

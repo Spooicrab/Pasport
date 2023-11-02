@@ -12,6 +12,8 @@ passport.use('signup',
         async (req, email, password, done) => {
             const userDB = await usersManager.findByEmail(email)
             if (userDB) { return done(null, false) }
+            // userDB.isAdmin =
+            // email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "User"
             const HashedPass = await HashData(password)
             const createdUser = await usersManager.createOne({
                 ...req.body,
@@ -32,16 +34,10 @@ passport.use('login',
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
                 else { done(null, userDB) }
-            } catch (error) {
-
-            }
-
+            } catch (error) { done(error) }
         }
     )
-
 )
-
-
 
 passport.serializeUser(function (user, done) {
     done(null, user._id)
@@ -51,7 +47,5 @@ passport.deserializeUser(async function (id, done) {
     try {
         const user = await usersManager.findById(id)
         done(null, user)
-    } catch (error) {
-        done(error)
-    }
+    } catch (error) { done(error) }
 })

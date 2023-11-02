@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { ProductManager } from "../dao/mongo/ProductManager.js";
-import CartRouter from "./Cart.router.js";
 import { CartM } from "../dao/mongo/CartManager.js";
 const ViewsRouter = Router()
 
@@ -13,8 +12,14 @@ const ViewsRouter = Router()
 
 ViewsRouter.get("/products", async (req, res) => {
     let Productos = await ProductManager.GetAll(req.query)
-    const { first_name, email, isAdmin } = req.session
-    res.render('allproducts', ({ Productos, first_name, email, isAdmin }))
+    res.render('allproducts', (
+        {
+            Productos,
+            first_name: req.user.first_name,
+            email: req.user.email,
+            isAdmin: req.user.isAdmin
+        }
+    ))
 })
 
 ViewsRouter.get("/cart/:cid", async (req, res) => {
@@ -50,11 +55,6 @@ ViewsRouter.get('/logout', async (req, res) => {
     req.session.destroy(() => {
         res.redirect('/views/login')
     })
-})
-
-ViewsRouter.get('/profile', async (req, res) => {
-    const { email, first_name, last_name, isAdmin } = req.session;
-    res.render('profile', { email, first_name, last_name, isAdmin })
 })
 
 export default ViewsRouter
