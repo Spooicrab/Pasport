@@ -31,6 +31,7 @@ ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porq
         }
     ))
 })
+
 ViewsRouter.get("/cart/:cid", async (req, res) => {
     const { cid } = req.body
     try {
