@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import { usersManager } from "../dao/mongo/UserManager.js";
 const UserRouter = Router();
 
 // Sin passport:
@@ -36,15 +37,48 @@ const UserRouter = Router();
 
 // });
 
-UserRouter.post('/signup', passport.authenticate('signup'), (req, res) => {
-    res.redirect('/views/login')
+UserRouter.post('/signup',
+    passport.authenticate('signup'), (req, res) => {
+        res.redirect('/views/login')
+    }
+)
+
+UserRouter.post('/login',
+    passport.authenticate('login',
+        {
+            successRedirect: '/views/products',
+            failureRedirect: '/views/error'
+        }
+    )
+)
+
+//GitHub
+
+UserRouter.get('/auth/github',
+    passport.authenticate('github',
+        {
+            scope: ['user:email']
+        }
+    )
+);
+
+UserRouter.get('/github',
+    passport.authenticate('github',
+        { failureRedirect: '/views/error' }
+    ),
+    (req, res) => {
+        req.session.user = req.user
+        res.redirect('views/products')
+    }
+);
+
+UserRouter.get('/:idUser', async (req, res) => {
+    const { idUser } = req.params
+    try {
+        const user = await usersManager.findById(idUser)
+        res.status(200).json({ message: 'user found', user })
+    } catch (error) { return res.status(500).json(error) }
 })
 
-UserRouter.post('/login', passport.authenticate('login',
-    {
-        successRedirect: '/views/products',
-        failureRedirect: '/views/error'
-    }
-))
 
 export default UserRouter;

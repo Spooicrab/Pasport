@@ -1,8 +1,10 @@
 import passport from "passport";
 import { usersManager } from './dao/mongo/UserManager.js'
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GithubStrategy } from "passport-github2";
 import { HashData, CompareData } from "./utils.js";
 
+//Local
 passport.use('signup',
     new LocalStrategy(
         {
@@ -38,6 +40,44 @@ passport.use('login',
         }
     )
 )
+
+//GitHub
+passport.use(
+    'github',
+    new GithubStrategy(
+        {
+            clientID: 'Iv1.ebb107bc973233d1',
+            clientSecret: '8043e4066cd5ef4836a74ca5035c1357f09862cf',
+            callbackURL: 'http://localhost:8080/views/products'
+        },
+        async (accesToken, refreshToken, profile, done) => {
+            try {
+                const userDB = await usersManager.findByEmail(profile.email)
+                if (userDB) {
+                    if (userDB.Github) {
+                        return done(null, userDB)
+                    } else {
+                        return done(null, false)
+                    }
+                }
+
+                //signup
+
+                const newUser = {
+                    first_name: 'test',
+                    last_name: 'test2',
+                    email: profile.email,
+                    password: 123,
+                    Github: true
+                }
+                const createdUser = await usersManager.createOne(newUser);
+                done(null, createdUser);
+
+            } catch (error) { done(error) }
+        }
+
+    ))
+
 
 passport.serializeUser(function (user, done) {
     done(null, user._id)

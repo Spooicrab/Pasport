@@ -18,6 +18,10 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Github: {
+        type: Boolean,
+        default: false
+    }
 });
 
 export const usersModel = mongoose.model("Users", usersSchema);
