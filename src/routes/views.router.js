@@ -22,6 +22,10 @@ ViewsRouter.get("/products", async (req, res) => {
     ))
 })
 
+ViewsRouter.get("/githubsignup", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
+    res.render('github')
+})
+
 
 ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
     let Productos = await ProductManager.GetAllP()
