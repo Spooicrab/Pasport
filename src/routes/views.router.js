@@ -22,6 +22,15 @@ ViewsRouter.get("/products", async (req, res) => {
     ))
 })
 
+
+ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
+    let Productos = await ProductManager.GetAllP()
+    res.render('allproducts', (
+        {
+            Productos,
+        }
+    ))
+})
 ViewsRouter.get("/cart/:cid", async (req, res) => {
     const { cid } = req.body
     try {

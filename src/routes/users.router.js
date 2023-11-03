@@ -68,7 +68,7 @@ UserRouter.get('/github',
     ),
     (req, res) => {
         req.session.user = req.user
-        res.redirect('views/products')
+        res.redirect('views/productsPassport')
     }
 );
 
