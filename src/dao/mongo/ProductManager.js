@@ -1,4 +1,3 @@
-import { response } from "express";
 import { ProductoModel } from "../models/Product.model.js";
 
 class ProductsManager {
@@ -8,17 +7,18 @@ class ProductsManager {
         const response = await ProductoModel.paginate(query, {
             limit,
             page,
-            sort: { price: sortPrice === 'asc' ? -1 : 1 },
+            sort: {
+                price:
+                    sortPrice === 'asc' ?
+                        -1 : 1
+            },
             lean: true
         })
         return response;
     }
     async GetAllP() {   //creo esto porque usando passport, me devuelve un error con las querys... algun tipo de incompatibilidad con el code de los productos
-        const response = await ProductoModel.find()
-        return response
-    }
-    async Render() {
-        response = await ProductoModel.find().lean()
+        const response = await ProductoModel.find().lean()
+        console.log(response)
         return response
     }
     // 

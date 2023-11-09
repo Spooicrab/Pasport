@@ -6,13 +6,9 @@
   display: inline-block; text-decoration: none; border-radius: 5px; }
   .pagination-link:hover { background-color: #0056b3; }
 </style>
-<section>
-  <h2>Bienvenido, {{first_name}}</h2>
-  <p>mail: {{email}}</p>
-  <button onclick="location.href='/views/logout'">Desconectarse</button>
-</section>
+
 <div id='productos'>
-  {{#each Productos.docs}}
+  {{#each Productos}}
     <div>
       <h3>{{title}}</h3>
       <h2>{{_id}}</h2>
@@ -21,20 +17,6 @@
       <button class='AddToCart' data-product-id='{{_id}}'>Añadir al Carrito</button>
     </div>
   {{/each}}
-</div>
-<div>
-  {{#if Productos.hasPrevPage}}
-    <a
-      href='/views/products?page={{Productos.prevPage}}'
-      class='pagination-link'
-    >Página anterior</a>
-  {{/if}}
-  {{#if Productos.hasNextPage}}
-    <a
-      href='/views/products?page={{Productos.nextPage}}'
-      class='pagination-link'
-    >Página siguiente</a>
-  {{/if}}
 </div>
 
 <script src='/socket.io/socket.io.js'></script>

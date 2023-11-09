@@ -3,13 +3,6 @@ import { ProductManager } from "../dao/mongo/ProductManager.js";
 import { CartM } from "../dao/mongo/CartManager.js";
 const ViewsRouter = Router()
 
-// ViewsRouter.get("/products", async (req, res) => {
-//     let Productos = await ProductManager.GetAll(req.query)
-//     const { first_name, email } = req.session
-//     Productos = Productos.docs
-//     res.render('allproducts', ({ Productos, first_name, email }))
-// })
-
 ViewsRouter.get("/products", async (req, res) => {
     let Productos = await ProductManager.GetAll(req.query)
     res.render('allproducts', (
@@ -28,10 +21,10 @@ ViewsRouter.get("/githubsignup", async (req, res) => { //Creo esta ruta porque m
 
 
 ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
-    let Productos = await ProductManager.GetAllP()
-    res.render('allproducts', (
+    let Productos = await ProductManager.GetAllP({})
+    res.render('Productos', (
         {
-            Productos,
+            Productos
         }
     ))
 })
