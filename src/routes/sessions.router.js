@@ -16,7 +16,8 @@ sessionRouter.get('/github',
     ),
     (req, res) => {
         req.session.user = req.user
-        res.redirect('views/test')
+        console.log(req.user)
+        res.redirect('/views/test')
     }
 );
 
@@ -29,9 +30,12 @@ sessionRouter.get('/:idUser', async (req, res) => {
 })
 
 sessionRouter.get('/logout', async (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/views/login')
-    })
+    try {
+        req.session.destroy(() => {
+            res.redirect('/views/login')
+        })
+
+    } catch (error) { return res.status(500).json(error) }
 
 })
 export default sessionRouter

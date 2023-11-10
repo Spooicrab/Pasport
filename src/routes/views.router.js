@@ -60,7 +60,7 @@ ViewsRouter.get("/login",
 
 ViewsRouter.get("/test",
     async (req, res) => {
-        res.render('test')
+        res.render('test', { first_name: req.user.first_name })
     }
 )
 
