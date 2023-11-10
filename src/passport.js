@@ -48,11 +48,12 @@ passport.use(
         {
             clientID: 'Iv1.ebb107bc973233d1',
             clientSecret: '8043e4066cd5ef4836a74ca5035c1357f09862cf',
-            callbackURL: 'http://localhost:8080/views/productsPassport'
+            callbackURL: 'http://localhost:8080/api/session/github'
         },
         async (accesToken, refreshToken, profile, done) => {
             try {
                 const userDB = await usersManager.findByEmail(profile.email)
+                console.log(profile)
                 if (userDB) {
                     if (userDB.Github) {
                         return done(null, userDB)

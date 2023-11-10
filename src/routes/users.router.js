@@ -52,26 +52,6 @@ UserRouter.post('/login',
     )
 )
 
-//GitHub
-
-UserRouter.get('/auth/github',
-    passport.authenticate('github',
-        {
-            scope: ['user:email']
-        }
-    )
-);
-
-UserRouter.get('/github',
-    passport.authenticate('github',
-        { failureRedirect: '/views/error' }
-    ),
-    (req, res) => {
-        req.session.user = req.user
-        res.redirect('views/productsPassport')
-    }
-);
-
 UserRouter.get('/:idUser', async (req, res) => {
     const { idUser } = req.params
     try {

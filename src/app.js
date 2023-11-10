@@ -16,6 +16,7 @@ import ViewsRouter from './routes/views.router.js'
 import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
 import UserRouter from "./routes/users.router.js";
+import sessionRouter from "./routes/sessions.router.js";
 // import { Chat } from "./dao/mongo/Chatmanager.js";
 // import ChatRouter from "./routes/Chat.router.js";
 
@@ -46,6 +47,7 @@ app.use('/views', ViewsRouter)
 // app.use('/chat', ChatRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
+app.use('/api/session', sessionRouter)
 
 const Port8080 = app.listen(8080, () => {
     console.log("Puerto 8080")

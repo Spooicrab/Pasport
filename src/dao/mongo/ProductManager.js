@@ -18,7 +18,6 @@ class ProductsManager {
     }
     async GetAllP() {   //creo esto porque usando passport, me devuelve un error con las querys... algun tipo de incompatibilidad con el code de los productos
         const response = await ProductoModel.find().lean()
-        console.log(response)
         return response
     }
     // 

@@ -15,10 +15,6 @@ ViewsRouter.get("/products", async (req, res) => {
     ))
 })
 
-ViewsRouter.get("/githubsignup", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
-    res.render('github')
-})
-
 
 ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
     let Productos = await ProductManager.GetAllP()
@@ -62,20 +58,23 @@ ViewsRouter.get("/login",
     }
 )
 
+ViewsRouter.get("/test",
+    async (req, res) => {
+        res.render('test')
+    }
+)
+
+ViewsRouter.get('/error',
+    async (req, res) => {
+        res.render('error')
+    }
+)
+
+
 ViewsRouter.get('/signup',
     async (req, res) => {
         res.render('registro')
     }
 )
-
-ViewsRouter.get('/error', async (req, res) => {
-    res.render('error')
-})
-
-ViewsRouter.get('/logout', async (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/views/login')
-    })
-})
 
 export default ViewsRouter
