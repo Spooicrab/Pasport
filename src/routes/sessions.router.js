@@ -7,14 +7,6 @@ session.get("/githubsignup", async (req, res) => { //Creo esta ruta porque me da
 })
 
 
-session.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
-    let Productos = await ProductManager.GetAllP()
-    res.render('allproducts', (
-        {
-            Productos
-        }
-    ))
-})
 
 session.get('/error',
     async (req, res) => {

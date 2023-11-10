@@ -21,7 +21,7 @@ ViewsRouter.get("/githubsignup", async (req, res) => { //Creo esta ruta porque m
 
 
 ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porque me da algun tipo de error  relacionado con querys usando la ruta '/products' con passport
-    let Productos = await ProductManager.GetAllP({})
+    let Productos = await ProductManager.GetAllP()
     res.render('Productos', (
         {
             Productos
@@ -29,34 +29,44 @@ ViewsRouter.get("/productsPassport", async (req, res) => { //Creo esta ruta porq
     ))
 })
 
-ViewsRouter.get("/cart/:cid", async (req, res) => {
-    const { cid } = req.body
-    try {
-        const cartid = await CartM.GetByID(cid)
-        console.log(cartid)
-        res.render('cartId', ({ cartid }))
-    } catch (error) { res.status(500).json(error) }
-})
+ViewsRouter.get("/cart/:cid",
+    async (req, res) => {
+        const { cid } = req.body
+        try {
+            const cartid = await CartM.GetByID(cid)
+            console.log(cartid)
+            res.render('cartId', ({ cartid }))
+        } catch (error) { res.status(500).json(error) }
+    })
 
-ViewsRouter.post("/products", async (req, res) => {
-    const { title, description, price, stock, code, thumbail, } = req.body;
-    if (!title || !price || !code || !stock) { return res.status(400).json({ message: "Faltan datos" }) }
-    if (!stock) { delete req.body.stock; }
-    try {
-        const Add = await ProductManager.Add(req.body);
-        res
-            .status(200)
-            .json({ message: "Añadido", product: Add });
-    } catch (err) { res.status(500).json({ error: err.message }) }
-});
+ViewsRouter.post("/products",
+    async (req, res) => {
+        const { title, description, price, stock, code, thumbail, } = req.body;
+        if (!title || !price || !code || !stock) {
+            return res.status(400).json({ message: "Faltan datos" })
+        }
+        if (!stock) {
+            delete req.body.stock;
+        }
+        try {
+            const Add = await ProductManager.Add(req.body);
+            res
+                .status(200)
+                .json({ message: "Añadido", product: Add });
+        } catch (err) { res.status(500).json({ error: err.message }) }
+    });
 
-ViewsRouter.get("/login", async (req, res) => {
-    res.render('login')
-})
+ViewsRouter.get("/login",
+    async (req, res) => {
+        res.render('login')
+    }
+)
 
-ViewsRouter.get('/signup', async (req, res) => {
-    res.render('registro')
-})
+ViewsRouter.get('/signup',
+    async (req, res) => {
+        res.render('registro')
+    }
+)
 
 ViewsRouter.get('/error', async (req, res) => {
     res.render('error')
