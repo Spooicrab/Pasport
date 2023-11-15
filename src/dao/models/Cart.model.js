@@ -10,82 +10,10 @@ const CartSchema = new mongoose.Schema({
             Cantidad: {
                 type: Number,
                 required: true
-            }
-        },
-        //De aqui para abajo para tener mas de 1 en el carrito
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
             },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
-        },
-        {
-            product: {
-                type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products',
-            },
-            Cantidad: {
-                type: Number,
-            }
+            _id: false
+            //ojo
         }
-
     ]
 });
 

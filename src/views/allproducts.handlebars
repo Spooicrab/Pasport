@@ -9,7 +9,10 @@
 <section>
   <h2>Bienvenido, {{first_name}}</h2>
   <p>mail: {{email}}</p>
- <button onclick="location.href='/api/session/logout'">Desconectarse</button>
+  <p>Id de Carrito: {{cart}}</p>
+  <button onclick="location.href='/api/session/logout'">Desconectarse</button>
+  <button onclick='location.href=`/views/cart/{{cart}}`'>Ver carrito</button>
+</section>
 <div id='productos'>
   {{#each Productos.docs}}
     <div>
@@ -35,6 +38,8 @@
     >Página siguiente</a>
   {{/if}}
 </div>
-
+<script>
+  var cartId = "{{cart}}";
+</script>
 <script src='/socket.io/socket.io.js'></script>
 <script src='/js/allproducts.js'></script>

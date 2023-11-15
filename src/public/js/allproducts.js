@@ -1,6 +1,6 @@
 const Botones = document.getElementsByClassName('AddToCart');
 const socketclient = io();
-let IdCarritoActual = null
+let IdCarritoActual = cartId
 
 for (const Boton of Botones) {
     Boton.addEventListener('click', () => {
@@ -28,6 +28,5 @@ socketclient.on('creado', (data) => {
     // console.log("Se envía para ser agregado");
 });
 socketclient.on('Agregado', () => {
-    console.log("hasta ahora todo ok")
-    console.log(IdCarritoActual)
+    console.log("Agregado")
 })
