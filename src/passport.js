@@ -25,7 +25,7 @@ passport.use('signup',
                 password: HashedPass
             });
 
-            done(null, { id: createdUser._id, cartId: CarritoUsuario })
+            done(null, createdUser)
         }
     )
 )
@@ -39,7 +39,7 @@ passport.use('login',
                 if (!userDB) { return done(null, false) }
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
-                else { done(null, { id: userDB, cartId: userDB.cart }) }
+                else { done(null, userDB) }
             } catch (error) { done(error) }
         }
     )
@@ -87,7 +87,7 @@ passport.use(
 
 
 passport.serializeUser(function (user, done) {
-    done(null, { id: user._id, cartId: user.cart })
+    done(null, user)
 });
 
 passport.deserializeUser(async function (id, done) {
