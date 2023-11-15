@@ -16,6 +16,7 @@ for (const Boton of Botones) {
 }
 
 // En el cliente
+
 socketclient.on('creado', (data) => {
     // console.log(data)
     // console.log(`socket client creado data : ${data}`)

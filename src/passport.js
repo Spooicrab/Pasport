@@ -24,7 +24,8 @@ passport.use('signup',
                 cart: CarritoUsuario,
                 password: HashedPass
             });
-            done(null, createdUser)
+
+            done(null, { id: createdUser._id, cartId: CarritoUsuario })
         }
     )
 )
@@ -38,7 +39,7 @@ passport.use('login',
                 if (!userDB) { return done(null, false) }
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
-                else { done(null, userDB) }
+                else { done(null, { id: userDB, cartId: userDB.cart }) }
             } catch (error) { done(error) }
         }
     )
@@ -76,6 +77,9 @@ passport.use(
                     Github: true
                 }
                 const createdUser = await usersManager.createOne(newUser);
+                socket.emit('carritoCreado',
+                    { carritoId: CarritoUsuario }
+                );
                 done(null, createdUser);
 
             } catch (error) { done(error) }
@@ -85,7 +89,7 @@ passport.use(
 
 
 passport.serializeUser(function (user, done) {
-    done(null, user._id)
+    done(null, { id: user._id, cartId: user.cart })
 });
 
 passport.deserializeUser(async function (id, done) {

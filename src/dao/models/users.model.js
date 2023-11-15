@@ -27,7 +27,8 @@ const usersSchema = new mongoose.Schema({
         required: true
     },
     role: {
-        type: String
+        type: String,
+        default: 'user'
     },
     Github: {
         type: Boolean,

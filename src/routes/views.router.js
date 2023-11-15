@@ -10,7 +10,8 @@ ViewsRouter.get("/products", async (req, res) => {
             Productos,
             first_name: req.user.first_name,
             email: req.user.email,
-            isAdmin: req.user.isAdmin
+            role: req.user.role,
+            cart: req.user.cart
         }
     ))
 })

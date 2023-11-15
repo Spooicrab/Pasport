@@ -31,7 +31,7 @@ sessionRouter.get('/:idUser', async (req, res) => {
 
 sessionRouter.get("/logout", (req, res) => {
     req.session.destroy(() => {
-        res.redirect("/views/login");
+        res.redirect("views/login");
     });
 });
 export default sessionRouter
