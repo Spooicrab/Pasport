@@ -77,9 +77,7 @@ passport.use(
                     Github: true
                 }
                 const createdUser = await usersManager.createOne(newUser);
-                socket.emit('carritoCreado',
-                    { carritoId: CarritoUsuario }
-                );
+
                 done(null, createdUser);
 
             } catch (error) { done(error) }
