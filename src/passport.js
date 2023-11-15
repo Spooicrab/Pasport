@@ -3,6 +3,7 @@ import { usersManager } from './dao/mongo/UserManager.js'
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { HashData, CompareData } from "./utils.js";
+import { CartM } from "./dao/mongo/CartManager.js";
 
 //Local
 passport.use('signup',
@@ -17,8 +18,10 @@ passport.use('signup',
             // userDB.isAdmin =
             // email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "User"
             const HashedPass = await HashData(password)
+            const CarritoUsuario = await CartM.CrearCarrito()
             const createdUser = await usersManager.createOne({
                 ...req.body,
+                cart: CarritoUsuario,
                 password: HashedPass
             });
             done(null, createdUser)
@@ -62,12 +65,14 @@ passport.use(
                 }
 
                 //signup
+                const CarritoUsuario = await CartM.CrearCarrito()
 
                 const newUser = {
                     first_name: profile._json.name.split(' ')[0],
                     last_name: profile._json.name.split(' ')[1] || '',
                     email: profile._json.email,
                     password: 'test123',
+                    cart: CarritoUsuario,
                     Github: true
                 }
                 const createdUser = await usersManager.createOne(newUser);

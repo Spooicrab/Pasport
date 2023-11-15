@@ -14,9 +14,20 @@ const usersSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    age: {
+        type: Number
+    },
     password: {
         type: String,
         required: true,
+    },
+    cart: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'Cart',
+        required: true
+    },
+    role: {
+        type: String
     },
     Github: {
         type: Boolean,

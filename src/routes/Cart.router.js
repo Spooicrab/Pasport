@@ -48,6 +48,7 @@ CartRouter.put("/:cid/products/:pid", async (req, res) => {
               "Cantidad": 100
             }
         */
+
         return res.status(200).json('Actualizado')
     } catch (error) { res.status(500).json({ error: error.message }) }
 })
