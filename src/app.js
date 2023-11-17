@@ -12,13 +12,13 @@ import './passport.js'
 import { __dirname } from "./utils.js";
 import { CartM } from "./dao/mongo/CartManager.js";
 
+
+//Views
 import ViewsRouter from './routes/views.router.js'
 import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
-// import { Chat } from "./dao/mongo/Chatmanager.js";
-// import ChatRouter from "./routes/Chat.router.js";
 
 const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
@@ -37,14 +37,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session())
 
-
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
 app.use('/api/products', ProductRouter)
 app.use('/views', ViewsRouter)
-// app.use('/chat', ChatRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
@@ -57,12 +55,6 @@ const Sserver = new Server(Port8080)
 
 Sserver.on("connection", (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
-
-    // socket.on("Mensaje", async (obj) => {
-    //     const Mensajes = await Chat.Add(obj)
-    //     const Chats = await Chat.GetAll({})
-    //     socket.emit("OK", Chats)
-    // })
 
     socket.on('CrearCarrito', async (data) => {
         const productId = data
