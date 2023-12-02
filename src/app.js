@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
 import passport from "passport";
 
+import config from "./config/config.js";
 import "./dao/config.js"
 import './passport.js'
 
@@ -20,7 +21,7 @@ import CartRouter from "./routes/Cart.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
 
-const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
+// const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
 const app = express()
 app.use(cookieParser())
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
+const URI = config.mongo_uri
 app.use(session({
     secret: 'key',
     cookie: { maxAge: 600000 },
@@ -47,11 +49,13 @@ app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
 
-const Port8080 = app.listen(8080, () => {
-    console.log("Puerto 8080")
+const Port = config.port
+
+const servidor = app.listen(Port, () => {
+    console.log("Puerto conectado")
 })
 
-const Sserver = new Server(Port8080)
+const Sserver = new Server(servidor)
 
 Sserver.on("connection", (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
