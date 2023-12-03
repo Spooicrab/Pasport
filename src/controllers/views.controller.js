@@ -21,10 +21,10 @@ class ViewController {
         async (req, res) => {
             const { cid } = req.params
             try {
-                const cartid = await CartService.GetByID(cid)
-                console.log(cartid)
-                res.render('cartId', { cartid })
-            } catch (error) { res.status(500).json(error) }
+                const cartid = await CartService.findByID(cid)
+                console.log(cartid);
+                res.render('cartId', { products: cartid.Products })
+            } catch (error) { console.log(error) }
         }
 
     AñadirProducto =

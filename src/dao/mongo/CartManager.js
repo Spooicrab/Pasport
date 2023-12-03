@@ -3,12 +3,12 @@ import { CartModel } from "../../models/Cart.model.js";
 class CartManager {
 
     async GetAll() {
-        const response = await CartModel.find().populate('Products.product').lean();
+        const response = await CartModel.find().populate('Products.product');
         return response;
     }
     // 
     async GetByID(ID) {
-        const response = await CartModel.findById(ID).populate('Products.product').lean();
+        const response = await CartModel.findById(ID).populate('Products.product');
         return response;
     }
     // 

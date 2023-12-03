@@ -38,7 +38,9 @@ class CartServices {
     async AgregarCantidad(CartID, ProductID) {
         const response = await CartM.GetByID(CartID);
         if (!response) { return null }
-        const ProductoIndex = response.Products.findIndex(p => p.product.equals(ProductID));
+        const ProductoIndex = response.Products.findIndex(p => {
+            return p.product._id.equals(ProductID);
+        });
         if (ProductoIndex === -1) {
             response.Products.push({
                 product: ProductID,
@@ -50,7 +52,6 @@ class CartServices {
         const done = await response.save();
         return done;
     }
-
 
     async DeleteProduct(CartID, ProductID) {
         const response = await CartM.GetByID(CartID)
