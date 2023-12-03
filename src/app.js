@@ -11,7 +11,7 @@ import "./dao/config.js"
 import './passport.js'
 
 import { __dirname } from "./utils.js";
-import { CartM } from "./dao/mongo/CartManager.js";
+import { CartService } from "./services/Cart.services.js";
 
 
 //Views
@@ -62,7 +62,7 @@ Sserver.on("connection", (socket) => {
 
     socket.on('CrearCarrito', async (data) => {
         const productId = data
-        const IdCarritoCreado = await CartM.CrearCarrito();
+        const IdCarritoCreado = await CartService.CrearCarrito();
         socket.emit('creado', { productId, IdCarritoCreado });
     });
 
@@ -70,7 +70,7 @@ Sserver.on("connection", (socket) => {
         const producto = data.productId;
         const IdCarritoActual = data.IdCarritoActual;
         try {
-            const agregar = await CartM.AgregarCantidad(IdCarritoActual, producto);
+            const agregar = await CartService.AgregarCantidad(IdCarritoActual, producto);
             socket.emit('Agregado');
         } catch (error) { throw error; }
     });

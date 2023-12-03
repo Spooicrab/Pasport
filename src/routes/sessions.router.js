@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import { SessionControllers } from "../services/sessions.services.js";
 const sessionRouter = Router()
 
 sessionRouter.get('/auth/github',
@@ -13,25 +14,11 @@ sessionRouter.get('/auth/github',
 sessionRouter.get('/github',
     passport.authenticate('github',
         { failureRedirect: '/views/error' }
-    ),
-    (req, res) => {
-        req.session.user = req.user
-        console.log(req.user)
-        res.redirect('/views/products')
-    }
+    ), SessionControllers.GithubAuth
+
 );
 
-sessionRouter.get('/:idUser', async (req, res) => {
-    const { idUser } = req.params
-    try {
-        const user = await usersManager.findById(idUser)
-        res.status(200).json({ message: 'user found', user })
-    } catch (error) { return res.status(500).json(error) }
-})
+sessionRouter.get('/:idUser', SessionControllers.FindSession)
 
-sessionRouter.get("/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("views/login");
-    });
-});
+sessionRouter.get("/logout", SessionControllers.DestroySession);
 export default sessionRouter

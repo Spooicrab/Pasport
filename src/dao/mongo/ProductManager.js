@@ -1,4 +1,4 @@
-import { ProductoModel } from "../models/Product.model.js";
+import { ProductoModel } from "../../models/Product.model.js";
 
 class ProductsManager {
     // 
@@ -16,10 +16,6 @@ class ProductsManager {
         })
         return response;
     }
-    async GetAllP() {   //creo esto porque usando passport, me devuelve un error con las querys... algun tipo de incompatibilidad con el code de los productos
-        const response = await ProductoModel.find().lean()
-        return response
-    }
     // 
     async GetById(id) {
         const response = await ProductoModel.findById(id);
@@ -36,19 +32,19 @@ class ProductsManager {
         return response;
     }
     // 
-    async Update(id, obj) {
-        const response = await ProductManager.GetById(id)
-        try {
-            response.title = obj.title
-            response.description = obj.description
-            response.price = obj.price
-            response.thumbnail = obj.thumbnail
-            response.code = obj.code
-            response.stock = obj.stock
-            const Actualizado = response.save()
-            return Actualizado
-        } catch (error) { throw error }
-    }
+    // async Update(id, obj) {
+    //     const response = await ProductManager.GetById(id)
+    //     try {
+    //         response.title = obj.title
+    //         response.description = obj.description
+    //         response.price = obj.price
+    //         response.thumbnail = obj.thumbnail
+    //         response.code = obj.code
+    //         response.stock = obj.stock
+    //         const Actualizado = response.save()
+    //         return Actualizado
+    //     } catch (error) { throw error }
+    // }
 }
 
 export const ProductManager = new ProductsManager;

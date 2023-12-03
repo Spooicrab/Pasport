@@ -1,4 +1,4 @@
-import { usersModel } from "../models/users.model.js";
+import { usersModel } from "../../models/users.model.js";
 class UsersManager {
     async findById(id) {
         const response = await usersModel.findById(id).populate('cart');

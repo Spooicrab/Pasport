@@ -1,71 +1,17 @@
 import { Router } from "express";
-import { ProductManager } from "../dao/mongo/ProductManager.js";
-import { CartM } from "../dao/mongo/CartManager.js";
+import { ViewsController } from "../controllers/views.controller.js";
 const ViewsRouter = Router()
 
-ViewsRouter.get("/products", async (req, res) => {
-    let Productos = await ProductManager.GetAll(req.query)
-    res.render('allproducts', (
-        {
-            Productos,
-            first_name: req.user.first_name,
-            email: req.user.email,
-            role: req.user.role,
-            cart: req.user.cart._id
-        }
-    ))
-})
+ViewsRouter.get("/products", ViewsController.Home)
 
-ViewsRouter.get("/cart/:cid",
-    async (req, res) => {
-        const { cid } = req.params
-        try {
-            const cartid = await CartM.GetByID(cid)
-            console.log(cartid)
-            res.render('cartId', { cartid })
-        } catch (error) { res.status(500).json(error) }
-    })
+ViewsRouter.get("/cart/:cid", ViewsController.Carrito)
 
-ViewsRouter.post("/products",
-    async (req, res) => {
-        const { title, description, price, stock, code, thumbail, } = req.body;
-        if (!title || !price || !code || !stock) {
-            return res.status(400).json({ message: "Faltan datos" })
-        }
-        if (!stock) {
-            delete req.body.stock;
-        }
-        try {
-            const Add = await ProductManager.Add(req.body);
-            res
-                .status(200)
-                .json({ message: "Añadido", product: Add });
-        } catch (err) { res.status(500).json({ error: err.message }) }
-    });
+ViewsRouter.post("/products", ViewsController.AñadirProducto);
 
-ViewsRouter.get("/login",
-    async (req, res) => {
-        res.render('login')
-    }
-)
+ViewsRouter.get("/login", ViewsController.login)
 
-ViewsRouter.get("/test",
-    async (req, res) => {
-        res.render('test', { first_name: req.user.first_name })
-    }
-)
+ViewsRouter.get('/error', ViewsController.error)
 
-ViewsRouter.get('/error',
-    async (req, res) => {
-        res.render('error')
-    }
-)
-
-
-ViewsRouter.get('/signup',
-    async (req, res) => {
-        res.render('registro')
-    }
-)
+ViewsRouter.get('/signup', ViewsController.signup)
 
 export default ViewsRouter
