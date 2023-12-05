@@ -29,4 +29,5 @@ socketclient.on('creado', (data) => {
 });
 socketclient.on('Agregado', () => {
     console.log("Agregado")
+    alert('Producto Agregado al Carrito')
 })
