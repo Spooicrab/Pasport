@@ -58,6 +58,7 @@ See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-contr
     }
 
 }))
+
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
