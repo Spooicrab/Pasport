@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { SessionControllers } from "../services/sessions.services.js";
+import { SessionControllers } from "../controllers/sessions.controller.js";
 const sessionRouter = Router()
 
 sessionRouter.get('/auth/github',
@@ -20,5 +20,6 @@ sessionRouter.get('/github',
 
 sessionRouter.get('/:idUser', SessionControllers.FindSession)
 
-sessionRouter.get("/logout", SessionControllers.DestroySession);
+sessionRouter.get('/logout', SessionControllers.DestroySession);
+
 export default sessionRouter
