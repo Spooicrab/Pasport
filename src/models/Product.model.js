@@ -6,7 +6,7 @@ const ProductoSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     thumbnail: { type: String },
     code: { type: Number, required: true },
-    stock: { type: Number }
+    stock: { type: Number, default: 10 }
 });
 
 ProductoSchema.plugin(mongoosePaginate)
