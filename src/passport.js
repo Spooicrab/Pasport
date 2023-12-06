@@ -1,9 +1,9 @@
 import passport from "passport";
-import { usersManager } from './dao/mongo/UserManager.js'
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { HashData, CompareData } from "./utils.js";
 import { CartService } from "./services/Cart.services.js";
+import { UserService } from "./services/User.services.js";
 
 
 //Local
@@ -14,13 +14,13 @@ passport.use('signup',
             passReqToCallback: true
         },
         async (req, email, password, done) => {
-            const userDB = await usersManager.findByEmail(email)
+            const userDB = await UserService.findByEmail(email)
             if (userDB) { return done(null, false) }
             // userDB.isAdmin =
             // email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "User"
             const HashedPass = await HashData(password)
             const CarritoUsuario = await CartService.CrearCarrito()
-            const createdUser = await usersManager.createOne({
+            const createdUser = await UserService.createOne({
                 ...req.body,
                 cart: CarritoUsuario,
                 password: HashedPass
@@ -36,7 +36,7 @@ passport.use('login',
         { usernameField: 'email' },
         async (email, password, done) => {
             try {
-                const userDB = await usersManager.findByEmail(email)
+                const userDB = await UserService.findByEmail(email)
                 if (!userDB) { return done(null, false) }
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
@@ -57,7 +57,7 @@ passport.use(
         },
         async (accesToken, refreshToken, profile, done) => {
             try {
-                const userDB = await usersManager.findByEmail(profile._json.email)
+                const userDB = await UserService.findByEmail(profile._json.email)
                 if (userDB) {
                     if (userDB.Github) {
                         return done(null, userDB)
@@ -67,7 +67,7 @@ passport.use(
                 }
 
                 //signup
-                const CarritoUsuario = await CartM.CrearCarrito()
+                const CarritoUsuario = await CartService.CrearCarrito()
 
                 const newUser = {
                     first_name: profile._json.name.split(' ')[0],
@@ -77,7 +77,7 @@ passport.use(
                     cart: CarritoUsuario,
                     Github: true
                 }
-                const createdUser = await usersManager.createOne(newUser);
+                const createdUser = await UserService.createOne(newUser);
 
                 done(null, createdUser);
 
@@ -93,7 +93,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(async function (id, done) {
     try {
-        const user = await usersManager.findById(id)
+        const user = await UserService.findById(id)
         done(null, user)
     } catch (error) { done(error) }
 })
