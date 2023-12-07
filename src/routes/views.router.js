@@ -11,6 +11,8 @@ ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), 
 
 ViewsRouter.post("/products", passport.authenticate('jwt', { session: false }), ViewsController.AñadirProducto);
 
+ViewsRouter.put('/products/:pid', passport.authenticate('jwt', { session: false }), ViewsController.ActualizarProducto);
+
 ViewsRouter.get("/login", ViewsController.login)
 
 ViewsRouter.get('/error', ViewsController.error)

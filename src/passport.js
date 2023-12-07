@@ -62,8 +62,8 @@ passport.use('login',
                         cart: userDB.cart
                     }
                 )
-
                 userDB.token = token
+                console.log('---TOKEN:', userDB.token)
                 done(null, userDB)
 
             } catch (error) { done(error) }
@@ -74,7 +74,6 @@ passport.use('login',
 //JWT cookie
 
 const fromCookies = (req) => {
-    // console.log('estoy extrayendo cookies');
     return req.cookies.jwt;
 };
 

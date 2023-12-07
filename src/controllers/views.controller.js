@@ -50,6 +50,19 @@ class ViewController {
             }
         }
 
+    ActualizarProducto =
+        async (req, res) => {
+            const userRole = req.user.role;
+            const { pid } = req.params
+            if (userRole === 'admin') {
+                console.log('pid:', pid);
+                const update = await ProductsService.Update(pid, req.body);
+                res.status(200).json('Actualizado')
+            } else {
+                res.status(403).send('No tienes permiso para esto')
+            }
+        }
+
     login =
         async (req, res) => {
             res.render('login')
