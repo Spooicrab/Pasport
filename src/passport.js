@@ -1,12 +1,16 @@
 import passport from "passport";
+import config from "./config/config.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
-import { HashData, CompareData } from "./utils.js";
+import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
+import { HashData, CompareData, generateToken } from "./utils.js";
 import { CartService } from "./services/Cart.services.js";
 import { UserService } from "./services/User.services.js";
 
+const JWTKEY = config.jwtsecret
 
-//Local
+
+// Local
 passport.use('signup',
     new LocalStrategy(
         {
@@ -35,16 +39,53 @@ passport.use('login',
     new LocalStrategy(
         { usernameField: 'email' },
         async (email, password, done) => {
+            const userDB = await UserService.findByEmail(email)
+            // console.log('userDB:', userDB)
             try {
-                const userDB = await UserService.findByEmail(email)
                 if (!userDB) { return done(null, false) }
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
-                else { done(null, userDB) }
+
+                const token = generateToken(
+                    {
+                        id: userDB._id,
+                        email,
+                        first_name: userDB.first_name,
+                        last_name: userDB.last_name,
+                        age: userDB.age,
+                        role: userDB.role,
+                        cart: userDB.cart._id
+                    }
+                )
+
+                userDB.token = token
+                done(null, userDB)
+
             } catch (error) { done(error) }
         }
     )
 )
+
+//JWT cookie
+
+const fromCookies = (req) => {
+    // console.log('estoy extrayendo cookies');
+    return req.cookies.jwt;
+};
+
+passport.use(
+    "jwt",
+    new JWTStrategy(
+        {
+            secretOrKey: JWTKEY,
+            jwtFromRequest: ExtractJwt.fromExtractors([fromCookies]),
+        },
+        async (jwt_payload, done) => {
+            console.log("---jwt-passport---", jwt_payload);
+            done(null, jwt_payload);
+        }
+    )
+);
 
 //GitHub
 passport.use(

@@ -20,6 +20,4 @@ sessionRouter.get('/github',
 
 sessionRouter.get('/:idUser', SessionControllers.FindSession)
 
-sessionRouter.get('/logout', SessionControllers.DestroySession);
-
 export default sessionRouter

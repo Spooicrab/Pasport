@@ -6,13 +6,14 @@ class ViewController {
     Home =
         async (req, res) => {
             let Productos = await ProductsService.GetAll(req.query)
+            console.log(req.user);
             res.render('allproducts', (
                 {
                     Productos,
                     first_name: req.user.first_name,
                     email: req.user.email,
                     role: req.user.role,
-                    cart: req.user.cart._id
+                    cart: req.user.cart
                 }
             ))
         }

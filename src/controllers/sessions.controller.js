@@ -18,15 +18,6 @@ class SessionController {
             } catch (error) { return res.status(500).json(error) }
         }
 
-    DestroySession =
-        (req, res) => {
-            try {
-                console.log(req.session)
-                req.session.destroy(() => {
-                    res.redirect("views/login");
-                });
-            } catch (error) { console.log(error) }
-        }
 }
 
 export const SessionControllers = new SessionController()

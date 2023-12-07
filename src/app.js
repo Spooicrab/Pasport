@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import express from "express";
 import handlebars from "express-handlebars";
-// import session from "express-session";
+import session from "express-session";
 import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
 import passport from "passport";
@@ -19,7 +19,7 @@ import ViewsRouter from './routes/views.router.js'
 import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
 import UserRouter from "./routes/users.router.js";
-// import sessionRouter from "./routes/sessions.router.js";
+import sessionRouter from "./routes/sessions.router.js";
 
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
@@ -30,14 +30,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
 
 const URI = config.mongo_uri
-// app.use(session({
-//     secret: 'key',
-//     cookie: { maxAge: 600000 },
-//     store: new mongoStore({ mongoUrl: URI })
-// }))
+app.use(session({
+    secret: 'key',
+    cookie: { maxAge: 600000 },
+    store: new mongoStore({ mongoUrl: URI })
+}))
 
 app.use(passport.initialize());
-// app.use(passport.session())
+app.use(passport.session())
 
 app.engine('handlebars', handlebars.engine({
 
@@ -66,7 +66,7 @@ app.use('/api/products', ProductRouter)
 app.use('/views', ViewsRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
-// app.use('/api/session', sessionRouter)
+app.use('/api/session', sessionRouter)
 
 const Port = config.port
 

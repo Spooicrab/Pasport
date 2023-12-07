@@ -11,7 +11,7 @@ class UserServices {
     }
 
     async createOne(obj) {
-        const response = await usersManager(obj);
+        const response = await usersManager.createOne(obj);
         return response;
     }
 }

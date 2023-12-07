@@ -1,12 +1,13 @@
 import { Router } from "express";
+import passport from "passport";
 import { ViewsController } from "../controllers/views.controller.js";
 const ViewsRouter = Router()
 
-ViewsRouter.get("/products", ViewsController.Home)
+ViewsRouter.get("/products", passport.authenticate('jwt', { session: false }), ViewsController.Home)
 
-ViewsRouter.get("/cart/:cid", ViewsController.Carrito)
+ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), ViewsController.Carrito)
 
-ViewsRouter.post("/products", ViewsController.AñadirProducto);
+ViewsRouter.post("/products", passport.authenticate('jwt', { session: false }), ViewsController.AñadirProducto);
 
 ViewsRouter.get("/login", ViewsController.login)
 

@@ -15,5 +15,14 @@ class UserController {
                 res.status(200).json({ message: 'user found', user })
             } catch (error) { return res.status(500).json(error) }
         }
+
+    Login =
+        (req, res) => {
+            if (req.user) {
+                res.redirect('/views/products');
+            } else {
+                res.redirect('/views/error');
+            }
+        }
 }
 export const UsersController = new UserController()
