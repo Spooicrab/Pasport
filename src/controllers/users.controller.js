@@ -18,11 +18,8 @@ class UserController {
 
     Login =
         (req, res) => {
-            if (req.user) {
-                res.redirect('/views/products');
-            } else {
-                res.redirect('/views/error');
-            }
+            res.cookie('jwt', req.user.token, { httpOnly: true });
+            res.redirect('/views/products');
         }
 }
 export const UsersController = new UserController()

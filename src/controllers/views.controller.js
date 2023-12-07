@@ -6,7 +6,7 @@ class ViewController {
     Home =
         async (req, res) => {
             let Productos = await ProductsService.GetAll(req.query)
-            console.log(req.user);
+            // console.log(req.user);
             res.render('allproducts', (
                 {
                     Productos,

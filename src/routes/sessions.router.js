@@ -13,7 +13,7 @@ sessionRouter.get('/auth/github',
 
 sessionRouter.get('/github',
     passport.authenticate('github',
-        { failureRedirect: '/views/error' }
+        { failureRedirect: '/views/error' },
     ), SessionControllers.GithubAuth
 
 );

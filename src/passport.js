@@ -101,6 +101,18 @@ passport.use(
                 const userDB = await UserService.findByEmail(profile._json.email)
                 if (userDB) {
                     if (userDB.Github) {
+                        const token = generateToken(
+                            {
+                                id: userDB._id,
+                                email: userDB.email,
+                                first_name: userDB.first_name,
+                                last_name: userDB.last_name,
+                                age: userDB.age,
+                                role: userDB.role,
+                                cart: userDB.cart
+                            }
+                        )
+                        userDB.token = token
                         return done(null, userDB)
                     } else {
                         return done(null, false)

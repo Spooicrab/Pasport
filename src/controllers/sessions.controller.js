@@ -4,9 +4,8 @@ class SessionController {
 
     GithubAuth =
         (req, res) => {
-            req.session.user = req.user
-            console.log(req.user)
-            res.redirect('/views/products')
+            res.cookie('jwt', req.user.token, { httpOnly: true });
+            res.redirect('/views/products');
         }
 
     FindSession =

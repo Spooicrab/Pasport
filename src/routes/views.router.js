@@ -3,7 +3,7 @@ import passport from "passport";
 import { ViewsController } from "../controllers/views.controller.js";
 const ViewsRouter = Router()
 
-ViewsRouter.get("/products", ViewsController.Home)
+ViewsRouter.get("/products", passport.authenticate('jwt', { session: false }), ViewsController.Home)
 
 ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), ViewsController.Carrito)
 
