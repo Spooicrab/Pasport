@@ -6,7 +6,6 @@ class ViewController {
     Home =
         async (req, res) => {
             let Productos = await ProductsService.GetAll(req.query)
-            // console.log(req.user);
             res.render('allproducts', (
                 {
                     Productos,
@@ -31,19 +30,24 @@ class ViewController {
 
     AñadirProducto =
         async (req, res) => {
-            const { title, description, price, stock, code, thumbail, } = req.body;
-            if (!title || !price || !code || !stock) {
-                return res.status(400).json({ message: "Faltan datos" })
+            const userRole = req.user.role;
+            if (userRole === 'admin') {
+                const { title, description, price, stock, code, thumbail, } = req.body;
+                if (!title || !price || !code || !stock) {
+                    return res.status(400).json({ message: "Faltan datos" })
+                }
+                if (!stock) {
+                    delete req.body.stock;
+                }
+                try {
+                    const Add = await ProductsService.Add(req.body);
+                    res
+                        .status(200)
+                        .json({ message: "Añadido", product: Add });
+                } catch (err) { res.status(500).json({ error: err.message }) }
+            } else {
+                res.status(403).send('No tienes permiso para esto')
             }
-            if (!stock) {
-                delete req.body.stock;
-            }
-            try {
-                const Add = await ProductManager.Add(req.body);
-                res
-                    .status(200)
-                    .json({ message: "Añadido", product: Add });
-            } catch (err) { res.status(500).json({ error: err.message }) }
         }
 
     login =
@@ -59,6 +63,20 @@ class ViewController {
     signup =
         async (req, res) => {
             res.render('registro')
+        }
+
+    admin =
+        async (req, res) => {
+            let Productos = await ProductsService.GetAll(req.query)
+            const userRole = req.user.role;
+            if (userRole === 'admin') {
+                res.render('admin', ({
+                    Productos,
+                    first_name: req.user.first_name,
+                    email: req.user.email,
+                    role: req.user.role,
+                }))
+            } else { res.status(403).send('No tienes permiso para acceder a esta página') }
         }
 }
 

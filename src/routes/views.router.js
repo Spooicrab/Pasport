@@ -5,6 +5,8 @@ const ViewsRouter = Router()
 
 ViewsRouter.get("/products", passport.authenticate('jwt', { session: false }), ViewsController.Home)
 
+ViewsRouter.get("/admin", passport.authenticate('jwt', { session: false }), ViewsController.admin)
+
 ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), ViewsController.Carrito)
 
 ViewsRouter.post("/products", passport.authenticate('jwt', { session: false }), ViewsController.AñadirProducto);

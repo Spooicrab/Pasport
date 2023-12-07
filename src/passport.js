@@ -20,8 +20,15 @@ passport.use('signup',
         async (req, email, password, done) => {
             const userDB = await UserService.findByEmail(email)
             if (userDB) { return done(null, false) }
-            // userDB.isAdmin =
-            // email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "User"
+            if (email == 'Coder@Admin.com' && password == 'admin') {
+                const HashedPass = await HashData(password)
+                const createdUser = await UserService.createOne({
+                    ...req.body,
+                    password: HashedPass,
+                    role: 'admin'
+                });
+                done(null, createdUser)
+            }
             const HashedPass = await HashData(password)
             const CarritoUsuario = await CartService.CrearCarrito()
             const createdUser = await UserService.createOne({
@@ -40,12 +47,10 @@ passport.use('login',
         { usernameField: 'email' },
         async (email, password, done) => {
             const userDB = await UserService.findByEmail(email)
-            // console.log('userDB:', userDB)
             try {
                 if (!userDB) { return done(null, false) }
                 const isValid = await CompareData(password, userDB.password)
                 if (!isValid) { return done(null, false) }
-
                 const token = generateToken(
                     {
                         id: userDB._id,
