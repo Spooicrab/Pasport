@@ -54,7 +54,7 @@ passport.use('login',
                         last_name: userDB.last_name,
                         age: userDB.age,
                         role: userDB.role,
-                        cart: userDB.cart._id
+                        cart: userDB.cart
                     }
                 )
 

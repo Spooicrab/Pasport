@@ -13,7 +13,7 @@ class ViewController {
                     first_name: req.user.first_name,
                     email: req.user.email,
                     role: req.user.role,
-                    cart: req.user.cart
+                    cart: req.user.cart._id
                 }
             ))
         }
