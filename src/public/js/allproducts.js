@@ -31,3 +31,26 @@ socketclient.on('Agregado', () => {
     console.log("Agregado")
     alert('Producto Agregado al Carrito')
 })
+
+
+
+// Selecciona el formulario y los campos de entrada
+const form = document.getElementById('Mensajes');
+const nameInput = document.getElementById('name');
+const messageInput = document.getElementById('message');
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const user = nameInput.value;
+    const message = messageInput.value;
+
+    socketclient.emit('chat message', { user, message });
+    messageInput.value = '';
+});
+
+socketclient.on('Saved', () => {
+    const chat = document.getElementById('ventanaChat');
+    const messageElement = document.createElement('p');
+    messageElement.textContent = msg.name + ': ' + msg.message;
+    chat.appendChild(messageElement);
+})

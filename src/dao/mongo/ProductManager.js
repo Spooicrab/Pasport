@@ -31,20 +31,6 @@ class ProductsManager {
         const response = await ProductoModel.findByIdAndDelete(id)
         return response;
     }
-    // 
-    // async Update(id, obj) {
-    //     const response = await ProductManager.GetById(id)
-    //     try {
-    //         response.title = obj.title
-    //         response.description = obj.description
-    //         response.price = obj.price
-    //         response.thumbnail = obj.thumbnail
-    //         response.code = obj.code
-    //         response.stock = obj.stock
-    //         const Actualizado = response.save()
-    //         return Actualizado
-    //     } catch (error) { throw error }
-    // }
 }
 
 export const ProductManager = new ProductsManager;

@@ -15,31 +15,52 @@ class ProductsController {
         } catch (error) { return res.status(400).json(error) }
     }
 
-    AñadirProducto = async (req, res) => {
-        const { title, description, price, stock, code, thumbail, } = req.body;
-        if (!title || !price || !code) { return res.status(400).json({ message: "Faltan datos" }) }
-        if (!stock) { delete req.body.stock }
-        try {
-            const Add = await ProductsService.Add(req.body);
-            res.status(200).json({ Add });
-        } catch (error) { return res.status(400).json(error) }
-    }
+    AñadirProducto =
+        async (req, res) => {
+            const userRole = req.user.role;
+            if (userRole === 'admin') {
+                const { title, description, price, stock, code, thumbail, } = req.body;
+                if (!title || !price || !code || !stock) {
+                    return res.status(400).json({ message: "Faltan datos" })
+                }
+                if (!stock) {
+                    delete req.body.stock;
+                }
+                try {
+                    const Add = await ProductsService.Add(req.body);
+                    res
+                        .status(200)
+                        .json({ message: "Añadido", product: Add });
+                } catch (err) { res.status(500).json({ error: err.message }) }
+            } else {
+                res.status(403).send('No tienes permiso para esto')
+            }
+        }
 
-    BorrarProducto = async (req, res) => {
-        const { pid } = req.params
-        try {
-            const Producto = await ProductsService.Delete(pid)
-            return res.status(200).json('Producto eliminado')
-        } catch (error) { return res.status(400).json(error) }
-    }
+    EliminarProducto =
+        async (req, res) => {
+            const userRole = req.user.role;
+            const { pid } = req.params
+            if (userRole === 'admin') {
+                const erased = await ProductsService.Delete(pid);
+                res.status(200).json('ProductoEliminado')
+            } else {
+                res.status(403).send('No tienes permiso para esto')
+            }
 
-    ActualizarProducto = async (req, res) => {
-        const { pid } = req.params
-        const obj = req.body
-        try {
-            const Producto = await ProductsService.Update(pid, obj)
-            return res.status(200).json('Producto Actualizado')
-        } catch (error) { return res.status(400).json(error) }
-    }
+        }
+
+    ActualizarProducto =
+        async (req, res) => {
+            const userRole = req.user.role;
+            const { pid } = req.params
+            if (userRole === 'admin') {
+                console.log('pid:', pid);
+                const update = await ProductsService.Update(pid, req.body);
+                res.status(200).json('Actualizado')
+            } else {
+                res.status(403).send('No tienes permiso para esto')
+            }
+        }
 }
 export const ProductController = new ProductsController()

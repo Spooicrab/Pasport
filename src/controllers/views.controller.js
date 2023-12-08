@@ -1,13 +1,16 @@
 import { ProductsService } from "../services/Product.services.js"
 import { CartService } from "../services/Cart.services.js"
+import { ChatService } from "../services/Chat.services.js"
 
 class ViewController {
 
     Home =
         async (req, res) => {
             let Productos = await ProductsService.GetAll(req.query)
+            let messages = await ChatService.find()
             res.render('allproducts', (
                 {
+                    messages,
                     Productos,
                     first_name: req.user.first_name,
                     email: req.user.email,
@@ -28,39 +31,10 @@ class ViewController {
             } catch (error) { console.log(error) }
         }
 
-    AñadirProducto =
+    Chat =
         async (req, res) => {
-            const userRole = req.user.role;
-            if (userRole === 'admin') {
-                const { title, description, price, stock, code, thumbail, } = req.body;
-                if (!title || !price || !code || !stock) {
-                    return res.status(400).json({ message: "Faltan datos" })
-                }
-                if (!stock) {
-                    delete req.body.stock;
-                }
-                try {
-                    const Add = await ProductsService.Add(req.body);
-                    res
-                        .status(200)
-                        .json({ message: "Añadido", product: Add });
-                } catch (err) { res.status(500).json({ error: err.message }) }
-            } else {
-                res.status(403).send('No tienes permiso para esto')
-            }
-        }
-
-    ActualizarProducto =
-        async (req, res) => {
-            const userRole = req.user.role;
-            const { pid } = req.params
-            if (userRole === 'admin') {
-                console.log('pid:', pid);
-                const update = await ProductsService.Update(pid, req.body);
-                res.status(200).json('Actualizado')
-            } else {
-                res.status(403).send('No tienes permiso para esto')
-            }
+            const Mensajes = await Chat.GetAll();
+            res.render('Chat', ({ Mensajes }))
         }
 
     login =
@@ -77,6 +51,7 @@ class ViewController {
         async (req, res) => {
             res.render('registro')
         }
+
 
     admin =
         async (req, res) => {

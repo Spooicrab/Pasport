@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { Chat } from "../dao/mongo/Chatmanager.js";
+import passport from "passport";
+import { ChatController } from "../controllers/Chat.controller.js";
 
 const ChatRouter = Router()
 
-ChatRouter.get("/", async (req, res) => {
-    const Mensajes = await Chat.GetAll();
-    res.render('Chat', ({ Mensajes }))
-})
+ChatRouter.get("/mensajes", ChatController.Chats)
 
-
+ChatRouter.post('/', passport.authenticate('jwt', { session: false }), ChatController.Envio)
 
 export default ChatRouter;

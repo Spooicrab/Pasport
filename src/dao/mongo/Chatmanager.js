@@ -1,27 +1,27 @@
-import { chat } from "../models/Chat.model.js";
+import { ChatModel } from "../../models/Chat.model.js";
 
-class ChatManager {
+class ChatManagers {
 
-    async GetAll() {
-        const response = await chat.find().lean();
+    async find() {
+        const response = await ChatModel.find().lean();
         return response;
     }
     // 
-    async GetById(id) {
-        const response = await chat.findById(id);
+    async findById(id) {
+        const response = await ChatModel.findById(id);
         return response;
     }
     // 
     async Add(obj) {
-        const response = await chat.create(obj)
+        const response = await ChatModel.create(obj)
         return response;
     }
     // 
     async Delete(id) {
-        const response = await chat.findByIdAndDelete(id)
+        const response = await ChatModel.findByIdAndDelete(id)
         return response;
     }
 
 }
 
-export const Chat = new ChatManager;
+export const ChatManager = new ChatManagers();

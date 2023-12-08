@@ -20,6 +20,9 @@ import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
+import ChatRouter from "./routes/Chat.router.js";
+import { ChatService } from "./services/Chat.services.js";
+import { ChatController } from "./controllers/Chat.controller.js";
 
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
@@ -67,6 +70,8 @@ app.use('/views', ViewsRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
+app.use('/api/chat', ChatRouter)
+
 
 const Port = config.port
 
@@ -93,4 +98,12 @@ Sserver.on("connection", (socket) => {
             socket.emit('Agregado');
         } catch (error) { throw error; }
     });
+
+    socket.on('chat message', async function (msg) {
+        await ChatService.Add(msg);
+        console.log('se guarda el mensaje en la db');
+        socket.emit('Saved', { msg })
+    });
+
 });
+

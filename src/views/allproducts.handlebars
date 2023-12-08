@@ -38,6 +38,27 @@
     >Página siguiente</a>
   {{/if}}
 </div>
+
+<h1>CHAT!</h1>
+
+{{#each message}}
+   <h6>{{this.user}} : </h6>  <p>{{this.message}}</p>
+  {{/each}}
+
+<div class="ventanaChat">
+
+</div>
+
+</div>
+
+<div>
+  <form action='/api/chat' method='post' id='Mensajes'>
+    <input type='text' id='name' placeholder='Nombre' />
+    <input type='text' id='message' placeholder='Mensaje' />
+    <input type='submit' value='SEND' />
+  </form>
+</div>
+
 <script>
   var cartId = "{{cart}}";
 </script>
