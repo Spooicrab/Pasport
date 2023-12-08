@@ -3,7 +3,7 @@ import { ChatModel } from "../../models/Chat.model.js";
 class ChatManagers {
 
     async find() {
-        const response = await ChatModel.find().lean();
+        const response = await ChatModel.find();
         return response;
     }
     // 

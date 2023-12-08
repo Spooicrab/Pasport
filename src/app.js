@@ -108,10 +108,20 @@ Sserver.on("connection", (socket) => {
     });
 
 
-    socket.on('chat message', async function (msg) {
-        await ChatService.Add(msg);
-        console.log('se guarda el mensaje en la db');
-        socket.emit('Saved', { msg })
+    socket.on('chat message', async function (data) {
+        const token = data.token
+        jwt.verify(token, JWTSECRET, async (err, decodedToken) => {
+            if (err) {
+                socket.emit('error', 'Token no válido');
+            } else if (decodedToken.role !== 'user') {
+                socket.emit('error', 'No tienes permiso para agregar productos al carrito');
+            } else {
+                delete data.token
+                await ChatService.Add(data);
+                console.log('Guardado', data);
+                socket.emit('Saved', { msg: data })
+            }
+        });
     });
 
 });

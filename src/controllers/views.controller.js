@@ -26,7 +26,6 @@ class ViewController {
             try {
                 let cartid = await CartService.findByID(cid)
                 const CarritoUsuario = cartid.Products
-                // console.log(CarritoUsuario)
                 res.render('cartId', { products: CarritoUsuario })
             } catch (error) { console.log(error) }
         }

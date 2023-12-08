@@ -4,7 +4,7 @@ class SessionController {
 
     GithubAuth =
         (req, res) => {
-            res.cookie('jwt', req.user.token, { httpOnly: true });
+            res.cookie('jwt', req.user.token, { httpOnly: false });
             res.redirect('/views/products');
         }
 
