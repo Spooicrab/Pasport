@@ -5,28 +5,22 @@ let IdCarritoActual = cartId
 for (const Boton of Botones) {
     Boton.addEventListener('click', () => {
         const productId = Boton.getAttribute('data-product-id');
-        if (IdCarritoActual == null) {
-            // console.log(`1idproduct: ${productId}`)
-            socketclient.emit('CrearCarrito', productId);
-            // console.log("El server recibe orden de crear carrito")
+        // Busca la cookie 'jwt'
+        const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+        if (jwtCookie) {
+            // Si la cookie existe, obtén el token
+            const token = jwtCookie.split('=')[1];
+            socketclient.emit('Agregar', { productId, IdCarritoActual, token });
         } else {
-            socketclient.emit('Agregar', { productId, IdCarritoActual });
+            // Si la cookie no existe, maneja el error
+            console.error('No se encontró la cookie jwt');
         }
     });
 }
 
-// En el cliente
 
-socketclient.on('creado', (data) => {
-    // console.log(data)
-    // console.log(`socket client creado data : ${data}`)
-    const productId = data.productId; // Acceder al ID del producto
-    const IdCarritoCreado = data.IdCarritoCreado;
-    IdCarritoActual = IdCarritoCreado;
-    // console.log("Recibo el carrito ya creado y mando a añadir el primer producto");
-    socketclient.emit('Agregar', { productId, IdCarritoActual }); // Enviar el ID del producto
-    // console.log("Se envía para ser agregado");
-});
+
+
 socketclient.on('Agregado', () => {
     console.log("Agregado")
     alert('Producto Agregado al Carrito')

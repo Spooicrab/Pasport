@@ -5,6 +5,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
 import passport from "passport";
+import jwt from 'jsonwebtoken'
 
 import config from "./config/config.js";
 import "./dao/config.js"
@@ -25,6 +26,8 @@ import { ChatService } from "./services/Chat.services.js";
 import { ChatController } from "./controllers/Chat.controller.js";
 
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
+
+const JWTSECRET = config.jwtsecret
 
 const app = express()
 app.use(cookieParser())
@@ -84,20 +87,26 @@ const Sserver = new Server(servidor)
 Sserver.on("connection", (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
 
-    socket.on('CrearCarrito', async (data) => {
-        const productId = data
-        const IdCarritoCreado = await CartService.CrearCarrito();
-        socket.emit('creado', { productId, IdCarritoCreado });
-    });
-
     socket.on('Agregar', async (data) => {
         const producto = data.productId;
         const IdCarritoActual = data.IdCarritoActual;
-        try {
-            const agregar = await CartService.AgregarCantidad(IdCarritoActual, producto);
-            socket.emit('Agregado');
-        } catch (error) { throw error; }
+        const token = data.token;
+
+        //verifico aqui porque nose como hacerlo desde el enrutador usando socket.io
+        jwt.verify(token, JWTSECRET, async (err, decodedToken) => {
+            if (err) {
+                socket.emit('error', 'Token no válido');
+            } else if (decodedToken.role !== 'user') {
+                socket.emit('error', 'No tienes permiso para agregar productos al carrito');
+            } else {
+                try {
+                    await CartService.AgregarCantidad(IdCarritoActual, producto);
+                    socket.emit('Agregado');
+                } catch (error) { throw error; }
+            }
+        });
     });
+
 
     socket.on('chat message', async function (msg) {
         await ChatService.Add(msg);

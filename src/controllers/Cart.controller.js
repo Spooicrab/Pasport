@@ -57,7 +57,7 @@ class CartsController {
         try {
             const { cid } = req.params
             const { pid } = req.params
-            const EliminarProducto = await CartService.DeleteProduct(cid, pid)
+            await CartService.DeleteProduct(cid, pid)
             return res.status(200).json('Producto eliminado del Carrito')
         } catch (error) { res.status(500).json({ error: error.message }) }
     }

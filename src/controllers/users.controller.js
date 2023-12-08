@@ -19,7 +19,7 @@ class UserController {
         }
 
     Login = (req, res) => {
-        res.cookie('jwt', req.user.token, { httpOnly: true });
+        res.cookie('jwt', req.user.token, { httpOnly: false });
         jwt.verify(req.user.token, config.jwtsecret, (err, decodedToken) => {
             if (err) {
                 console.log(err)
