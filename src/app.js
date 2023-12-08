@@ -118,7 +118,7 @@ Sserver.on("connection", (socket) => {
             } else {
                 delete data.token
                 await ChatService.Add(data);
-                console.log('Guardado', data);
+                // console.log('Guardado', data);
                 socket.emit('Saved', { msg: data })
             }
         });

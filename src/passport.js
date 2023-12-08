@@ -85,7 +85,7 @@ passport.use(
             jwtFromRequest: ExtractJwt.fromExtractors([fromCookies]),
         },
         async (jwt_payload, done) => {
-            console.log("---jwt-passport---", jwt_payload);
+            // console.log("---jwt-passport---", jwt_payload);
             done(null, jwt_payload);
         }
     )
