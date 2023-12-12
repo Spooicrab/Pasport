@@ -26,7 +26,7 @@ class ViewController {
             try {
                 let cartid = await CartService.findByID(cid)
                 const CarritoUsuario = cartid.Products
-                res.render('cartId', { products: CarritoUsuario })
+                res.render('cartId', { products: CarritoUsuario, cart: cid })
             } catch (error) { console.log(error) }
         }
 
@@ -50,7 +50,6 @@ class ViewController {
         async (req, res) => {
             res.render('registro')
         }
-
 
     admin =
         async (req, res) => {

@@ -11,10 +11,7 @@ for (const Boton of Botones) {
             // Si la cookie existe, obtén el token
             const token = jwtCookie.split('=')[1];
             socketclient.emit('Agregar', { productId, IdCarritoActual, token });
-        } else {
-            // Si la cookie no existe, maneja el error
-            console.error('No se encontró la cookie jwt');
-        }
+        } else { console.error('No se encontró la cookie jwt'); }
     });
 }
 

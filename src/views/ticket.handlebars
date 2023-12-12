@@ -1,0 +1,23 @@
+<div style='font-family: Arial, sans-serif; margin: 0 auto; width: 600px;'>
+  <h1 style='color: #333; text-align: center;'>Ticket:</h1>
+  <div style='background-color: #f8f8f8; padding: 20px; margin-bottom: 20px;'>
+    {{#each CompraRealizada.Productos}}
+      <p style='color: #333;'><strong>Producto:</strong>
+        {{this.product.title}}</p>
+      <p style='color: #333;'><strong>Cantidad:</strong> {{this.Cantidad}}</p>
+    {{/each}}
+    <p style='color: #333;'><strong>Precio total:</strong>
+      ${{CompraRealizada.PrecioTotal}}</p>
+  </div>
+  <h3 style='color: #333;'><strong>Email de comprador:</strong>
+    {{CompraRealizada.purchaser}}</h3>
+  <p style='color: #333;'><strong>ID de la compra:</strong>
+    {{_id}}</p>
+</div>
+<div style='font-family: Arial, sans-serif; margin: 0 auto; width: 600px;'>
+  <h5 style='color: #333; text-align: center;'>Compras no realizadas por falta
+    de stock:</h5>
+  {{#each Pendientes.Productos}}
+    <p style='color: #333;'><strong>Producto:</strong> {{this.product}}</p>
+  {{/each}}
+</div>

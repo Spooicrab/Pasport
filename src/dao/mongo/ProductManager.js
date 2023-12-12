@@ -31,6 +31,15 @@ class ProductsManager {
         const response = await ProductoModel.findByIdAndDelete(id)
         return response;
     }
+    async Update(product) {
+        // console.log('----PRODUCTO A ACTUALIZAR STOCK:', product.title);
+        let productoDB = await ProductoModel.findById(product._id);
+        productoDB.stock = product.stock;
+        let result = await product.save();
+
+        return result;
+    }
+
 }
 
 export const ProductManager = new ProductsManager;

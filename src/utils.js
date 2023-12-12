@@ -19,7 +19,7 @@ export const CompareData = async (data, HashedData) => {
 const JWTSECRET = config.jwtsecret
 
 export const generateToken = (data) => {
-    const token = jwt.sign(data, JWTSECRET, { expiresIn: 300 })
+    const token = jwt.sign(data, JWTSECRET, { expiresIn: 3000 })
     console.log('token creado')
     return token
 }
