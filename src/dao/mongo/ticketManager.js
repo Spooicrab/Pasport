@@ -14,7 +14,7 @@ class ticketManagers {
     // 
     async Add(obj) {
         const response = await ticketModel.create(obj)
-        return response;
+        return response._id;
     }
     // 
     async Delete(ID) {

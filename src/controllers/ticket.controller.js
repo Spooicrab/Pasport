@@ -27,8 +27,9 @@ class ticketControllers {
         Cart.purchaser = purchaser;
 
         try {
-            const Ticket = await ticketService.Prueba(Cart)
+            const Ticket = await ticketService.CreateTicket(Cart)
             console.log('Ticket::::::', Ticket);
+            CartService.Vaciar(cid)
             res.render('ticket', Ticket)
         } catch (error) { console.log(error) }
     }

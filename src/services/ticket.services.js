@@ -1,3 +1,4 @@
+import { Code } from "mongodb";
 import { ProductManager } from "../dao/mongo/ProductManager.js";
 import { ticketManager } from "../dao/mongo/ticketManager.js";
 ProductManager
@@ -18,12 +19,11 @@ class ticketServices {
         return response;
     }
     // 
-    async Prueba(obj) {
-        delete obj.__v
+    async CreateTicket(obj) {
 
-        // console.log('Carrito para ticket:::::', obj);
+        const code = await ticketService.GenerateCode()
 
-        let compraRealizada = { "Productos": [], "PrecioTotal": 0, "purchaser": obj.purchaser };
+        let compraRealizada = { "Productos": [], "PrecioTotal": 0, "purchaser": obj.purchaser, "code": code };
 
         let pendientes = { "Productos": [] };
 
@@ -45,15 +45,23 @@ class ticketServices {
             compraRealizada.Productos.push(obj.Products[i]);
             compraRealizada.PrecioTotal += pDetail.price * obj.Products[i].Cantidad;
 
-            // Restar el stock
-
             pDetail.stock -= obj.Products[i].Cantidad;
             await ProductManager.Update(pDetail);
         }
+        const IDCOMPRA = await ticketManager.Add(compraRealizada, Code)
 
-        await ticketManager.Add(compraRealizada)
-        return { "CompraRealizada": compraRealizada, "Pendientes": pendientes };
+        return {
+            "CompraRealizada": compraRealizada,
+            "Pendientes": pendientes,
+            "ID": IDCOMPRA,
+        };
 
+    }
+
+    async GenerateCode() {
+        const Tickets = await ticketManager.GetAll()
+        let code = Tickets.length ? Tickets[Tickets.length - 1].code + 1 : 1500;
+        return code
     }
 
 

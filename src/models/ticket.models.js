@@ -33,11 +33,11 @@ const ticketSchema = new mongoose.Schema({
             }
         ]
     },
-    // code: {
-    //     type: Number,
-    //     required: false,
-    //     unique: true
-    // },
+    code: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     purchase_datetime: {
         type: Date,
         default: Date.now,
@@ -49,7 +49,7 @@ const ticketSchema = new mongoose.Schema({
     purchaser: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
     }
 });
 
