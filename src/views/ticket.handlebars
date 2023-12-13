@@ -19,6 +19,7 @@
   <h5 style='color: #333; text-align: center;'>Compras no realizadas por falta
     de stock:</h5>
   {{#each Pendientes.Productos}}
-    <p style='color: #333;'><strong>Producto:</strong> {{this.product}}</p>
+    <p style='color: #333;'><strong>Producto:</strong>
+      {{this.product.title}}</p>
   {{/each}}
 </div>

@@ -27,35 +27,28 @@ class ticketServices {
 
         let pendientes = { "Productos": [] };
 
-        // Iterar sobre los productos y obtener los detalles de cada uno
         for (let i = 0; i < obj.Products.length; i++) {
-
             let pDetail = await ProductManager.GetById(obj.Products[i].product._id);
-
-            // console.log(obj.Products[i].Cantidad);
-
-            if (obj.Products[i].Cantidad.$numberInt > pDetail.stock) {
-                pendientes.Productos.push({
-                    "product": obj.Products[i].product,
-                    "Cantidad": { "": String(obj.Products[i].Cantidad - pDetail.stock) }
-                });
+            if (obj.Products[i].Cantidad > pDetail.stock) {
+                pendientes.Productos.push(
+                    {
+                        "product": obj.Products[i].product,
+                        "Cantidad": obj.Products[i].Cantidad - pDetail.stock
+                    }
+                );
                 obj.Products[i].Cantidad = pDetail.stock;
             }
-            // Añadir el producto a la compra realizada
             compraRealizada.Productos.push(obj.Products[i]);
             compraRealizada.PrecioTotal += pDetail.price * obj.Products[i].Cantidad;
-
             pDetail.stock -= obj.Products[i].Cantidad;
             await ProductManager.Update(pDetail);
         }
         const IDCOMPRA = await ticketManager.Add(compraRealizada, Code)
-
         return {
             "CompraRealizada": compraRealizada,
             "Pendientes": pendientes,
             "ID": IDCOMPRA,
         };
-
     }
 
     async GenerateCode() {
