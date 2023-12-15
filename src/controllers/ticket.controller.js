@@ -1,3 +1,4 @@
+import { transporter } from "../nodemailer.js"
 import { CartService } from "../services/Cart.services.js"
 import { ticketService } from "../services/ticket.services.js"
 
@@ -19,8 +20,11 @@ class ticketControllers {
     }
 
     checkout = async (req, res) => {
+
+
         const { cid } = req.params
         const purchaser = req.user.email
+
 
         let Cart = await CartService.findByID(cid);
         Cart = Cart.toObject();
@@ -31,6 +35,18 @@ class ticketControllers {
             console.log('Ticket::::::', Ticket);
             CartService.Vaciar(cid)
             res.render('ticket', Ticket)
+
+            const opt = {
+                from: 'shacocodrilo@gmail.com',
+                to: purchaser,
+                subject: 'COMPRA',
+                html: `
+                <h1>BUYCODE: ${Ticket.code}</h1>
+                <h2> Gracias, ${req.user.name}, su envio ya esta en camino!
+                `
+            }
+
+            await transporter.sendMail(opt)
         } catch (error) { console.log(error) }
     }
 
