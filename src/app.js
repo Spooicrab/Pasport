@@ -12,8 +12,6 @@ import "./dao/config.js"
 import './passport.js'
 
 import { __dirname } from "./utils.js";
-import { CartService } from "./services/Cart.services.js";
-
 
 //Views
 import ViewsRouter from './routes/views.router.js'
@@ -23,8 +21,11 @@ import mockingRouter from "./routes/mocking.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
 import ChatRouter from "./routes/Chat.router.js";
+
+// Services
+import { CartService } from "./services/Cart.services.js";
 import { ChatService } from "./services/Chat.services.js";
-import { ChatController } from "./controllers/Chat.controller.js";
+import { errorMiddleware } from "./middleware/error.js";
 
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
@@ -69,6 +70,7 @@ See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-contr
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
+// 
 app.use('/api/products', ProductRouter)
 app.use('/views', ViewsRouter)
 app.use('/api/carts', CartRouter)
@@ -76,7 +78,8 @@ app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
 app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
-
+// 
+app.use(errorMiddleware)
 
 const Port = config.port
 

@@ -1,27 +1,26 @@
 import { ChatManager } from "../dao/mongo/Chatmanager.js";
+import { ErrorMessages } from "../error/dictionaryError.js";
+import CustomError from "../error/error.js";
 
 class ChatServices {
 
     async find() {
-        const response = await ChatManager.find();
-        return response;
-    }
-    // 
-    async findById(id) {
-        const response = await ChatManager.findById(id);
-        return response;
+        try {
+            const response = await ChatManager.find();
+            return response;
+        } catch (error) {
+            CustomError.createError(ErrorMessages.CHAT_NOT_FOUND)
+        }
     }
     // 
     async Add(obj) {
-        const response = await ChatManager.Add(obj)
-        return response;
+        try {
+            const response = await ChatManager.Add(obj)
+            return response;
+        } catch (error) {
+            CustomError.createError(ErrorMessages.CHAT_NOT_CREATED)
+        }
     }
-    // 
-    async Delete(id) {
-        const response = await ChatManager.findByIdAndDelete(id)
-        return response;
-    }
-
 }
 
 export const ChatService = new ChatServices();

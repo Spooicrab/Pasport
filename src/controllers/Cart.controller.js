@@ -9,6 +9,14 @@ class CartsController {
         } catch (error) { return res.status(400).json(error) }
     }
 
+    GetCartById = async (req, res) => {
+        const { cid } = req.params
+        try {
+            const Cart = await CartService.findByID(cid)
+            return res.status(200).json(Cart)
+        } catch (error) { throw new Error('Cart Not Found') }
+    }
+
     CrearCarrito = async (req, res) => {
         try {
             const CarritoNuevo = req.body

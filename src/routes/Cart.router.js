@@ -7,6 +7,8 @@ const CartRouter = Router()
 
 CartRouter.get("/", CartController.GetAllCarts);
 
+CartRouter.get("/:cid", CartController.GetCartById);
+
 CartRouter.post("/", CartController.CrearCarrito)
 
 CartRouter.delete("/:cid", passport.authenticate('jwt', { session: false }), CartController.VaciarCarrito);

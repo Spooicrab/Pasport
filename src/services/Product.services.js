@@ -8,8 +8,10 @@ class ProductsServices {
     }
     // 
     async GetById(id) {
-        const response = await ProductManager.GetById(id);
-        return response;
+        try {
+            const response = await ProductManager.GetById(id);
+            return response;
+        } catch (error) { throw new Error('Product not found') }
     }
     // 
     async Add(obj) {

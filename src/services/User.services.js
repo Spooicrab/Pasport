@@ -1,19 +1,35 @@
 import { usersManager } from "../dao/mongo/UserManager.js";
+import { ErrorMessages } from "../error/dictionaryError.js";
+import CustomError from "../error/error.js";
 
 class UserServices {
     async findById(id) {
-        const response = await usersManager.findById(id)
-        return response;
+        try {
+            const response = await usersManager.findById(id)
+            return response;
+        } catch (error) {
+            CustomError.createError(ErrorMessages.USER_NOT_FOUND)
+        }
+
     }
     async findByEmail(email) {
-        const response = await usersManager.findByEmail(email);
-        return response;
+        try {
+            const response = await usersManager.findByEmail(email);
+            return response;
+        } catch (error) {
+            CustomError.createError(ErrorMessages.USERMAIL_NOT_FOUND)
+        }
     }
 
     async createOne(obj) {
-        const response = await usersManager.createOne(obj);
-        return response;
+        try {
+            const response = await usersManager.createOne(obj);
+            return response;
+        } catch (error) {
+            CustomError.createError(ErrorMessages.USER_NOT_CREATED)
+        }
     }
 }
 
 export const UserService = new UserServices();
+

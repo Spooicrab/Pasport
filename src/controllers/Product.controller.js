@@ -12,7 +12,7 @@ class ProductsController {
         try {
             const Producto = await ProductsService.GetById(pid)
             return res.status(200).json(Producto)
-        } catch (error) { return res.status(400).json(error) }
+        } catch (error) { throw new Error('Product not found') }
     }
 
     AñadirProducto =
