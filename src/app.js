@@ -19,6 +19,7 @@ import { CartService } from "./services/Cart.services.js";
 import ViewsRouter from './routes/views.router.js'
 import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
+import mockingRouter from "./routes/mocking.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
 import ChatRouter from "./routes/Chat.router.js";
@@ -74,6 +75,7 @@ app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
 app.use('/api/chat', ChatRouter)
+app.use('/mockingproducts', mockingRouter)
 
 
 const Port = config.port
