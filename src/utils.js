@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 import config from "./config/config.js";
+import { consolelogger } from "./winston.js";
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -20,6 +21,6 @@ const JWTSECRET = config.jwtsecret
 
 export const generateToken = (data) => {
     const token = jwt.sign(data, JWTSECRET, { expiresIn: 3000 })
-    console.log('token creado')
+    consolelogger.debug('token creado:')
     return token
 }

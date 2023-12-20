@@ -31,7 +31,6 @@ import { consolelogger } from "./winston.js";
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
 const JWTSECRET = config.jwtsecret
-consolelogger.error('Prueba de error')
 const app = express()
 app.use(cookieParser())
 app.use(express.json())
@@ -79,6 +78,17 @@ app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
 app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
+app.get('/', (req, res) => {
+
+    res.send(`<h1>Probando Winston</h1>`)
+    consolelogger.debug('DEBUG')
+    consolelogger.http('HTTP')
+    consolelogger.info('INFO')
+    consolelogger.warning('WARNING')
+    consolelogger.error('ERROR')
+    consolelogger.fatal('ERROR FATAL!')
+})
+
 // 
 app.use(errorMiddleware)
 

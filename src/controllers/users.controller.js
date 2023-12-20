@@ -1,6 +1,7 @@
 import config from "../config/config.js";
 import { UserService } from "../services/User.services.js";
 import jwt from 'jsonwebtoken'
+import { consolelogger } from "../winston.js";
 
 class UserController {
 
@@ -21,7 +22,7 @@ class UserController {
         res.cookie('jwt', req.user.token, { httpOnly: false });
         jwt.verify(req.user.token, config.jwtsecret, (err, decodedToken) => {
             if (err) {
-                console.log(err)
+                consolelogger.error(err)
             } else {
                 const userRole = decodedToken.role;
                 if (userRole === 'admin') { res.redirect('/views/admin') } else if (userRole === 'user') { res.redirect('/views/products') }

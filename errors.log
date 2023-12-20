@@ -31,3 +31,41 @@
   level: 'error',
   timestamp: '2023-12-20T22:30:15.057Z'
 }
+{
+  stringValue: '"21412413214213321"',
+  messageFormat: undefined,
+  kind: 'ObjectId',
+  value: '21412413214213321',
+  path: '_id',
+  reason: BSONError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer
+      at new ObjectId (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\bson\lib\bson.cjs:2055:23)
+      at castObjectId (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\cast\objectid.js:25:12)
+      at ObjectId.cast (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\schema\objectid.js:248:12)
+      at SchemaType.applySetters (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\schematype.js:1219:12)
+      at SchemaType.castForQuery (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\schematype.js:1631:15)
+      at cast (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\cast.js:375:32)
+      at Query.cast (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\query.js:4910:12)
+      at Query._castConditions (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\query.js:2232:10)
+      at model.Query._findOne (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\query.js:2519:8)
+      at model.Query.exec (C:\Users\gabri\OneDrive\Escritorio\Pasport\node_modules\mongoose\lib\query.js:4430:28),
+  valueType: 'string',
+  model: Model { Users },
+  level: 'error',
+  message: 'undefined',
+  timestamp: '2023-12-20T22:51:37.433Z'
+}
+{
+  message: 'WARNING',
+  level: 'warning',
+  timestamp: '2023-12-20T22:57:00.853Z'
+}
+{
+  message: 'ERROR',
+  level: 'error',
+  timestamp: '2023-12-20T22:57:00.857Z'
+}
+{
+  message: 'ERROR FATAL!',
+  level: 'fatal',
+  timestamp: '2023-12-20T22:57:00.858Z'
+}
