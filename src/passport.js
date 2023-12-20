@@ -6,6 +6,7 @@ import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
 import { HashData, CompareData, generateToken } from "./utils.js";
 import { CartService } from "./services/Cart.services.js";
 import { UserService } from "./services/User.services.js";
+import { consolelogger } from "./winston.js";
 
 const JWTKEY = config.jwtsecret
 
@@ -31,11 +32,13 @@ passport.use('signup',
             }
             const HashedPass = await HashData(password)
             const CarritoUsuario = await CartService.CrearCarrito()
-            const createdUser = await UserService.createOne({
-                ...req.body,
-                cart: CarritoUsuario,
-                password: HashedPass
-            });
+            const createdUser = await UserService.createOne(
+                {
+                    ...req.body,
+                    cart: CarritoUsuario,
+                    password: HashedPass
+                }
+            );
 
             done(null, createdUser)
         }
@@ -63,7 +66,8 @@ passport.use('login',
                     }
                 )
                 userDB.token = token
-                console.log('---TOKEN:', userDB.token)
+                consolelogger.debug('---TOKEN:')
+                consolelogger.debug(userDB.token)
                 done(null, userDB)
 
             } catch (error) { done(error) }
@@ -85,7 +89,6 @@ passport.use(
             jwtFromRequest: ExtractJwt.fromExtractors([fromCookies]),
         },
         async (jwt_payload, done) => {
-            // console.log("---jwt-passport---", jwt_payload);
             done(null, jwt_payload);
         }
     )

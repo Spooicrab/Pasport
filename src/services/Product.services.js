@@ -26,7 +26,6 @@ class ProductsServices {
     // 
     async Update(id, obj) {
         const response = await ProductManager.GetById(id)
-        console.log(response)
         try {
             response.title = obj.title
             response.description = obj.description

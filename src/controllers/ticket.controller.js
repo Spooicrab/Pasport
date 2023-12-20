@@ -1,6 +1,7 @@
 import { transporter } from "../nodemailer.js"
 import { CartService } from "../services/Cart.services.js"
 import { ticketService } from "../services/ticket.services.js"
+import { consolelogger } from "../winston.js"
 
 class ticketControllers {
 
@@ -32,7 +33,7 @@ class ticketControllers {
 
         try {
             const Ticket = await ticketService.CreateTicket(Cart)
-            console.log('Ticket::::::', Ticket);
+            consolelogger.debug(Ticket)
             CartService.Vaciar(cid)
             res.render('ticket', Ticket)
 

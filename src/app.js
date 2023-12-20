@@ -31,7 +31,7 @@ import { consolelogger } from "./winston.js";
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
 const JWTSECRET = config.jwtsecret
-
+consolelogger.error('Prueba de error')
 const app = express()
 app.use(cookieParser())
 app.use(express.json())
@@ -91,7 +91,7 @@ const servidor = app.listen(Port, () => {
 const Sserver = new Server(servidor)
 
 Sserver.on("connection", (socket) => {
-    console.log(`Cliente conectado: ${socket.id}`);
+    consolelogger.debug(`Cliente conectado: ${socket.id}`);
 
     socket.on('Agregar', async (data) => {
         const producto = data.productId;
@@ -124,7 +124,6 @@ Sserver.on("connection", (socket) => {
             } else {
                 delete data.token
                 await ChatService.Add(data);
-                // console.log('Guardado', data);
                 socket.emit('Saved', { msg: data })
             }
         });

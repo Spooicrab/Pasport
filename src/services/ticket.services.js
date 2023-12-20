@@ -2,6 +2,7 @@ import { ProductManager } from "../dao/mongo/ProductManager.js";
 import { ticketManager } from "../dao/mongo/ticketManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
+import { consolelogger } from "../winston.js";
 
 class ticketServices {
 
@@ -56,7 +57,7 @@ class ticketServices {
                 pDetail.stock -= obj.Products[i].Cantidad;
                 await ProductManager.Update(pDetail);
             }
-            const IDCOMPRA = await ticketManager.Add(compraRealizada, Code)
+            const IDCOMPRA = await ticketManager.Add(compraRealizada, code)
             return {
                 "CompraRealizada": compraRealizada,
                 "Pendientes": pendientes,

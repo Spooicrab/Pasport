@@ -10,7 +10,7 @@ const myCustomLevels = {
         fatal: 0
     },
     colors: {
-        debug: 'blue',
+        debug: 'magenta',
         http: 'cyan',
         info: 'blue',
         warning: 'yellow',
@@ -28,8 +28,20 @@ export const consolelogger = winston.createLogger({
         winston.format.simple()
     ),
     transports: [
-        new winston.transports.Console({
-            level: 'debug'
-        })
+        new winston.transports.Console(
+            { level: 'debug' }
+        ),
+        new winston.transports.File(
+            {
+                filename: './logs-file.log',
+                level: 'warning',
+                format: winston.format.combine(
+                    winston.format.uncolorize(),
+                    winston.format.timestamp(),
+                    winston.format.json(),
+                    winston.format.prettyPrint(),
+                )
+            }
+        )
     ]
 });
