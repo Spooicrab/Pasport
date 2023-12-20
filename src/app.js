@@ -26,6 +26,7 @@ import ChatRouter from "./routes/Chat.router.js";
 import { CartService } from "./services/Cart.services.js";
 import { ChatService } from "./services/Chat.services.js";
 import { errorMiddleware } from "./middleware/error.js";
+import { consolelogger } from "./winston.js";
 
 // const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
@@ -84,7 +85,7 @@ app.use(errorMiddleware)
 const Port = config.port
 
 const servidor = app.listen(Port, () => {
-    console.log("Puerto conectado")
+    consolelogger.info('Puerto conectado')
 })
 
 const Sserver = new Server(servidor)
