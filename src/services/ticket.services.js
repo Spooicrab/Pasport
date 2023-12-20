@@ -11,6 +11,7 @@ class ticketServices {
             const response = await ticketManager.find();
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.TICKETS_NOT_FOUND)
         }
     }
@@ -20,6 +21,7 @@ class ticketServices {
             const response = await ticketManager.findByID(ID);
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.TICKET_NOT_FOUND)
         }
     }
@@ -29,6 +31,8 @@ class ticketServices {
             const response = await ticketManager.findByIdAndDelete(ID)
             return response;
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.TICKET_NOT_DELETED)
         }
     }
@@ -64,6 +68,8 @@ class ticketServices {
                 "ID": IDCOMPRA,
             };
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.TICKET_NOT_CREATED)
         }
     }
@@ -74,6 +80,8 @@ class ticketServices {
             let code = Tickets.length ? Tickets[Tickets.length - 1].code + 1 : 1500;
             return code
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.TICKETCODE_NOT_GENERATED)
         }
     }

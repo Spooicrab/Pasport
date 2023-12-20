@@ -9,6 +9,8 @@ class ChatServices {
             const response = await ChatManager.find();
             return response;
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.CHAT_NOT_FOUND)
         }
     }
@@ -18,6 +20,8 @@ class ChatServices {
             const response = await ChatManager.Add(obj)
             return response;
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.CHAT_NOT_CREATED)
         }
     }

@@ -1,6 +1,7 @@
 import { CartM } from "../dao/mongo/CartManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
+import { consolelogger } from "../winston.js";
 
 class CartServices {
 
@@ -9,6 +10,7 @@ class CartServices {
             const response = await CartM.GetAll()
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.CARTS_NOT_FOUND)
         }
     }
@@ -18,6 +20,7 @@ class CartServices {
             const response = await CartM.GetByID(ID);
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.CART_NOT_FOUND)
         }
     }
@@ -27,6 +30,7 @@ class CartServices {
             const response = await CartM.Add(obj)
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.CART_NOT_CREATED)
         }
     }
@@ -36,7 +40,10 @@ class CartServices {
             const response = await CartM.Delete(ID)
             return response;
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.CART_NOT_DELETED)
+
         }
     }
     //
@@ -54,6 +61,8 @@ class CartServices {
             return response
 
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.CARTS_NOT_FOUND)
         }
     }
@@ -76,6 +85,7 @@ class CartServices {
             const done = await response.save();
             return done;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.PRODUCT_NOT_ADDED)
         }
     }
@@ -89,6 +99,8 @@ class CartServices {
             const done = await response.save()
             return done
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.PRODUCT_NOT_DELETED_FROM_CART)
         }
     }
@@ -101,6 +113,8 @@ class CartServices {
             const done = await response.save()
             return done
         } catch (error) {
+            consolelogger.error(error)
+
             CustomError.createError(ErrorMessages.PRODUCT_NOT_ADDED_TO_CART)
         }
     }

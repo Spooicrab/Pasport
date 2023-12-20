@@ -1,3 +1,5 @@
+import { ErrorMessages } from "../error/dictionaryError.js"
+import CustomError from "../error/error.js"
 import { transporter } from "../nodemailer.js"
 import { CartService } from "../services/Cart.services.js"
 import { ticketService } from "../services/ticket.services.js"
@@ -9,7 +11,10 @@ class ticketControllers {
         try {
             const Tickets = await ticketService.GetAll()
             return res.status(200).json(Tickets)
-        } catch (error) { return res.status(400).json(error) }
+        } catch (error) {
+
+            return res.status(400).json(error)
+        }
     }
 
     getByID = async (req, res) => {
@@ -48,10 +53,11 @@ class ticketControllers {
             }
 
             await transporter.sendMail(opt)
-        } catch (error) { console.log(error) }
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.TICKET_NOT_CREATED)
+        }
     }
-
-
 }
 
 export const ticketController = new ticketControllers();

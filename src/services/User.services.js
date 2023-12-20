@@ -1,6 +1,7 @@
 import { usersManager } from "../dao/mongo/UserManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
+import { consolelogger } from "../winston.js";
 
 class UserServices {
     async findById(id) {
@@ -8,6 +9,7 @@ class UserServices {
             const response = await usersManager.findById(id)
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.USER_NOT_FOUND)
         }
 
@@ -17,6 +19,7 @@ class UserServices {
             const response = await usersManager.findByEmail(email);
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.USERMAIL_NOT_FOUND)
         }
     }
@@ -26,6 +29,7 @@ class UserServices {
             const response = await usersManager.createOne(obj);
             return response;
         } catch (error) {
+            consolelogger.error(error)
             CustomError.createError(ErrorMessages.USER_NOT_CREATED)
         }
     }

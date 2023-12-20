@@ -1,4 +1,7 @@
 import { ProductManager } from "../dao/mongo/ProductManager.js";
+import { ErrorMessages } from "../error/dictionaryError.js";
+import CustomError from "../error/error.js";
+import { consolelogger } from "../winston.js";
 
 class ProductsServices {
     // 
@@ -11,7 +14,10 @@ class ProductsServices {
         try {
             const response = await ProductManager.GetById(id);
             return response;
-        } catch (error) { throw new Error('Product not found') }
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.PRODUCTS_NOT_FOUND)
+        }
     }
     // 
     async Add(obj) {
@@ -35,7 +41,7 @@ class ProductsServices {
             response.stock = obj.stock
             const Actualizado = response.save()
             return Actualizado
-        } catch (error) { throw error }
+        } catch (error) { consolelogger.error(error) }
     }
 }
 export const ProductsService = new ProductsServices;

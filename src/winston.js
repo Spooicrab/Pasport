@@ -1,4 +1,5 @@
 import winston from 'winston';
+import config from './config/config.js';
 
 const myCustomLevels = {
     levels: {
@@ -21,27 +22,47 @@ const myCustomLevels = {
 
 winston.addColors(myCustomLevels.colors);
 
-export const consolelogger = winston.createLogger({
-    levels: myCustomLevels.levels,
-    format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple()
-    ),
-    transports: [
-        new winston.transports.Console(
-            { level: 'debug' }
+
+export let consolelogger
+
+if (config.enviorment === 'desarrollo') {
+    consolelogger = winston.createLogger({
+        levels: myCustomLevels.levels,
+        format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
         ),
-        new winston.transports.File(
-            {
-                filename: './logs-file.log',
-                level: 'warning',
-                format: winston.format.combine(
-                    winston.format.uncolorize(),
-                    winston.format.timestamp(),
-                    winston.format.json(),
-                    winston.format.prettyPrint(),
-                )
-            }
-        )
-    ]
-});
+        transports: [
+            new winston.transports.Console(
+                { level: 'debug' }
+            )
+        ]
+    })
+}
+
+if (config.enviorment === 'production') {
+    consolelogger = winston.createLogger({
+        levels: myCustomLevels.levels,
+        format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+        ),
+        transports: [
+            new winston.transports.Console(
+                { level: 'info' }
+            ),
+            new winston.transports.File(
+                {
+                    filename: './errors.log',
+                    level: 'warning',
+                    format: winston.format.combine(
+                        winston.format.uncolorize(),
+                        winston.format.timestamp(),
+                        winston.format.json(),
+                        winston.format.prettyPrint(),
+                    )
+                }
+            )
+        ]
+    })
+}
