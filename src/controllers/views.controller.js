@@ -1,6 +1,7 @@
 import { ProductsService } from "../services/Product.services.js"
 import { CartService } from "../services/Cart.services.js"
 import { ChatService } from "../services/Chat.services.js"
+import { Cookie } from "express-session"
 
 class ViewController {
 
@@ -39,6 +40,12 @@ class ViewController {
     login =
         async (req, res) => {
             res.render('login')
+        }
+
+    logout =
+        async (req, res) => {
+            res.clearCookie("jwt");
+            res.redirect('/views/login')
         }
 
     error =
