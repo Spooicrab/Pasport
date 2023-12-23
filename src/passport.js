@@ -134,10 +134,23 @@ passport.use(
                     last_name: profile._json.name.split(' ')[1] || '',
                     email: profile._json.email,
                     password: 'test123',
+                    role: 'user',
                     cart: CarritoUsuario,
                     Github: true
                 }
                 const createdUser = await UserService.createOne(newUser);
+                const token = generateToken(
+                    {
+                        id: createdUser._id,
+                        email: createdUser.email,
+                        first_name: createdUser.first_name,
+                        last_name: createdUser.last_name,
+                        age: createdUser.age,
+                        role: createdUser.role,
+                        cart: createdUser.cart
+                    }
+                )
+                createdUser.token = token
 
                 done(null, createdUser);
 
