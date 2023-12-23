@@ -27,7 +27,6 @@ class ticketControllers {
 
     checkout = async (req, res) => {
 
-
         const { cid } = req.params
         const purchaser = req.user.email
 
@@ -38,18 +37,23 @@ class ticketControllers {
 
         try {
             const Ticket = await ticketService.CreateTicket(Cart)
-            consolelogger.debug(Ticket)
+            // consolelogger.debug(Ticket)
             CartService.Vaciar(cid)
             res.render('ticket', Ticket)
-            consolelogger.debug('req.user.name', req.user.name)
-            consolelogger.debug('username', req.user.username)
+
+
+            consolelogger.info('req.user.name')
+            consolelogger.debug(req.user.name)
+            consolelogger.info('ticket')
+           console.log(Ticket)
+
             const opt = {
                 from: 'shacocodrilo@gmail.com',
                 to: purchaser,
                 subject: 'COMPRA',
                 html: `
-                <h1>BUYCODE: ${Ticket.code}</h1>
-                <h2> Gracias, ${req.user.name}, su envio ya esta en camino!
+                <h1>BUYCODE: ${Ticket.CompraRealizada.code}</h1>
+                <h2> Gracias, ${req.user.first_name}, su envio ya esta en camino!
                 `
             }
 

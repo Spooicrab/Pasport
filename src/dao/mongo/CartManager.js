@@ -1,4 +1,7 @@
+import { ErrorMessages } from "../../error/dictionaryError.js";
+import CustomError from "../../error/error.js";
 import { CartModel } from "../../models/Cart.model.js";
+import { consolelogger } from "../../winston.js";
 
 class CartManager {
 
@@ -8,8 +11,13 @@ class CartManager {
     }
     // 
     async GetByID(ID) {
-        const response = await CartModel.findById(ID).populate('Products.product');
-        return response;
+        try {
+            const response = await CartModel.findById(ID).populate('Products.product');
+            return response;
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.PRODUCT_NOT_ADDED_TO_CART)
+        }
     }
     // 
     async Add(obj) {
