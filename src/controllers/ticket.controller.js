@@ -41,12 +41,6 @@ class ticketControllers {
             CartService.Vaciar(cid)
             res.render('ticket', Ticket)
 
-
-            consolelogger.info('req.user.name')
-            consolelogger.debug(req.user.name)
-            consolelogger.info('ticket')
-           console.log(Ticket)
-
             const opt = {
                 from: 'shacocodrilo@gmail.com',
                 to: purchaser,
