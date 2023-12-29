@@ -2,6 +2,7 @@ import config from "../config/config.js"
 import { transporter } from "../nodemailer.js"
 import { UserService } from "../services/User.services.js"
 import { generateToken } from "../utils.js"
+import { consolelogger } from "../winston.js"
 // import { consolelogger } from "../winston.js"
 
 
@@ -26,13 +27,13 @@ class restoreControllers {
         try {
             if (newpass == passVerify) {
                 const Change = await UserService.ChangePass(tid, newpass)
-                console.log(Change);
+                consolelogger.debug(Change.password)
                 res.send('Contraseña reestablecida')
             }
             if (newpass !== passVerify) {
                 res.send('las contraseñas no coinciden, intentelo nuevamente')
             }
-            
+
         } catch (error) {
 
         }

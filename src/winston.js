@@ -30,6 +30,7 @@ if (config.enviorment === 'desarrollo') {
         levels: myCustomLevels.levels,
         format: winston.format.combine(
             winston.format.colorize(),
+            winston.format.prettyPrint(),
             winston.format.simple()
         ),
         transports: [
@@ -45,7 +46,8 @@ if (config.enviorment === 'production') {
         levels: myCustomLevels.levels,
         format: winston.format.combine(
             winston.format.colorize(),
-            winston.format.simple()
+            winston.format.simple(),
+            winston.format.prettyPrint()
         ),
         transports: [
             new winston.transports.Console(
