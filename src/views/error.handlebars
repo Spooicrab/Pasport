@@ -4,3 +4,9 @@
 <button onclick="location.href='/views/login'">
   Try again
 </button>
+
+<h5>enviar token jwt via email para cambiar la contraseña:</h5>
+<form action='/restore/restorepass' method='post'>
+  Mail:<input type='email' name='email' id='email' />
+  <input type='submit' value='Enviar Token' />
+</form>

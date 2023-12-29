@@ -5,7 +5,7 @@ const UserRouter = Router();
 
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 
-UserRouter.post('/login', passport.authenticate('login', { failureRedirect: '/views/login' }), UsersController.Login);
+UserRouter.post('/login', passport.authenticate('login', { failureRedirect: '/views/error' }), UsersController.Login);
 
 UserRouter.get('/:idUser', UsersController.FindUser)
 

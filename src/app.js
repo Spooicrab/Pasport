@@ -21,6 +21,7 @@ import mockingRouter from "./routes/mocking.router.js";
 import UserRouter from "./routes/users.router.js";
 import sessionRouter from "./routes/sessions.router.js";
 import ChatRouter from "./routes/Chat.router.js";
+import restoreRouter from "./routes/restore.router.js";
 
 // Services
 import { CartService } from "./services/Cart.services.js";
@@ -76,6 +77,7 @@ app.use('/views', ViewsRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
 app.use('/api/session', sessionRouter)
+app.use('/restore', restoreRouter)
 app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
 app.get('/', (req, res) => {
@@ -95,7 +97,11 @@ app.use(errorMiddleware)
 const Port = config.port
 
 const servidor = app.listen(Port, () => {
-    consolelogger.info('Puerto conectado')
+    try {
+        consolelogger.info('Puerto conectado')
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 const Sserver = new Server(servidor)

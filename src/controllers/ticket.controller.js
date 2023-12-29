@@ -42,7 +42,7 @@ class ticketControllers {
             res.render('ticket', Ticket)
 
             const opt = {
-                from: 'shacocodrilo@gmail.com',
+                from: config.gmail_user.toString(),
                 to: purchaser,
                 subject: 'COMPRA',
                 html: `

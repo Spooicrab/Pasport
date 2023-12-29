@@ -1,6 +1,7 @@
 import { usersManager } from "../dao/mongo/UserManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
+import { HashData } from "../utils.js";
 import { consolelogger } from "../winston.js";
 
 class UserServices {
@@ -21,6 +22,18 @@ class UserServices {
         } catch (error) {
             consolelogger.error(error)
             CustomError.createError(ErrorMessages.USERMAIL_NOT_FOUND)
+        }
+    }
+
+    async ChangePass(id, newPass) {
+        try {
+            let user = await this.findById(id)
+            let hashedpass = await HashData(newPass)
+            user.password = hashedpass
+            const response = await user.save()
+            return response
+        } catch (error) {
+            console.log(error);
         }
     }
 

@@ -5,10 +5,8 @@ let IdCarritoActual = cartId
 for (const Boton of Botones) {
     Boton.addEventListener('click', () => {
         const productId = Boton.getAttribute('data-product-id');
-        // Busca la cookie 'jwt'
         const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
         if (jwtCookie) {
-            // Si la cookie existe, obtén el token
             const token = jwtCookie.split('=')[1];
             socketclient.emit('Agregar', { productId, IdCarritoActual, token });
         } else { console.error('No se encontró la cookie jwt'); }
