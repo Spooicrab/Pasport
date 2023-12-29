@@ -3,18 +3,14 @@ import { transporter } from "../nodemailer.js"
 import { UserService } from "../services/User.services.js"
 import { generateToken } from "../utils.js"
 import { consolelogger } from "../winston.js"
-// import { consolelogger } from "../winston.js"
 
 
 
 class restoreControllers {
 
     restore = async (req, res) => {
-        // console.log('REQ.USERiD:', req.userId);
-        // const user = await UserService.findById(req.userId)
-        // console.log('USER:', user);
+
         const id = req.userId
-        // console.log(id);
         try {
             res.render('restore', { id: id })
         } catch (error) { console.log(error) }
@@ -27,8 +23,10 @@ class restoreControllers {
         try {
             if (newpass == passVerify) {
                 const Change = await UserService.ChangePass(tid, newpass)
-                consolelogger.debug(Change.password)
-                res.send('Contraseña reestablecida')
+                Change == 1 ?
+                    res.send('No puede usar la misma contraseña anterior')
+                    :
+                    res.send('Contraseña reestablecida')
             }
             if (newpass !== passVerify) {
                 res.send('las contraseñas no coinciden, intentelo nuevamente')
@@ -41,7 +39,6 @@ class restoreControllers {
 
     jwtcode = async (req, res) => {
         let accountMail = req.body
-        // console.log(accountMail.email);
         let account = await UserService.findByEmail(accountMail.email)
 
         const toToken = {

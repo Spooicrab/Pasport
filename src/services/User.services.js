@@ -1,7 +1,7 @@
 import { usersManager } from "../dao/mongo/UserManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
-import { HashData } from "../utils.js";
+import { CompareData, HashData } from "../utils.js";
 import { consolelogger } from "../winston.js";
 
 class UserServices {
@@ -28,6 +28,10 @@ class UserServices {
     async ChangePass(id, newPass) {
         try {
             let user = await this.findById(id)
+            const isTheSame = await CompareData(newPass, user.password)
+            if (isTheSame == true) {
+                return 1
+            }
             let hashedpass = await HashData(newPass)
             user.password = hashedpass
             const response = await user.save()
