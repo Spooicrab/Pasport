@@ -95,12 +95,26 @@ class ProductsController {
 
     ActualizarProducto =
         async (req, res) => {
+
             const userRole = req.user.role;
             const { pid } = req.params
-            if (userRole === 'admin' || 'premium') {
-                const update = await ProductsService.Update(pid, req.body);
-                res.status(200).json('Actualizado')
-            } else {
+            const product = await ProductsService.GetById(pid)
+
+
+            if (userRole === 'admin') {
+                await ProductsService.Update(pid, req.body);
+                res.status(200).json('Producto actualizado')
+            }
+            if (userRole === 'premium') {
+                if (product.Owner !== 'admin') {
+                    await ProductsService.Update(pid, req.body);
+                    return res.status(200).json('Producto Actualizado');
+                } else {
+                    return res.status(403).send('No tienes permiso para esto');
+                }
+            }
+
+            else {
                 res.status(403).send('No tienes permiso para esto')
             }
         }
