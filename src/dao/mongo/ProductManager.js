@@ -3,7 +3,7 @@ import { ProductoModel } from "../../models/Product.model.js";
 class ProductsManager {
     // 
     async GetAll(obj) {
-        const { limit = 10, page = 1, sort: sortPrice, ...query } = obj
+        const { limit = 12, page = 1, sort: sortPrice, ...query } = obj
         const response = await ProductoModel.paginate(query, {
             limit,
             page,

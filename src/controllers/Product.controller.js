@@ -1,3 +1,4 @@
+import { Admin } from "mongodb"
 import { ProductsService } from "../services/Product.services.js"
 import { consolelogger } from "../winston.js"
 class ProductsController {
@@ -31,7 +32,7 @@ class ProductsController {
                     const Add = await ProductsService.Add(
                         {
                             ...req.body,
-                            Owner: req.user.email
+                            Owner: 'admin'
                         }
                     )
                     res
@@ -70,10 +71,23 @@ class ProductsController {
         async (req, res) => {
             const userRole = req.user.role;
             const { pid } = req.params
+            const product = await ProductsService.GetById(pid)
+
+
             if (userRole === 'admin') {
-                const erased = await ProductsService.Delete(pid);
+                await ProductsService.Delete(pid);
                 res.status(200).json('ProductoEliminado')
-            } else {
+            }
+            if (userRole === 'premium') {
+                if (product.Owner !== 'admin') {
+                    await ProductsService.Delete(pid);
+                    return res.status(200).json('Producto Eliminado');
+                } else {
+                    return res.status(403).send('No tienes permiso para esto');
+                }
+            }
+
+            else {
                 res.status(403).send('No tienes permiso para esto')
             }
 
@@ -83,8 +97,7 @@ class ProductsController {
         async (req, res) => {
             const userRole = req.user.role;
             const { pid } = req.params
-            if (userRole === 'admin') {
-                console.log('pid:', pid);
+            if (userRole === 'admin' || 'premium') {
                 const update = await ProductsService.Update(pid, req.body);
                 res.status(200).json('Actualizado')
             } else {

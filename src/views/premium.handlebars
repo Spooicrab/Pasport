@@ -1,21 +1,23 @@
 <style>
   body { font-family: Arial, sans-serif; margin: 0; padding: 0;
   background-color: #f4f4f4; } section { background-color: #fff; padding: 20px;
-  margin-bottom: 20px; border-radius: 5px; } #productos { display: grid;
-  grid-template-columns: 1fr 1fr 1fr; gap: 20px; } #productos > div {
+  margin: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+  #productos { display: grid; grid-template-columns: repeat(auto-fill,
+  minmax(200px, 1fr)); gap: 20px; padding: 20px; } #productos > div {
   background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px
   5px rgba(0, 0, 0, 0.1); text-align: center; } .pagination-link { padding: 10px
   20px; background-color: #007bff; color: #fff; border: none; cursor: pointer;
   margin-top: 10px; display: inline-block; text-decoration: none; border-radius:
   5px; transition: background-color 0.3s ease; } .pagination-link:hover {
-  background-color: #0056b3; } h1 { color: #333; } .ventanaChat { height: 300px;
-  border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; overflow-y:
-  scroll; } form { display: flex; justify-content: space-between; } form
-  input[type="text"] { flex: 1; padding: 10px; margin-right: 10px;
+  background-color: #0056b3; } h1, h2, h3 { color: #333; } .ventanaChat {
+  height: 300px; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;
+  overflow-y: scroll; } form { display: flex; flex-direction: column; gap: 10px;
+  } form input[type="text"], form input[type="number"] { padding: 10px;
   border-radius: 5px; border: 1px solid #ccc; } form input[type="submit"] {
   padding: 10px 20px; border: none; background-color: #007bff; color: #fff;
   cursor: pointer; border-radius: 5px; }
 </style>
+
 <section>
   <h2>Bienvenido, {{first_name}}</h2>
   <p>mail: {{email}}</p>
@@ -102,24 +104,6 @@
     style='padding: 10px 20px; background-color: #007bff; color: #fff; border: none; cursor: pointer; margin-top: 10px;'
   />
 </form>
-
-<h1>CHAT!</h1>
-
-<div class='ventanaChat' id='ventanaChat'>
-  {{#each messages}}
-    <h6>{{this.user}} : </h6>
-    <p>{{this.message}}</p>
-  {{/each}}
-</div>
-
-<div>
-  <form action='/api/chat' method='post' id='Mensajes'>
-    <input type='text' id='name' placeholder='Nombre' />
-    <input type='text' id='message' placeholder='Mensaje' />
-    <input type='submit' value='SEND' />
-  </form>
-</div>
-
 <script>
   var cartId = "{{cart}}";
 </script>
