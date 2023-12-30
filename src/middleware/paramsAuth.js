@@ -10,7 +10,11 @@ export const validateParams = (req, res, next) => {
 
     jwt.verify(token, config.jwtsecret, (err, decoded) => {
         if (err) {
-            return res.status(500).json({ error: "Hubo un problema al autenticar el token." });
+            if (err.name === 'TokenExpiredError') {
+                res.render('newRestorToken')
+            } else {
+                return res.status(500).json({ error: "Hubo un problema al autenticar el token." });
+            }
         }
         req.userId = decoded.id;
         next();
