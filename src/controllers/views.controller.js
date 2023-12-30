@@ -71,6 +71,20 @@ class ViewController {
                 }))
             } else { res.status(403).send('No tienes permiso para acceder a esta página') }
         }
+
+    premium =
+        async (req, res) => {
+            let Productos = await ProductsService.GetAll(req.query)
+            const userRole = req.user.role;
+            if (userRole === 'premium') {
+                res.render('premium', ({
+                    Productos,
+                    first_name: req.user.first_name,
+                    email: req.user.email,
+                    role: req.user.role,
+                }))
+            } else { res.status(403).send('No tienes permiso para acceder a esta página') }
+        }
 }
 
 export const ViewsController = new ViewController()

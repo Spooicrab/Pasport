@@ -37,17 +37,71 @@
 <div>
   {{#if Productos.hasPrevPage}}
     <a
-      href='/views/products?page={{Productos.prevPage}}'
+      href='/views/premium?page={{Productos.prevPage}}'
       class='pagination-link'
     >Página anterior</a>
   {{/if}}
   {{#if Productos.hasNextPage}}
     <a
-      href='/views/products?page={{Productos.nextPage}}'
+      href='/views/premium?page={{Productos.nextPage}}'
       class='pagination-link'
     >Página siguiente</a>
   {{/if}}
 </div>
+
+<h1>AÑADIR PRODUCTOS:</h1>
+
+<form action='/api/products/' method='post' style='margin-top: 20px;'>
+  <label
+    for='title'
+    style='display: block; margin-bottom: 10px;'
+  >Nombre:</label>
+  <input
+    type='text'
+    name='title'
+    id='title'
+    style='padding: 5px; width: 200px;'
+  />
+  <label
+    for='price'
+    style='display: block; margin-bottom: 10px;'
+  >Precio:</label>
+  <input
+    type='number'
+    name='price'
+    id='price'
+    style='padding: 5px; width: 200px;'
+  />
+  <label for='code' style='display: block; margin-bottom: 10px;'>Code</label>
+  <input
+    type='number'
+    name='code'
+    id='code'
+    style='padding: 5px; width: 200px;'
+  />
+  <label for='stock' style='display: block; margin-bottom: 10px;'>Stock</label>
+  <input
+    type='number'
+    name='stock'
+    id='stock'
+    style='padding: 5px; width: 200px;'
+  />
+  <label
+    for='description'
+    style='display: block; margin-bottom: 10px;'
+  >Descripción:</label>
+  <input
+    type='text'
+    name='description'
+    id='description'
+    style='padding: 5px; width: 200px;'
+  />
+  <input
+    type='submit'
+    value='CREAR'
+    style='padding: 10px 20px; background-color: #007bff; color: #fff; border: none; cursor: pointer; margin-top: 10px;'
+  />
+</form>
 
 <h1>CHAT!</h1>
 

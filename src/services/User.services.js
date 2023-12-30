@@ -50,6 +50,17 @@ class UserServices {
             CustomError.createError(ErrorMessages.USER_NOT_CREATED)
         }
     }
+
+
+    async createPremiumUser(obj) {
+        try {
+            const response = await usersManager.createOne(obj);
+            return response;
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.USER_NOT_CREATED)
+        }
+    }
 }
 
 export const UserService = new UserServices();

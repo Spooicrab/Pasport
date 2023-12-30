@@ -5,6 +5,10 @@ import { consolelogger } from "../winston.js";
 
 class UserController {
 
+    Premium = (req, res) => {
+        res.send('USUARIO PREMIUM CREADO')
+    }
+
     Register =
         (req, res) => {
             res.redirect('/views/login')
@@ -25,7 +29,9 @@ class UserController {
                 consolelogger.error(err)
             } else {
                 const userRole = decodedToken.role;
-                if (userRole === 'admin') { res.redirect('/views/admin') } else if (userRole === 'user') { res.redirect('/views/products') }
+                if (userRole === 'admin') { res.redirect('/views/admin') }
+                if (userRole === 'user') { res.redirect('/views/products') }
+                else if (userRole === 'premium') { res.redirect('/views/premium') }
             }
         });
     }

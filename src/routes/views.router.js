@@ -10,6 +10,8 @@ ViewsRouter.get("/products", passport.authenticate('jwt', { session: false }), V
 
 ViewsRouter.get("/admin", passport.authenticate('jwt', { session: false }), ViewsController.admin)
 
+ViewsRouter.get("/premium", passport.authenticate('jwt', { session: false }), ViewsController.premium)
+
 ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), ViewsController.Carrito)
 
 ViewsRouter.get("/cart/:cid/purchase", passport.authenticate('jwt', { session: false }), ticketController.checkout)

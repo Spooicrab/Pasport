@@ -1,4 +1,5 @@
 import { ProductsService } from "../services/Product.services.js"
+import { consolelogger } from "../winston.js"
 class ProductsController {
     GetAllProducts = async (req, res) => {
         try {
@@ -27,14 +28,42 @@ class ProductsController {
                     delete req.body.stock;
                 }
                 try {
-                    const Add = await ProductsService.Add(req.body);
+                    const Add = await ProductsService.Add(
+                        {
+                            ...req.body,
+                            Owner: req.user.email
+                        }
+                    )
                     res
                         .status(200)
                         .json({ message: "Añadido", product: Add });
-                } catch (err) { res.status(500).json({ error: err.message }) }
-            } else {
+                } catch (err) { consolelogger.error(err) }
+            }
+            if (userRole === 'premium') {
+                const { title, description, price, stock, code, thumbail, } = req.body;
+                if (!title || !price || !code || !stock) {
+                    return res.status(400).json({ message: "Faltan datos" })
+                }
+                if (!stock) {
+                    delete req.body.stock;
+                }
+                try {
+                    const Add = await ProductsService.Add(
+                        {
+                            ...req.body,
+                            Owner: req.user.email
+                        }
+                    );
+                    console.log(Add);
+                    res
+                        .status(200)
+                        .json({ message: "Añadido", product: Add });
+                } catch (err) { consolelogger.error(err) }
+            }
+            else {
                 res.status(403).send('No tienes permiso para esto')
             }
+
         }
 
     EliminarProducto =

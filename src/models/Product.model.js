@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2'
 const ProductoSchema = new mongoose.Schema(
     {
         title: {
             type: String,
             required: true
+        },
+        Owner: {
+            type: String,
         },
         description: {
             type: String
@@ -23,14 +26,7 @@ const ProductoSchema = new mongoose.Schema(
         stock: {
             type: Number, default: 10
         },
-        owner: {
-            type: String,
-            enum: [
-                'admin',
-                'premium',
-            ],
-            default: 'admin'
-        },
+
     });
 
 ProductoSchema.plugin(mongoosePaginate)
