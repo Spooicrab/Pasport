@@ -53,14 +53,46 @@ class restoreControllers {
             to: account.email.toString(),
             subject: 'Recuperar cuenta',
             html: `
-            <h1>Recuperar Contraseña</h1>
-            <p>Por favor, ingrese con el siguiente token para cambiar su contraseña via params:
-            ${token}
-            </p>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    padding: 20px;
+                    background-color: #f4f4f4;
+                }
+                h1 {
+                    color: #333;
+                }
+                p {
+                    color: #666;
+                }
+                form {
+                    margin-top: 20px;
+                }
+                button {
+                    padding: 10px 20px;
+                    background-color: #007bff;
+                    color: #fff;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    text-decoration: none;
+                }
+                button:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+            <body>
+                <h1>Recuperar Contraseña</h1>
+                <p>Por favor, haz clic en el siguiente botón para cambiar tu contraseña:</p>
+                <form action="localhost8080/restore/restorepass/${token}" method="get">
+                    <button type="submit">Cambiar Contraseña</button>
+                </form>
+            </body>
             `
         }
         await transporter.sendMail(opt)
-        res.send(`Token enviado: ${token}`)
+        res.send(`Token enviado via mail`)
+        consolelogger.debug(token)
     }
 }
 
