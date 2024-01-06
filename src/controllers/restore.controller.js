@@ -51,6 +51,9 @@ class restoreControllers {
         const opt = {
             from: config.gmail_user.toString(),
             to: account.email.toString(),
+            // tls: {
+            //     rejectUnauthorized: false
+            // },
             subject: 'Recuperar cuenta',
             html: `
             <style>
@@ -84,9 +87,7 @@ class restoreControllers {
             <body>
                 <h1>Recuperar Contraseña</h1>
                 <p>Por favor, haz clic en el siguiente botón para cambiar tu contraseña:</p>
-                <form action="localhost8080/restore/restorepass/${token}" method="get">
-                    <button type="submit">Cambiar Contraseña</button>
-                </form>
+                <a href='http://localhost:8080/restore/restorepass/${token}'>Cambiar Contraseña</a>
             </body>
             `
         }
