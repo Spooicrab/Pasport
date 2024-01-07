@@ -51,47 +51,49 @@ class restoreControllers {
         const opt = {
             from: config.gmail_user.toString(),
             to: account.email.toString(),
-            // tls: {
-            //     rejectUnauthorized: false
-            // },
             subject: 'Recuperar cuenta',
             html: `
             <style>
                 body {
-                    font-family: Arial, sans-serif;
+                    font-family: 'Helvetica Neue', sans-serif;
                     padding: 20px;
-                    background-color: #f4f4f4;
+                    background-color: #e6e9ed;
+                    color: #333;
                 }
                 h1 {
-                    color: #333;
+                    color: #4a4a4a;
+                    text-align: center;
+                    border-bottom: 1px solid #d0d0d0;
+                    padding-bottom: 20px;
                 }
                 p {
                     color: #666;
+                    font-size: 1.1em;
+                    line-height: 1.6em;
                 }
-                form {
+                a {
+                    display: inline-block;
+                    padding: 12px 25px;
                     margin-top: 20px;
-                }
-                button {
-                    padding: 10px 20px;
                     background-color: #007bff;
                     color: #fff;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 5px;
                     text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
                 }
-                button:hover {
+                a:hover {
                     background-color: #0056b3;
                 }
             </style>
             <body>
                 <h1>Recuperar Contraseña</h1>
-                <p>Por favor, haz clic en el siguiente botón para cambiar tu contraseña:</p>
+                <p>Por favor, haz clic en el siguiente enlace para cambiar tu contraseña:</p>
                 <a href='http://localhost:8080/restore/restorepass/${token}'>Cambiar Contraseña</a>
             </body>
             `
         }
-        await transporter.sendMail(opt)
+        await transporter.sendMail(opt);
+
         res.send(`Token enviado via mail`)
         consolelogger.debug(token)
     }
