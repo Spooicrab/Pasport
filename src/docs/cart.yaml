@@ -1,0 +1,97 @@
+paths:
+  /api/carts:
+    get:
+      summary: Get Carts
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: All carts
+        '500':
+          description: Server Error
+        '400':
+          description: Some Data is Missing
+    post:
+      summary: Create a cart
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createCart'
+      responses:
+        '200':
+          description: Create Cart with an obj send by req.body
+        '500':
+          description: Server Error
+        '400':
+          description: Some Data is Missing
+  /api/carts/{id}:
+    get:
+      summary: Get one cart
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+          description: Cart Identifier
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: a cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requesBodies/createCart'
+        '500':
+          description: Server Error
+        '400':
+          description: Some Data is Missing
+    put:
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+        Products:
+          type: array
+          items:
+            type: object
+            properties:
+              Producto:
+                type: string
+              Cantidad:
+                type: number
+      example:
+        id: '0068127326831'
+        Products:
+          - Producto: Cepillo Dental
+            Cantidad: 1
+          - Producto: Dentrifico
+            Cantidad: 2
+  requestBodies:
+    createCart:
+      type: object
+      properties:
+        Products:
+          type: array
+          items:
+            type: object
+            properties:
+              Producto:
+                type: string
+              Cantidad:
+                type: number
+      example:
+        Products:
+          - Producto: Papas Lays
+            Cantidad: 2
+          - Producto: Pepsi 500cc
+            Cantidad: 1
