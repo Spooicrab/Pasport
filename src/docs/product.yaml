@@ -11,6 +11,27 @@ paths:
           description: Server Error
         "400":
           description: Some Data is Missing
+    post:
+      summary: Add one product
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createProduct"
+      responses:
+        "200":
+          description: A new product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
 
   /api/products/{id}:
     get:
@@ -34,7 +55,50 @@ paths:
           description: Server Error
         "400":
           description: Some Data is Missing
-
+    put:
+      summary: Modify one product
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: string
+          description: product Identifier
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createProduct"
+      responses:
+        "200":
+          description: A modified product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
+    delete:
+      summary: delete one product
+      parameters:
+        - name: id
+          in: path
+          description: Product Identifier
+      tags:
+        - Products
+      schema:
+      $type: String
+      responses:
+        "200":
+          description: Product deleted
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
 components:
   schemas:
     Product:
@@ -70,3 +134,36 @@ components:
         thumbnail: "https://www.mayoristanet.com/media/catalog/product/cache/7c7e7e8fca0426f106cb3e3371a80f9c/A/0/A08137_5.JPG"
         code: 9232712
         stock: 10
+  requestBodies:
+    createProduct:
+      type: object
+      required:
+        - title
+        - price
+        - code
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        Owner:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        thumbnail:
+          type: string
+        code:
+          type: number
+        stock:
+          type: number
+          default: 10
+      example:
+        title: Rollo de cocina 3unid
+        Owner: admin
+        description: Papel 50 paños, segunda marca
+        price: 111
+        thumbnail: "https://www.mayoristanet.com/media/catalog/product/cache/7c7e7e8fca0426f106cb3e3371a80f9c/A/0/A08137_5.JPG"
+        code: 9123843
+        stock: 15

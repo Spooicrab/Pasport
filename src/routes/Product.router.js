@@ -5,9 +5,9 @@ const ProductRouter = Router()
 
 ProductRouter.get("/", ProductController.GetAllProducts)
 
-ProductRouter.get("/:pid", ProductController.GetProduct)
-
 ProductRouter.post("/", passport.authenticate('jwt', { session: false }), ProductController.AñadirProducto);
+
+ProductRouter.get("/:pid", ProductController.GetProduct)
 
 ProductRouter.put('/:pid', passport.authenticate('jwt', { session: false }), ProductController.ActualizarProducto);
 
