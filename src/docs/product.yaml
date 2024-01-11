@@ -1,100 +1,72 @@
 paths:
-  /api/users:
+  /api/products:
     get:
-      summary: Get Users
+      summary: Get all products
       tags:
-        - Users
+        - Products
       responses:
-        '200':
-          description: All users
-        '500':
+        "200":
+          description: All Products
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
 
-  /api/users/{id}:
+  /api/products/{id}:
     get:
-      summary: Get one user
+      summary: Get one product
       parameters:
         - name: id
           in: path
-          description: User Identifier
+          description: Product Identifier
       tags:
-        - Users
+        - Products
       schema:
         $type: String
       responses:
-        '200':
-          description: a user
+        "200":
+          description: one Product
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-              example:
-                id: '0068127326831'
-                first_name: Juan
-                last_name: Gonzales
-                email: JuanitOG@gmail.com
-                age: 33
-                password: mfhvc739740W143AD4krh23gybfoth
-                cart:
-                  Products:
-                    - Producto: Shampoo
-                      Cantidad: 1
-                    - Producto: Jabón
-                      Cantidad: 3
-                role: user
-                Github: false
-        '500':
+                $ref: "#/components/schemas/Product"
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
 
 components:
   schemas:
-    User:
+    Product:
       type: object
+      required:
+        - title
+        - price
+        - code
       properties:
         id:
           type: string
-        first_name:
+        title:
           type: string
-        last_name:
+        Owner:
           type: string
-        email:
+        description:
           type: string
-        age:
+        price:
           type: number
-        password:
+        thumbnail:
           type: string
-        cart:
-          type: object
-          properties:
-            Products:
-              type: array
-              items:
-                type: object
-                properties:
-                  Producto:
-                    type: string
-                  Cantidad:
-                    type: integer
-        role:
-          type: string
-        Github:
-          type: boolean
+        code:
+          type: number
+        stock:
+          type: number
+          default: 10
       example:
-        id: '0068127326831'
-        first_name: Juan
-        last_name: Gonzales
-        email: JuanitOG@gmail.com
-        age: 33
-        password: mfhvc739740W143AD4krh23gybfoth
-        cart:
-          Products:
-            - Producto: Shampoo
-              Cantidad: 1
-            - Producto: Jabón
-              Cantidad: 3
-        role: user
-        Github: false
+        id: "8294y318921AdD32"
+        title: Fideos Moñito
+        Owner: admin
+        description: Fideo integral tipo moñito 500g
+        price: 444
+        thumbnail: "https://www.mayoristanet.com/media/catalog/product/cache/7c7e7e8fca0426f106cb3e3371a80f9c/A/0/A08137_5.JPG"
+        code: 9232712
+        stock: 10
