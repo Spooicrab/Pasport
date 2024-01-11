@@ -14,6 +14,12 @@ class UserController {
             res.redirect('/views/login')
         }
 
+    getAll =
+        async (req, res) => {
+            const users = await UserService.findAll()
+            res.status(200).json({ message: 'users found', users })
+        }
+
     FindUser =
         async (req, res) => {
             const { idUser } = req.params

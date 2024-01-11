@@ -5,6 +5,17 @@ import { CompareData, HashData } from "../utils.js";
 import { consolelogger } from "../winston.js";
 
 class UserServices {
+    async findAll() {
+        try {
+            const response = await usersManager.findAll()
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.USERS_NOT_FOUND)
+        }
+    }
+
+
+
     async findById(id) {
         try {
             const response = await usersManager.findById(id)

@@ -5,11 +5,11 @@ paths:
       tags:
         - Carts
       responses:
-        '200':
+        "200":
           description: All carts
-        '500':
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
     post:
       summary: Create a cart
@@ -20,17 +20,70 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/requestBodies/createCart'
+              $ref: "#/components/schemas/Cart"
       responses:
-        '200':
-          description: Create Cart with an obj send by req.body
-        '500':
+        "200":
+          description: A new cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
-  /api/carts/{id}:
+  /api/carts/{Cid}:
     get:
       summary: Get one cart
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: string
+          description: Cart Identifier
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: A cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
+    put:
+      summary: Update one cart
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+          description: Cart Identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/createCart"
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: A modified cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
+    delete:
+      summary: The cart will be emptied
       parameters:
         - name: id
           required: true
@@ -41,17 +94,50 @@ paths:
       tags:
         - Carts
       responses:
-        '200':
-          description: a cart
+        "200":
+          description: An empty cart
           content:
             application/json:
               schema:
-                $ref: '#/components/requesBodies/createCart'
-        '500':
+                $ref: "#/components/schemas/cart"
+              example:
+                id: "0068127326831"
+                Products:
+                  - Producto: {}
+                    Cantidad: {}
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
+  /api/carts/{Cid}/products/{Pid}:
     put:
+      summary: Agrega en 1 la cantidad de un producto en un carrito
+      parameters:
+        - name: Cid
+          required: true
+          in: path
+          schema:
+            type: string
+          description: Cart Identifier
+        - name: Pid
+          required: true
+          in: path
+          schema:
+            type: string
+          description: Product Identifier
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: A modified cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        "500":
+          description: Server Error
+        "400":
+          description: Some Data is Missing
 
 components:
   schemas:
@@ -70,7 +156,7 @@ components:
               Cantidad:
                 type: number
       example:
-        id: '0068127326831'
+        id: "0068127326831"
         Products:
           - Producto: Cepillo Dental
             Cantidad: 1

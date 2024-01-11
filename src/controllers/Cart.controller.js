@@ -46,29 +46,20 @@ class CartsController {
         try {
             const { cid } = req.params;
             const { pid } = req.params;
-            const obj = req.body
-            const cantidad = obj.Cantidad
-            const Actualizar = await CartService.AgregarCantidad(cid, pid, cantidad);
-
-            /*
-            Formato debe ser:
-                {
-                  "Cantidad": 100
-                }
-            */
+            await CartService.AgregarCantidad(cid, pid);
 
             return res.status(200).json('Actualizado')
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
-    EliminarProductoDeCarrito = async (req, res) => {
-        try {
-            const { cid } = req.params
-            const { pid } = req.params
-            await CartService.DeleteProduct(cid, pid)
-            return res.status(200).json('Producto eliminado del Carrito')
-        } catch (error) { res.status(500).json({ error: error.message }) }
-    }
+    // EliminarProductoDeCarrito = async (req, res) => {
+    //     try {
+    //         const { cid } = req.params
+    //         const { pid } = req.params
+    //         await CartService.DeleteProduct(cid, pid)
+    //         return res.status(200).json('Producto eliminado del Carrito')
+    //     } catch (error) { res.status(500).json({ error: error.message }) }
+    // }
 }
 
 export const CartController = new CartsController();

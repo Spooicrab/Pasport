@@ -3,6 +3,8 @@ import passport from "passport";
 import { UsersController } from "../controllers/users.controller.js";
 const UserRouter = Router();
 
+UserRouter.get('/', UsersController.getAll)
+
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 
 UserRouter.post('/signup/premium', passport.authenticate('CreatePremium'), UsersController.Premium)

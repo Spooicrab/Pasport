@@ -1,6 +1,12 @@
 import { usersModel } from "../../models/users.model.js";
 import { consolelogger } from "../../winston.js";
 class UsersManager {
+
+    async findAll() {
+        const response = await usersModel.find().populate('cart')
+        return response
+    }
+
     async findById(id) {
         const response = await usersModel.findById(id).populate('cart');
         return response;

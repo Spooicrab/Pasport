@@ -17,6 +17,6 @@ CartRouter.put("/:cid", passport.authenticate('jwt', { session: false }), CartCo
 
 CartRouter.put("/:cid/products/:pid", passport.authenticate('jwt', { session: false }), CartController.ActualizarCantidad)
 
-CartRouter.delete("/:cid/products/:pid", passport.authenticate('jwt', { session: false }), CartController.EliminarProductoDeCarrito)
+// CartRouter.delete("/:cid/products/:pid", passport.authenticate('jwt', { session: false }), CartController.EliminarProductoDeCarrito)
 
 export default CartRouter;

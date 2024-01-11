@@ -5,11 +5,11 @@ paths:
       tags:
         - Users
       responses:
-        '200':
+        "200":
           description: All users
-        '500':
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
 
   /api/users/{id}:
@@ -25,14 +25,14 @@ paths:
       schema:
         $type: String
       responses:
-        '200':
+        "200":
           description: a user
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
               example:
-                id: '0068127326831'
+                id: "0068127326831"
                 first_name: Juan
                 last_name: Gonzales
                 email: JuanitOG@gmail.com
@@ -46,9 +46,9 @@ paths:
                       Cantidad: 3
                 role: user
                 Github: false
-        '500':
+        "500":
           description: Server Error
-        '400':
+        "400":
           description: Some Data is Missing
 
 components:
@@ -85,7 +85,7 @@ components:
         Github:
           type: boolean
       example:
-        id: '0068127326831'
+        id: "0068127326831"
         first_name: Juan
         last_name: Gonzales
         email: JuanitOG@gmail.com
