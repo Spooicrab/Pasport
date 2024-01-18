@@ -28,6 +28,7 @@ passport.use('signup',
                     password: HashedPass,
                     role: 'admin'
                 });
+                req.user = createdUser
                 done(null, createdUser)
             }
             const HashedPass = await HashData(password)
@@ -39,7 +40,7 @@ passport.use('signup',
                     password: HashedPass
                 }
             );
-
+            req.user = createdUser
             done(null, createdUser)
         }
     )

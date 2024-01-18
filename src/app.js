@@ -52,17 +52,6 @@ app.use(passport.session())
 
 app.engine('handlebars', handlebars.engine({
 
-    /* 
-    Añado esta runtimeOptions porque recibia este error al querer renderizar el carrito del usuario:
-
-    Handlebars: Access has been denied to resolve the property "product" because it is not an "own property" of its parent.
-You can add a runtime option to disable the check or this warning:
-See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details
-Handlebars: Access has been denied to resolve the property "Cantidad" because it is not an "own property" of its parent.
-You can add a runtime option to disable the check or this warning:
-See https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details
-  
-*/
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true,
