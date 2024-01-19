@@ -37,14 +37,18 @@ describe('user endopoints', () => {
     })
 
     describe('POST /api/users/login', () => {
+
+        it('should have a cookie called "jwt"', async () => {
+            const response = await requester.post('/api/users/login')
+                .send(userLogin);
+            // console.log(response)
+            const cookieName = response.headers['set-cookie'][0].split('=')[0]
+            expect(cookieName).to.be.equal('jwt')
+        });
+
         it('should redirect to admin view', async () => {
             const response = await requester.post('/api/users/login')
                 .send(adminLogin);
-            // console.log(response)
-            // const cookieName = response.headers['set-cookie'][0].split('=')[0]
-            // const cookieValue = response.headers['set-cookie'][0].split('=')[1].split(';')[0];
-            // console.log('cookienameeeeeee', cookieName);
-            // console.log('cookievalueeeeeeee', cookieValue);
             expect(response.header.location).to.be.equal('/views/admin')
 
         });
