@@ -11,7 +11,8 @@ class UserController {
 
     Register =
         (req, res) => {
-            res.redirect('/views/login')
+            res.send(req.user)
+            // res.redirect('/views/login')
         }
 
     getAll =
