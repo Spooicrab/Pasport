@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import { expect } from 'chai';
 
 const adminAgent = supertest.agent('http://localhost:8080');
+const premiumAgent = supertest.agent('http://localhost:8080');
+const userAgent = supertest.agent('http://localhost:8080')
+
 
 describe('Products endpoints', () => {
 
@@ -18,14 +21,33 @@ describe('Products endpoints', () => {
 
         describe('Add Products', () => {
 
-            const Product = {
-                title: 'Rollo de cocina 3unid',
-                description: 'Papel 50 paños, segunda marca',
+            const adminProduct = {
+                title: 'producto de admin',
+                description: 'Producto descrip',
                 price: 111,
-                thumbnail: "https://www.mayoristanet.com/media/catalog/product/cache/7c7e7e8fca0426f106cb3e3371a80f9c/A/0/A08137_5.JPG",
-                code: 9123843,
+                code: 111111,
+                thumbnail: "kjhgvjsabdnacskoh",
                 stock: 15
             };
+
+            const premiumProduct = {
+                title: 'producto de premium',
+                description: 'Producto descrip',
+                price: 111,
+                code: 111111,
+                thumbnail: "kjhgvjsabdnacskoh",
+                stock: 15
+            };
+
+            const userLogin = {
+                email: 'a@a',
+                password: 'a'
+            }
+
+            const premiumLogin = {
+                email: 'p@p',
+                password: 'p'
+            }
 
             const adminLogin = {
                 email: 'Coder@Admin.com',
@@ -33,30 +55,73 @@ describe('Products endpoints', () => {
             };
 
             before(async () => {
-                const response = await adminAgent
+                const getAdmin = await adminAgent
                     .post('/api/users/login')
                     .send(adminLogin);
 
-                const cookieHeader = response.headers['set-cookie'][0];
-                const [cookieName, cookieValue] = cookieHeader.split(';')[0].split('=');
+                const adminCookieHeader = getAdmin.headers['set-cookie'][0];
+                const [adminCookieName, adminCookieValue] = adminCookieHeader.split(';')[0].split('=');
 
-                adminAgent.set('Cookie', `${cookieName}=${cookieValue}`);
+                adminAgent.set('Cookie', `${adminCookieName}=${adminCookieValue}`);
+
+                // 
+
+                const getPremium = await premiumAgent
+                    .post('/api/users/login')
+                    .send(premiumLogin);
+
+                const premiumCookieHeader = getPremium.headers['set-cookie'][0];
+                const [premiumCookieName, premiumCookieValue] = premiumCookieHeader.split(';')[0].split('=');
+
+                premiumAgent.set('Cookie', `${premiumCookieName}=${premiumCookieValue}`);
+
+                // 
+                const response = await userAgent
+                    .post('/api/users/login')
+                    .send(userLogin);
+
+                const userCookieHeader = response.headers['set-cookie'][0];
+                const [userCookieName, userCookieValue] = userCookieHeader.split(';')[0].split('=');
+
+                userAgent.set('Cookie', `${userCookieName}=${userCookieValue}`);
+
+            });
+
+            it('debería agregar un producto con la cookie de Premium', async () => {
+                const response = await premiumAgent
+                    .post('/api/products/')
+                    .send(premiumProduct);
+
+                expect(response.status).to.be.equal(200);
             });
 
             it('debería agregar un producto con la cookie de admin', async () => {
                 const response = await adminAgent
                     .post('/api/products/')
-                    .send(Product);
-
-                // console.log(response);
+                    .send(adminProduct);
 
                 expect(response.status).to.be.equal(200);
             });
 
+            it('no debería agregar un producto', async () => {
+                const response = await userAgent
+                    .post('/api/products/')
+                    .send(premiumProduct);
+
+                // console.log(response);
+
+                expect(response.status).to.be.equal(403);
+            });
+
+
             after(async () => {
                 await adminAgent.get('/api/users/logout');
+                await premiumAgent.get('/api/users/logout');
+
                 await mongoose.connect(`${config.mongo_uri}`)
-                await mongoose.connection.collection('products').deleteOne({ title: `${Product.title}` })
+                await mongoose.connection.collection('products').deleteOne({ title: `${adminProduct.title}` })
+                await mongoose.connection.collection('products').deleteOne({ title: `${premiumProduct.title}` })
+
             });
         });
     });
