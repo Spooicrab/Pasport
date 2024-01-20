@@ -21,7 +21,7 @@ class CartsController {
         try {
             const CarritoNuevo = req.body
             const add = await CartService.Add(req.body);
-            res.status(200).json({ message: 'Carrito con productos creado' })
+            res.status(200).json({ message: 'Carrito con productos creado', add })
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
