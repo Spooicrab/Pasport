@@ -21,7 +21,7 @@ describe('Products endpoints', () => {
 
         describe('Add Products', () => {
 
-            const adminProduct = {
+            let adminProduct = {
                 title: 'producto de admin',
                 description: 'Producto descrip',
                 price: 111,
@@ -30,7 +30,7 @@ describe('Products endpoints', () => {
                 stock: 15
             };
 
-            const premiumProduct = {
+            let premiumProduct = {
                 title: 'producto de premium',
                 description: 'Producto descrip',
                 price: 111,
@@ -92,7 +92,8 @@ describe('Products endpoints', () => {
                     .post('/api/products/')
                     .send(premiumProduct);
 
-                expect(response.status).to.be.equal(200);
+                premiumProduct = response._body.product
+                expect(response._body.message).to.be.equal('Añadido');
             });
 
             it('debería agregar un producto con la cookie de admin', async () => {
@@ -100,6 +101,7 @@ describe('Products endpoints', () => {
                     .post('/api/products/')
                     .send(adminProduct);
 
+                adminProduct = response._body.product
                 expect(response.status).to.be.equal(200);
             });
 
@@ -113,10 +115,24 @@ describe('Products endpoints', () => {
                 expect(response.status).to.be.equal(403);
             });
 
+            it('should have owner: admin', async () => {
+                const response =
+                    await userAgent.get(`/api/products/${adminProduct._id}`)
+                expect(response._body.Owner).to.be.equal('admin')
+
+            })
+
+            it('should have owner: premium email', async () => {
+                const response =
+                    await userAgent.get(`/api/products/${premiumProduct._id}`)
+                expect(response._body.Owner).to.be.equal(`${premiumLogin.email}`)
+
+            })
 
             after(async () => {
                 await adminAgent.get('/api/users/logout');
                 await premiumAgent.get('/api/users/logout');
+                await userAgent.get('/api/users/logout')
 
                 await mongoose.connect(`${config.mongo_uri}`)
                 await mongoose.connection.collection('products').deleteOne({ title: `${adminProduct.title}` })
