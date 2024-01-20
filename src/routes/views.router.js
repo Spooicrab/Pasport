@@ -16,8 +16,6 @@ ViewsRouter.get("/cart/:cid", passport.authenticate('jwt', { session: false }), 
 
 ViewsRouter.get("/cart/:cid/purchase", passport.authenticate('jwt', { session: false }), ticketController.checkout)
 
-ViewsRouter.get('/logout', ViewsController.logout)
-
 ViewsRouter.get("/login", ViewsController.login)
 
 ViewsRouter.get('/error', ViewsController.error)

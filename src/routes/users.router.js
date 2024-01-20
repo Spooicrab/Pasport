@@ -11,6 +11,9 @@ UserRouter.post('/signup/premium', passport.authenticate('CreatePremium'), Users
 
 UserRouter.post('/login', passport.authenticate('login', { failureRedirect: '/views/error' }), UsersController.Login);
 
+UserRouter.get('/logout', UsersController.Logout)
+
 UserRouter.get('/:idUser', UsersController.FindUser)
+
 
 export default UserRouter;

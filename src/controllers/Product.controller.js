@@ -17,55 +17,42 @@ class ProductsController {
         } catch (error) { throw new Error('Product not found') }
     }
 
-    AñadirProducto =
-        async (req, res) => {
-            const userRole = req.user.role;
-            if (userRole === 'admin') {
-                const { title, description, price, stock, code, thumbail, } = req.body;
-                if (!title || !price || !code || !stock) {
-                    return res.status(400).json({ message: "Faltan datos" })
-                }
-                if (!stock) {
-                    delete req.body.stock;
-                }
-                try {
-                    const Add = await ProductsService.Add(
-                        {
-                            ...req.body,
-                            Owner: 'admin'
-                        }
-                    )
-                    res
-                        .status(200)
-                        .json({ message: "Añadido", product: Add });
-                } catch (err) { consolelogger.error(err) }
-            }
-            if (userRole === 'premium') {
-                const { title, description, price, stock, code, thumbail, } = req.body;
-                if (!title || !price || !code || !stock) {
-                    return res.status(400).json({ message: "Faltan datos" })
-                }
-                if (!stock) {
-                    delete req.body.stock;
-                }
-                try {
-                    const Add = await ProductsService.Add(
-                        {
-                            ...req.body,
-                            Owner: req.user.email
-                        }
-                    );
-                    console.log(Add);
-                    res
-                        .status(200)
-                        .json({ message: "Añadido", product: Add });
-                } catch (err) { consolelogger.error(err) }
-            }
-            else {
-                res.status(403).send('No tienes permiso para esto')
-            }
+    async AñadirProducto(req, res) {
+        const userRole = req.user.role;
+        const { title, description, price, stock, code, thumbail } = req.body;
 
+        if (!title || !price || !code || !stock) {
+            return res.status(400).json({ message: "Faltan datos" });
         }
+
+        let productOwner;
+
+        if (userRole === 'admin') {
+            productOwner = 'admin';
+        } else if (userRole === 'premium') {
+            productOwner = req.user.email;
+        } else {
+            return res.status(403).send('No tienes permiso para esto');
+        }
+
+        if (!stock) {
+            delete req.body.stock;
+        }
+
+        try {
+            const Add = await ProductsService.Add({
+                ...req.body,
+                Owner: productOwner
+            });
+
+            consolelogger.debug(Add);
+
+            res.status(200).json({ message: "Añadido", product: Add });
+        } catch (err) {
+            consolelogger.error(err);
+            res.status(500).json({ message: "Error interno del servidor" });
+        }
+    }
 
     EliminarProducto =
         async (req, res) => {

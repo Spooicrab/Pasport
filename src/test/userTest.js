@@ -72,14 +72,4 @@ describe('user endopoints', () => {
 
     })
 
-    // describe('POST /api/users/login', () => {
-    //     it('should return a jwt', async () => {
-    //         const response = await requester
-    //             .post('api/users/login')
-    //             .send(userLogin)
-
-    //         console.log(response);
-
-    //     })
-    // })
 })

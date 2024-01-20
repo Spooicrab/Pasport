@@ -5,9 +5,10 @@ import { consolelogger } from "../winston.js";
 
 class UserController {
 
-    Premium = (req, res) => {
-        res.send('USUARIO PREMIUM CREADO')
-    }
+    Premium =
+        (req, res) => {
+            res.send('USUARIO PREMIUM CREADO')
+        }
 
     Register =
         (req, res) => {
@@ -42,5 +43,12 @@ class UserController {
             }
         });
     }
+
+    Logout =
+        (req, res) => {
+            res.clearCookie('jwt');
+            res.redirect('/views/login/');
+        }
+
 }
 export const UsersController = new UserController()
