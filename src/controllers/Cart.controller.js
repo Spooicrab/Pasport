@@ -37,7 +37,7 @@ class CartsController {
         const { cid } = req.params;
         const obj = req.body
         try {
-            const Actualizar = await CartService.Actualizar(cid, obj);
+            await CartService.Actualizar(cid, obj);
             return res.status(200).json({ message: "Actualizado" })
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
@@ -52,14 +52,6 @@ class CartsController {
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
-    // EliminarProductoDeCarrito = async (req, res) => {
-    //     try {
-    //         const { cid } = req.params
-    //         const { pid } = req.params
-    //         await CartService.DeleteProduct(cid, pid)
-    //         return res.status(200).json('Producto eliminado del Carrito')
-    //     } catch (error) { res.status(500).json({ error: error.message }) }
-    // }
 }
 
 export const CartController = new CartsController();

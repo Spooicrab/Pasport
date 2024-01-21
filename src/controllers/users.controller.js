@@ -19,6 +19,7 @@ class UserController {
     getAll =
         async (req, res) => {
             const users = await UserService.findAll()
+            console.log(users);
             res.status(200).json({ message: 'users found', users })
         }
 

@@ -15,5 +15,4 @@ UserRouter.get('/logout', UsersController.Logout)
 
 UserRouter.get('/:idUser', UsersController.FindUser)
 
-
 export default UserRouter;

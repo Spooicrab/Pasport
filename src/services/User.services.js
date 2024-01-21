@@ -8,6 +8,7 @@ class UserServices {
     async findAll() {
         try {
             const response = await usersManager.findAll()
+            return response
         } catch (error) {
             consolelogger.error(error)
             CustomError.createError(ErrorMessages.USERS_NOT_FOUND)

@@ -4,6 +4,8 @@ import mongoose from 'mongoose'
 import config from '../config/config.js'
 
 const requester = supertest('http://localhost:8080')
+const userAgent = supertest.agent('http://localhost:8080')
+
 
 describe('user endopoints', () => {
     const userRegister = {
@@ -36,10 +38,18 @@ describe('user endopoints', () => {
         });
     })
 
+    describe('GET /api/users/', () => {
+        it('should bring an array with all the users', async () => {
+            const response = await requester.get('/api/users/')
+            // console.log(response);
+            expect(response._body.users).to.be.an('array')
+        })
+    })
+
     describe('POST /api/users/login', () => {
 
         it('should have a cookie called "jwt"', async () => {
-            const response = await requester.post('/api/users/login')
+            const response = await userAgent.post('/api/users/login')
                 .send(userLogin);
             // console.log(response)
             const cookieName = response.headers['set-cookie'][0].split('=')[0]
@@ -64,6 +74,12 @@ describe('user endopoints', () => {
                 .send(premiumLogin);
             expect(response.header.location).to.be.equal('/views/premium')
         });
+
+        it('should erase the cookie successfully', async () => {
+            await userAgent.get('/api/users/logout')
+            const responseAfterLogout = await userAgent.get('/');
+            expect(responseAfterLogout.headers['set-cookie']).to.be.equal(undefined);
+        })
 
         after(async function () {
             await mongoose.connect(`${config.mongo_uri}`)

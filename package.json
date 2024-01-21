@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/app.js",
-    "test": "mocha -t 100000 src/test/cartTest.js"
+    "test": "mocha -t 100000 src/test/productTest.js"
   },
   "keywords": [],
   "author": "",

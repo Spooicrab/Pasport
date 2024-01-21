@@ -10,23 +10,20 @@ describe('Products endpoints', () => {
 
     let Id
 
+    describe('POST /api/carts', () => {
+
+        it('Should return an empty cart', async () => {
+            const response = await requester.post('/api/carts')
+            Id = response._body.add._id
+            expect(response._body.add.Products).to.be.an('array').that.is.empty;
+        })
+    });
+
     describe('GET /api/carts', () => {
         it('Should return an array with carts', async () => {
             const response = await requester.get('/api/carts/');
             // console.log(response);
             expect(response._body).to.be.an('array');
-        });
-
-    });
-
-    describe('POST /api/carts', () => {
-
-        it('Should return an empty cart', async () => {
-            const response = await requester.post('/api/carts')
-            // console.log(response);
-            Id = response._body.add._id
-            expect(response._body.add.Products).to.be.an('array').that.is.empty;
-
         })
 
         it('should bring ONE cart', async () => {
@@ -36,10 +33,9 @@ describe('Products endpoints', () => {
         })
 
         after(async () => {
-
             await mongoose.connect(`${config.mongo_uri}`)
             await mongoose.connection.collection('carts').deleteOne({ _id: `${Id}` })
-
         });
     });
+
 })
