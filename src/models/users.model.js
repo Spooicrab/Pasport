@@ -21,6 +21,17 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    documents: [
+        {
+            name: {
+                type: String,
+            },
+            reference: {
+                type: String
+            }
+        }
+    ]
+    ,
     cart: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Cart',
@@ -30,6 +41,10 @@ const usersSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'admin', 'premium'],
         default: 'user'
+    },
+    last_connection: {
+        type: Date,
+        default: Date.now
     },
     Github: {
         type: Boolean,

@@ -15,7 +15,18 @@ class UserServices {
         }
     }
 
+    async updateLastLog(id) {
+        const userToUpdate = await this.findById(id)
+        try {
+            userToUpdate.last_connection = new Date()
+            consolelogger.debug(userToUpdate.last_connection)
+            await userToUpdate.save()
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.USER_NOT_UPDATED)
+        }
 
+    }
 
     async findById(id) {
         try {

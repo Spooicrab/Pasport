@@ -12,8 +12,7 @@ class UserController {
 
     Register =
         (req, res) => {
-            res.send(req.user)
-            // res.redirect('/views/login')
+            res.redirect('/views/login')
         }
 
     getAll =
@@ -31,13 +30,14 @@ class UserController {
             res.status(200).json({ message: 'user found', user })
         }
 
-    Login = (req, res) => {
+    Login = async (req, res) => {
         res.cookie('jwt', req.user.token, { httpOnly: false });
-        jwt.verify(req.user.token, config.jwtsecret, (err, decodedToken) => {
+        jwt.verify(req.user.token, config.jwtsecret, async (err, decodedToken) => {
             if (err) {
                 consolelogger.error(err)
             } else {
                 const userRole = decodedToken.role;
+                await UserService.updateLastLog(req.user._id)
                 if (userRole === 'admin') { res.redirect('/views/admin') }
                 if (userRole === 'user') { res.redirect('/views/products') }
                 else if (userRole === 'premium') { res.redirect('/views/premium') }
@@ -46,7 +46,8 @@ class UserController {
     }
 
     Logout =
-        (req, res) => {
+        async (req, res) => {
+            await UserService.updateLastLog(req.user._id)
             res.clearCookie('jwt');
             res.redirect('/views/login/');
         }

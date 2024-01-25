@@ -17,6 +17,7 @@ import { __dirname } from "./utils.js";
 import ViewsRouter from './routes/views.router.js'
 import ProductRouter from "./routes/Product.router.js";
 import CartRouter from "./routes/Cart.router.js";
+import UserPremiumRouter from "./routes/userPremium.router.js";
 import mockingRouter from "./routes/mocking.router.js";
 import UserRouter from "./routes/users.router.js";
 import { swaggerSetup } from "./swaggerSpecs.js";
@@ -67,6 +68,7 @@ app.use('/api/products', ProductRouter)
 app.use('/views', ViewsRouter)
 app.use('/api/carts', CartRouter)
 app.use('/api/users', UserRouter)
+app.use('/api/users/premium', UserPremiumRouter)
 app.use('/api/session', sessionRouter)
 app.use('/restore', restoreRouter)
 app.use('/api/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSetup))

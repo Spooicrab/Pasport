@@ -18,7 +18,6 @@ class UsersManager {
 
     async createOne(obj) {
         const response = await usersModel.create(obj);
-        consolelogger.debug(response)
         return response;
     }
 }
