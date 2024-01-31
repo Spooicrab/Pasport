@@ -52,5 +52,10 @@ class UserController {
             res.redirect('/views/login/');
         }
 
+    UpdateDocs =
+        async (req, res) => {
+
+        }
+
 }
 export const UsersController = new UserController()

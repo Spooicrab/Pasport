@@ -16,7 +16,8 @@ class ViewController {
                     first_name: req.user.first_name,
                     email: req.user.email,
                     role: req.user.role,
-                    cart: req.user.cart._id
+                    cart: req.user.cart._id,
+                    id: req.user.id
                 }
             ))
         }
@@ -29,6 +30,12 @@ class ViewController {
                 const CarritoUsuario = cartid.Products
                 res.render('cartId', { products: CarritoUsuario, cart: cid })
             } catch (error) { console.log(error) }
+        }
+
+    Multer =
+        async (req, res) => {
+            const { idUser } = req.params
+            res.render('pruebaMulter', { Id: idUser });
         }
 
     Chat =
