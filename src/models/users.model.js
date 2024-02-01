@@ -28,7 +28,8 @@ const usersSchema = new mongoose.Schema({
             },
             reference: {
                 type: String
-            }
+            },
+            _id: false
         }
     ]
     ,

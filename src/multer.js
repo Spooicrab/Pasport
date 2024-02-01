@@ -1,9 +1,11 @@
 import multer from "multer";
 import { __dirname } from "./utils.js";
 import path from 'path';
+import { UserService } from "./services/User.services.js";
+import { consolelogger } from "./winston.js";
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: async function async(req, file, cb) {
         let folder;
         switch (file.fieldname) {
             case 'Id':
@@ -25,7 +27,10 @@ const storage = multer.diskStorage({
         if (folder === 'product') {
             cb(null, path.join(__dirname, '/Multer', folder));
         }
-        if (folder === 'IDs' || 'Domicilios' || 'accountStatus') {
+        if (folder === 'IDs' || folder === 'Domicilios' || folder === 'AccountStatuses') {
+            const { idUser } = req.params
+            const uniqueSuffix = idUser + '-' + file.fieldname + '-' + Date.now();
+            await UserService.updateDocs(idUser, file.fieldname, uniqueSuffix)
             cb(null, path.join(__dirname, '/Multer/documents', folder));
         }
         if (folder === 'profiles') {
@@ -36,7 +41,7 @@ const storage = multer.diskStorage({
         const { idUser } = req.params
         const uniqueSuffix = idUser + '-' + file.fieldname + '-' + Date.now();
         cb(null, uniqueSuffix)
-    }
+    },
 });
 
 export const upload = multer({ storage: storage });

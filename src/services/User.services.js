@@ -1,6 +1,7 @@
 import { usersManager } from "../dao/mongo/UserManager.js";
 import { ErrorMessages } from "../error/dictionaryError.js";
 import CustomError from "../error/error.js";
+import { __dirname } from "../utils.js";
 import { CompareData, HashData } from "../utils.js";
 import { consolelogger } from "../winston.js";
 
@@ -27,6 +28,24 @@ class UserServices {
         }
 
     }
+
+    async updateDocs(id, docName, fileName) {
+        try {
+            const user = await this.findById(id)
+            user.documents.push(
+                {
+                    name: docName,
+                    reference: `${fileName}`
+                }
+            )
+            await user.save()
+        } catch (error) {
+            CustomError.createError(ErrorMessages.USER_NOT_UPDATED)
+            consolelogger.error(error)
+        }
+    }
+
+
 
     async findById(id) {
         try {
