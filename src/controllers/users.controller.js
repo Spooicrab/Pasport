@@ -6,12 +6,31 @@ import { consolelogger } from "../winston.js";
 class UserController {
 
     Premium =
-        (req, res) => {
-            res.send('USUARIO PREMIUM CREADO')
+        async (req, res) => {
+            const { uid } = req.params
+            const user = await UserService.findById(uid)
+
+            const hasId = user.documents.some(doc => doc.name === 'Id');
+            const hasDomicilio = user.documents.some(doc => doc.name === 'Domicilio');
+            const hasAccountStatus = user.documents.some(doc => doc.name === 'accountStatus');
+            if (user.role === 'user') {
+                if (hasId && hasDomicilio && hasAccountStatus) {
+                    user.role = 'premium'
+                    await user.save()
+                    res.status(200).json({ message: 'user updated', user })
+                } else {
+                    res.status(200).json({ message: 'some data is missing', user })
+                }
+            }
+            else {
+                user.role = 'premium'
+                await user.save()
+                res.send('User changed back to user')
+            }
         }
 
     Register =
-        (req, res) => {
+        async (req, res) => {
             res.redirect('/views/login')
         }
 
@@ -54,27 +73,17 @@ class UserController {
 
     UpdateDocs =
         async (req, res) => {
-            const { idUser } = req.params
-            const user = await UserService.findById(idUser)
-            console.log('user:', user);
-
+            // const { idUser } = req.params
+            // const user = await UserService.findById(idUser)
+            // console.log('user:', user);
             // console.log('PARAMS::', req.params);
             // console.log('req.body::', req.body);
             // console.log('IDUSER::', idUser);
-            // console.log('Req.file:', req.file);
-
-            const hasId = user.documents.some(doc => doc.name === 'Id');
-            const hasDomicilio = user.documents.some(doc => doc.name === 'Domicilio');
-            const hasAccountStatus = user.documents.some(doc => doc.name === 'accountStatus');
-
-            if (hasId && hasDomicilio && hasAccountStatus) {
-                user.role = 'premium'
-                await user.save()
-                res.status(200).json({ message: 'user updated', user })
-            } else {
-                res.status(200).json({ message: 'some data is missing', user })
-            }
-            res.status('test')
+            // // console.log('Req.file:', req.file);
+            // const hasId = user.documents.some(doc => doc.name === 'Id');
+            // const hasDomicilio = user.documents.some(doc => doc.name === 'Domicilio');
+            // const hasAccountStatus = user.documents.some(doc => doc.name === 'accountStatus');
+            res.render('upload')
         }
 }
 export const UsersController = new UserController()

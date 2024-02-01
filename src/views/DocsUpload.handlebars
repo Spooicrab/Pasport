@@ -1,0 +1,40 @@
+<style>
+  body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333;
+  padding: 20px; } h1, h3 { text-align: center; } form { display: flex;
+  flex-direction: column; width: 300px; margin: 0 auto; background-color: #fff;
+  padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+  input[type='file'] { margin: 10px 0; padding: 5px; } button {
+  background-color: #4CAF50; color: white; padding: 15px 20px; margin: 10px 0;
+  border: none; cursor: pointer; width: 100%; } button:hover { opacity: 0.8; }
+  .document-list { margin-top: 20px; padding: 10px; background-color: #fff;
+  border-radius: 5px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); } .document-list
+  div { margin: 10px 0; padding: 10px; background-color: #f9f9f9; border-radius:
+  5px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); }
+</style>
+
+<h1>Probando Multer, id: {{Id}}</h1>
+<h3>Rol actual: {{Rol}}</h3>
+<div class='document-list'>
+  <h2>Documentos ya cargados:</h2>
+  {{#each Docs}}
+    <div>{{name}}</div>
+  {{/each}}
+</div>
+<form
+  action='/api/users/{{Id}}/documents'
+  method='post'
+  enctype='multipart/form-data'
+>
+  <label for='Id'>Identificación</label>
+  <input type='file' name='Id' id='Id' />
+  <label for='Domicilio'>Comprobante de Domicilio</label>
+  <input type='file' name='Domicilio' id='Domicilio' />
+  <label for='accountStatus'>Comprobante Estado de Cuenta</label>
+  <input type='file' name='accountStatus' id='accountStatus' />
+  <button type='submit'>Enviar Archivos</button>
+</form>
+<h2>Actualizar a premium(se deben haber cargado todos los documentos)</h2>
+
+<form action='/api/users/premium/{{Id}}' method='post'>
+  <button type='submit'>Actualizar a Premium</button>
+</form>

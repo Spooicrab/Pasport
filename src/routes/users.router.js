@@ -10,7 +10,7 @@ UserRouter.get('/', UsersController.getAll)
 
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 
-UserRouter.post('/signup/premium', passport.authenticate('CreatePremium'), UsersController.Premium)
+UserRouter.post('/premium/:uid', UsersController.Premium)
 
 UserRouter.post('/login', passport.authenticate('login', { failureRedirect: '/views/error' }), UsersController.Login);
 

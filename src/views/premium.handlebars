@@ -24,6 +24,9 @@
   <p>Id de Carrito: {{cart}}</p>
   <button onclick="location.href='/views/logout'">Desconectarse</button>
   <button onclick='location.href=`/views/cart/{{cart}}`'>Ver carrito</button>
+  <form action='/api/users/premium/{{Id}}' method='post'>
+    <button type='submit'>Volver a User</button>
+  </form>
 </section>
 <div id='productos'>
   {{#each Productos.docs}}

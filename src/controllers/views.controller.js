@@ -2,6 +2,7 @@ import { ProductsService } from "../services/Product.services.js"
 import { CartService } from "../services/Cart.services.js"
 import { ChatService } from "../services/Chat.services.js"
 import { Cookie } from "express-session"
+import { UserService } from "../services/User.services.js"
 
 class ViewController {
 
@@ -35,7 +36,8 @@ class ViewController {
     Multer =
         async (req, res) => {
             const { idUser } = req.params
-            res.render('pruebaMulter', { Id: idUser });
+            const user = await UserService.findById(idUser)
+            res.render('DocsUpload', { Id: idUser, Rol: user.role, Docs: user.documents });
         }
 
     Chat =
@@ -89,6 +91,7 @@ class ViewController {
                     first_name: req.user.first_name,
                     email: req.user.email,
                     role: req.user.role,
+                    Id: req.user.id
                 }))
             } else { res.status(403).send('No tienes permiso para acceder a esta página') }
         }

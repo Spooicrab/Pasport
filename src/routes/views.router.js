@@ -18,6 +18,8 @@ ViewsRouter.get("/cart/:cid/purchase", passport.authenticate('jwt', { session: f
 
 ViewsRouter.get("/login", ViewsController.login)
 
+ViewsRouter.get("/logout", ViewsController.logout)
+
 ViewsRouter.get('/error', ViewsController.error)
 
 ViewsRouter.get('/signup', ViewsController.signup)
