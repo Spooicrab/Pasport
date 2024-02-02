@@ -1,4 +1,3 @@
-import { Admin } from "mongodb"
 import { ProductsService } from "../services/Product.services.js"
 import { consolelogger } from "../winston.js"
 class ProductsController {

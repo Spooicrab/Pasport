@@ -8,8 +8,34 @@ import { consolelogger } from "../winston.js";
 class UserServices {
     async findAll() {
         try {
-            const response = await usersManager.findAll()
+            const users = await usersManager.findAll()
+            const response = users.reduce(
+                (arr, {
+                    first_name,
+                    last_name,
+                    email,
+                    role,
+                    last_connection
+                }) => {
+                    arr.push({
+                        first_name,
+                        last_name,
+                        email,
+                        role,
+                        last_connection
+                    })
+                    return arr
+                }, []
+            )
             return response
+
+            // let listaReducida = listaDePersonas.reduce((nuevoArray, { nombre, ciudad }) => {
+            //     nuevoArray.push({ nombre, ciudad });
+            //     return nuevoArray;
+            // }, []);
+
+            // console.log(listaReducida);
+
         } catch (error) {
             consolelogger.error(error)
             CustomError.createError(ErrorMessages.USERS_NOT_FOUND)

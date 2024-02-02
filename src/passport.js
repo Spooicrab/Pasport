@@ -46,31 +46,6 @@ passport.use('signup',
     )
 )
 
-passport.use('CreatePremium',
-    new LocalStrategy(
-        {
-            usernameField: 'email',
-            passReqToCallback: true
-        },
-        async (req, email, password, done) => {
-            const userDB = await UserService.findByEmail(email)
-            if (userDB) { return done(null, false) }
-            const HashedPass = await HashData(password)
-            const CarritoUsuario = await CartService.CrearCarrito()
-            const createdUser = await UserService.createPremiumUser(
-                {
-                    ...req.body,
-                    cart: CarritoUsuario,
-                    password: HashedPass,
-                    role: 'premium'
-                }
-            );
-
-            done(null, createdUser)
-        }
-    )
-)
-
 passport.use('login',
     new LocalStrategy(
         { usernameField: 'email' },
