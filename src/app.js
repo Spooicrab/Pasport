@@ -76,7 +76,7 @@ app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
 app.get('/', (req, res) => {
 
-    res.redirect('api/views/login')
+    res.redirect('views/login')
 })
 
 // 
