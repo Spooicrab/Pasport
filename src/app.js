@@ -76,7 +76,7 @@ app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
 app.get('/', (req, res) => {
 
-    res.redirect('api/users/login')
+    res.redirect('api/views/login')
 })
 
 // 
@@ -102,7 +102,6 @@ Sserver.on("connection", (socket) => {
         const IdCarritoActual = data.IdCarritoActual;
         const token = data.token;
 
-        //verifico aqui porque nose como hacerlo desde el enrutador usando socket.io
         jwt.verify(token, JWTSECRET, async (err, decodedToken) => {
             if (err) {
                 socket.emit('error', 'Token no válido');
