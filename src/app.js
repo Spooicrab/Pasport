@@ -76,13 +76,7 @@ app.use('/api/chat', ChatRouter)
 app.use('/mockingproducts', mockingRouter)
 app.get('/', (req, res) => {
 
-    res.send(`<h1>Probando Winston</h1>`)
-    consolelogger.debug('DEBUG')
-    consolelogger.http('HTTP')
-    consolelogger.info('INFO')
-    consolelogger.warning('WARNING')
-    consolelogger.error('ERROR')
-    consolelogger.fatal('ERROR FATAL!')
+    res.redirect('api/users/login')
 })
 
 // 
