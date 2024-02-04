@@ -8,6 +8,8 @@ const UserRouter = Router();
 
 UserRouter.get('/', UsersController.getAll)
 
+UserRouter.delete('/', UsersController.ClearUsers)
+
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 
 UserRouter.post('/premium/:uid', UsersController.Premium)
@@ -20,6 +22,6 @@ UserRouter.get('/:idUser', UsersController.FindUser)
 
 UserRouter.get('/:idUser/documents', ViewsController.Multer)
 
-UserRouter.post('/:idUser/documents', upload.fields([{ name: 'Id' }, { name: 'Domicilio' }, { name: 'accountStatus' }]), UsersController.UpdateDocs);
+UserRouter.post('/:idUser/documents', upload.fields([{ name: 'Id' }, { name: 'Domicilio' }, { name: 'accountStatus' }]), ViewsController.UpdateDocs);
 
 export default UserRouter;

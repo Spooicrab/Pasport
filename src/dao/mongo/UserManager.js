@@ -1,5 +1,4 @@
 import { usersModel } from "../../models/users.model.js";
-import { consolelogger } from "../../winston.js";
 class UsersManager {
 
     async findAll() {
@@ -18,6 +17,11 @@ class UsersManager {
 
     async createOne(obj) {
         const response = await usersModel.create(obj);
+        return response;
+    }
+
+    async deleteOne(id) {
+        const response = await usersModel.findByIdAndDelete(id);
         return response;
     }
 }

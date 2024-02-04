@@ -95,6 +95,12 @@ class ViewController {
                 }))
             } else { res.status(403).send('No tienes permiso para acceder a esta página') }
         }
+
+    UpdateDocs =
+        async (req, res) => {
+            res.render('upload')
+        }
+
 }
 
 export const ViewsController = new ViewController()

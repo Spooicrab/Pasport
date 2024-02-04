@@ -29,7 +29,7 @@ passport.use('signup',
                     role: 'admin'
                 });
                 req.user = createdUser
-                done(null, createdUser)
+                return done(null, createdUser)
             }
             const HashedPass = await HashData(password)
             const CarritoUsuario = await CartService.CrearCarrito()

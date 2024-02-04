@@ -29,13 +29,6 @@ class UserServices {
             )
             return response
 
-            // let listaReducida = listaDePersonas.reduce((nuevoArray, { nombre, ciudad }) => {
-            //     nuevoArray.push({ nombre, ciudad });
-            //     return nuevoArray;
-            // }, []);
-
-            // console.log(listaReducida);
-
         } catch (error) {
             consolelogger.error(error)
             CustomError.createError(ErrorMessages.USERS_NOT_FOUND)
