@@ -18,7 +18,8 @@ class ViewController {
                     email: req.user.email,
                     role: req.user.role,
                     cart: req.user.cart._id,
-                    id: req.user.id
+                    id: req.user.id,
+                    token: req.user.token
                 }
             ))
         }

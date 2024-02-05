@@ -33,6 +33,17 @@ class CartsController {
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
+
+    AgregarCantidad =
+        async (req, res) => {
+            const data = req.body
+            try {
+                const response = await CartService.AgregarCantidad(data.CartID, data.ProductID);
+                return response
+            } catch (error) { res.status(500).json({ error: error.message }) }
+
+        }
+
     ActualizarCarrito = async (req, res) => {
         const { cid } = req.params;
         const obj = req.body

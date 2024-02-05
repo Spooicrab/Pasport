@@ -1,22 +1,21 @@
 const Botones = document.getElementsByClassName('AddToCart');
 const socketclient = io();
-let IdCarritoActual = cartId
+let token = userToken
+let CartID = carrito
 
 for (const Boton of Botones) {
+    const ProductID = Boton.getAttribute('data-product-id');
     Boton.addEventListener('click', () => {
-        const productId = Boton.getAttribute('data-product-id');
-        const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-        if (jwtCookie) {
-            const token = jwtCookie.split('=')[1];
-            socketclient.emit('Agregar', { productId, IdCarritoActual, token });
-        } else { console.error('No se encontró la cookie jwt'); }
+        fetch('/api/carts/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ ProductID, CartID })
+        }).then(alert('añadido al carrito'))
     });
 }
-
-socketclient.on('Agregado', () => {
-    alert('Producto Agregado al Carrito')
-})
-
 
 
 // Selecciona el formulario y los campos de entrada

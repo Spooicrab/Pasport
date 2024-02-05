@@ -1,6 +1,5 @@
 import { Router } from "express";
 import passport from "passport";
-
 import { ticketController } from "../controllers/ticket.controller.js";
 import { ViewsController } from "../controllers/views.controller.js";
 

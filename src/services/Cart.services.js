@@ -41,9 +41,7 @@ class CartServices {
             return response;
         } catch (error) {
             consolelogger.error(error)
-
             CustomError.createError(ErrorMessages.CART_NOT_DELETED)
-
         }
     }
     //

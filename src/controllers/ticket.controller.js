@@ -3,6 +3,7 @@ import CustomError from "../error/error.js"
 import { transporter } from "../nodemailer.js"
 import { CartService } from "../services/Cart.services.js"
 import { ticketService } from "../services/ticket.services.js"
+import config from "../config/config.js"
 import { consolelogger } from "../winston.js"
 
 class ticketControllers {
@@ -50,7 +51,6 @@ class ticketControllers {
                 <h2> Gracias, ${req.user.first_name}, su envio ya esta en camino!
                 `
             }
-
             await transporter.sendMail(opt)
         } catch (error) {
             consolelogger.error(error)

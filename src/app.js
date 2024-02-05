@@ -25,14 +25,11 @@ import swaggerUi from "swagger-ui-express";
 import sessionRouter from "./routes/sessions.router.js";
 import ChatRouter from "./routes/Chat.router.js";
 import restoreRouter from "./routes/restore.router.js";
-
-// Services
 import { CartService } from "./services/Cart.services.js";
 import { ChatService } from "./services/Chat.services.js";
 import { errorMiddleware } from "./middleware/error.js";
 import { consolelogger } from "./winston.js";
 
-// const URI = "mongodb+srv://Coder:House@midatabasecoder.ehu4trq.mongodb.net/EcommerceCoder?retryWrites=true&w=majority"
 
 const JWTSECRET = config.jwtsecret
 const app = express()

@@ -59,7 +59,6 @@ class ProductsController {
             const { pid } = req.params
             const product = await ProductsService.GetById(pid)
 
-
             if (userRole === 'admin') {
                 await ProductsService.Delete(pid);
                 res.status(200).json('ProductoEliminado')
@@ -68,15 +67,8 @@ class ProductsController {
                 if (product.Owner !== 'admin') {
                     await ProductsService.Delete(pid);
                     return res.status(200).json('Producto Eliminado');
-                } else {
-                    return res.status(403).send('No tienes permiso para esto');
-                }
-            }
-
-            else {
-                res.status(403).send('No tienes permiso para esto')
-            }
-
+                } else { return res.status(403).send('No tienes permiso para esto') }
+            } else { res.status(403).send('No tienes permiso para esto') }
         }
 
     ActualizarProducto =
@@ -99,10 +91,10 @@ class ProductsController {
                     return res.status(403).send('No tienes permiso para esto');
                 }
             }
-
             else {
                 res.status(403).send('No tienes permiso para esto')
             }
         }
+
 }
 export const ProductController = new ProductsController()
