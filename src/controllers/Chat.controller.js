@@ -1,4 +1,5 @@
 import { ChatService } from "../services/Chat.services.js";
+import { consolelogger } from "../winston.js";
 
 class ChatControllers {
 
@@ -13,15 +14,15 @@ class ChatControllers {
     Envio =
         async (req, res) => {
             const userRole = req.user.role;
-            if (userRole === 'user') {
+            if (userRole === 'user' || userRole === 'premium') {
                 try {
                     const { name, message } = req.body;
                     try {
-                        const Add = await ChatService.Add(req.body);
+                        await ChatService.Add(req.body);
                     } catch (error) { return res.status(400).json(error) }
                 } catch (error) { console.log(error); }
             } else {
-                alert('Solo para Clientes')
+                res.send('solo para clientes')
             }
         }
 }

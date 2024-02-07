@@ -94,40 +94,9 @@ const Sserver = new Server(servidor)
 Sserver.on("connection", (socket) => {
     consolelogger.debug(`Cliente conectado: ${socket.id}`);
 
-    socket.on('Agregar', async (data) => {
-        const producto = data.productId;
-        const IdCarritoActual = data.IdCarritoActual;
-        const token = data.token;
-
-        jwt.verify(token, JWTSECRET, async (err, decodedToken) => {
-            if (err) {
-                socket.emit('error', 'Token no válido');
-            } else if (decodedToken.role !== 'user') {
-                socket.emit('error', 'No tienes permiso para agregar productos al carrito');
-            } else {
-                try {
-                    await CartService.AgregarCantidad(IdCarritoActual, producto);
-                    socket.emit('Agregado');
-                } catch (error) { throw error; }
-            }
-        });
-    });
-
-
     socket.on('chat message', async function (data) {
-        const token = data.token
-        jwt.verify(token, JWTSECRET, async (err, decodedToken) => {
-            if (err) {
-                socket.emit('error', 'Token no válido');
-            } else if (decodedToken.role !== 'user') {
-                socket.emit('error', 'No tienes permiso para agregar productos al carrito');
-            } else {
-                delete data.token
-                await ChatService.Add(data);
-                socket.emit('Saved', { msg: data })
-            }
-        });
+        socket.emit('Saved', { msg: data })
     });
-
 });
+
 

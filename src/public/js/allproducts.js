@@ -27,18 +27,12 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
     const user = nameInput.value;
     const message = messageInput.value;
-    const jwtCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-    if (jwtCookie) {
-        // Si la cookie existe, obtén el token
-        const token = jwtCookie.split('=')[1];
-        socketclient.emit('chat message', { user, message, token });
-        messageInput.value = '';
-    } else {
-        // Si la cookie no existe, maneja el error
-        console.error('No se encontró la cookie jwt');
-    }
-
+    socketclient.emit('chat message',
+        { user, message }
+    );
+    messageInput.value = '';
 });
+
 socketclient.on('Saved', function (data) {
     const chat = document.getElementById('ventanaChat');
     const messageElement = document.createElement('p');
