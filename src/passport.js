@@ -107,6 +107,8 @@ passport.use(
         async (accesToken, refreshToken, profile, done) => {
             try {
                 const userDB = await UserService.findByEmail(profile._json.email)
+                consolelogger.debug('---USERDB:')
+                consolelogger.debug(userDB)
                 if (userDB) {
                     if (userDB.Github) {
                         const token = generateToken(
@@ -122,9 +124,7 @@ passport.use(
                         )
                         userDB.token = token
                         return done(null, userDB)
-                    } else {
-                        return done(null, false)
-                    }
+                    } else { return done(null, false) }
                 }
 
                 //signup

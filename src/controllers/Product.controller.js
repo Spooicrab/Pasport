@@ -1,5 +1,7 @@
 import { ProductsService } from "../services/Product.services.js"
 import { consolelogger } from "../winston.js"
+import config from "../config/config.js"
+import { transporter } from "../nodemailer.js"
 class ProductsController {
     GetAllProducts = async (req, res) => {
         try {
@@ -61,24 +63,40 @@ class ProductsController {
 
             if (userRole === 'admin') {
                 await ProductsService.Delete(pid);
+                let destinatario;
+                if (product.Owner !== 'admin') { destinatario = product.Owner; }
+                else { destinatario = req.user.email; }
+                const opt = {
+                    from: config.gmail_user.toString(),
+                    to: destinatario,
+                    subject: 'Producto eliminado',
+                    html: `  <h3>  Su producto en esta plataforma fue eliminado  </h3>  `
+                };
+                transporter.sendMail(opt);
                 res.status(200).json('ProductoEliminado')
             }
-            if (userRole === 'premium') {
-                if (product.Owner !== 'admin') {
-                    await ProductsService.Delete(pid);
-                    return res.status(200).json('Producto Eliminado');
-                } else { return res.status(403).send('No tienes permiso para esto') }
-            } else { res.status(403).send('No tienes permiso para esto') }
+            else if (userRole === 'premium' && product.Owner !== 'admin') {
+                await ProductsService.Delete(pid);
+                let destinatario;
+                if (product.Owner !== 'admin') { destinatario = product.Owner; }
+                else { destinatario = req.user.email; }
+
+                const opt = {
+                    from: config.gmail_user.toString(),
+                    to: destinatario,
+                    subject: 'Producto eliminado',
+                    html: `  <h3>  Su producto en esta plataforma fue eliminado  </h3>  `
+                };
+                transporter.sendMail(opt);
+                return res.status(200).json('Producto Eliminado');
+            } else { return res.status(403).send('No tienes permiso para esto') }
         }
 
     ActualizarProducto =
         async (req, res) => {
-
             const userRole = req.user.role;
             const { pid } = req.params
             const product = await ProductsService.GetById(pid)
-
-
             if (userRole === 'admin') {
                 await ProductsService.Update(pid, req.body);
                 res.status(200).json('Producto actualizado')
@@ -87,14 +105,8 @@ class ProductsController {
                 if (product.Owner !== 'admin') {
                     await ProductsService.Update(pid, req.body);
                     return res.status(200).json('Producto Actualizado');
-                } else {
-                    return res.status(403).send('No tienes permiso para esto');
-                }
-            }
-            else {
-                res.status(403).send('No tienes permiso para esto')
-            }
+                } else { return res.status(403).send('No tienes permiso para esto'); }
+            } else { res.status(403).send('No tienes permiso para esto') }
         }
-
 }
 export const ProductController = new ProductsController()

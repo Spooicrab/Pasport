@@ -8,7 +8,7 @@ const UserRouter = Router();
 
 UserRouter.get('/', UsersController.getAll)
 
-UserRouter.delete('/', UsersController.ClearUsers)
+UserRouter.delete('/', passport.authenticate('jwt', { session: false }), UsersController.ClearUsers)
 
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 

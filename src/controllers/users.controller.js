@@ -23,7 +23,7 @@ class UserController {
                 } else { res.status(200).json({ message: 'some data is missing', user }) }
             }
             else {
-                user.role = 'premium'
+                user.role = 'user'
                 await user.save()
                 res.send('User changed back to user')
             }
@@ -53,6 +53,7 @@ class UserController {
             if (err) {
                 consolelogger.error(err)
             } else {
+                consolelogger.debug(decodedToken)
                 const userRole = decodedToken.role;
                 await UserService.updateLastLog(req.user._id)
                 if (userRole === 'admin') { res.redirect('/views/admin') }
@@ -72,35 +73,37 @@ class UserController {
     ClearUsers =
         async (req, res) => {
             const now = new Date()
+            const users = await usersManager.findAll()
 
             const twoDaysAgo = new Date(
                 now.getTime() - (2 * 24 * 60 * 60 * 1000)
             );
 
-            const users = await usersManager.findAll()
-
             const usersToDelete = users.filter(
                 user => new Date(user.last_connection) < twoDaysAgo && user.role === 'user'
             );
 
-            for (let user of usersToDelete) {
-                await usersManager.deleteOne(user.id);
+            if (req.user.role === 'admin') {
+                for (let user of usersToDelete) {
+                    const opt =
+                    {
+                        from: config.gmail_user.toString(),
+                        to: user.email,
+                        subject: 'Cuenta eliminada',
+                        html: `
+                        <h3>
+                        Se le informa por la presente que su cuenta fue eliminada por inactividad
+                        </h3>
+                        `
+                    }
 
-                const opt = {
-                    from: config.gmail_user.toString(),
-                    to: user.email,
-                    subject: 'Cuenta eliminada',
-                    html: `
-                    <h3>
-                    Se le informa por la presente que su cuenta fue eliminada por inactividad
-                    </h3>
-                    `
+                    await usersManager.deleteOne(user.id);
+                    await transporter.sendMail(opt)
                 }
-
-                await transporter.sendMail(opt)
+                res.send('Se eliminaron usuarios')
             }
-
-            res.send('Se eliminaron usuarios')
         }
+
+
 }
 export const UsersController = new UserController()
