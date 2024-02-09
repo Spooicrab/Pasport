@@ -41,8 +41,9 @@ class UserController {
     FindUser =
         async (req, res) => {
             const { idUser } = req.params
-            const user = await UserService.findById(idUser)
-            res.status(200).json({ message: 'user found', user })
+            const user = await usersManager.findById(idUser)
+            console.log(user);
+            res.render('UserDetail', { user: user })
         }
 
     DeleteUser = async (req, res) => {

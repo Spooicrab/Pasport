@@ -1,0 +1,13 @@
+<h2>Usuario:{{user.first_name}}, {{user.last_name}}</h2>
+<h2>email: {{user.email}}</h2>
+<h2>Edad: {{user.age}}</h2>
+<h2>rol: {{user.role}}</h2>
+<h2>Cuenta vinculada a github: {{user.Github}}</h2>
+<div>
+  <h2>documentos cargados:</h2>
+  {{#each user.documents}}
+    <h5>nombre: {{this.name}}</h5>
+    <h5>Nombre del documento: {{this.reference}}</h5>
+  {{/each}}
+</div>
+<h1>Ultima conexión: {{user.last_connection}}</h1>
