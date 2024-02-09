@@ -1,44 +1,42 @@
-<style>
-  #productos { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-  #productos>div { background-color: #f2f2f2; padding: 20px; border-radius: 5px;
-  text-align: center; } .pagination-link { padding: 10px 20px; background-color:
-  #007bff; color: #fff; border: none; cursor: pointer; margin-top: 10px;
-  display: inline-block; text-decoration: none; border-radius: 5px; }
-  .pagination-link:hover { background-color: #0056b3; }
-</style>
 <section>
   <h2>Bienvenido, {{first_name}}</h2>
   <p>mail: {{email}}</p>
   <h2>Rol: {{role}}</h2>
-  <button onclick="location.href='/views/login'">Desconectarse</button>
+  <button onclick="location.href='/api/users/logout'">Desconectarse</button>
 </section>
 
-<H1>Productos:</H1>
-
-<div id='productos'>
-  {{#each Productos.docs}}
-    <div>
-      <h3>{{title}}</h3>
-      <h2>Owner: {{Owner}}</h2>
-      <p>${{price}}</p>
-      <p>stock:{{stock}}</p>
-    </div>
-  {{/each}}
-</div>
-<div>
-  {{#if Productos.hasPrevPage}}
-    <a
-      href='/views/admin?page={{Productos.prevPage}}'
-      class='pagination-link'
-    >Página anterior</a>
-  {{/if}}
-  {{#if Productos.hasNextPage}}
-    <a
-      href='/views/admin?page={{Productos.nextPage}}'
-      class='pagination-link'
-    >Página siguiente</a>
-  {{/if}}
-</div>
+<section>
+  <h1>Usuarios registrados:</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Ultima conexión </th>
+        <th>Rol</th>
+        <th>Correo electrónico</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.users}}
+        <tr>
+          <td>{{this.last_connection}}||</td>
+          <td>{{this.role}}||</td>
+          <td>{{this.email}}</td>
+          <td>
+            <button
+              onclick="location.href='/api/users/{{this._id}}'"
+            >Ver</button>
+            <form action='/api/users/premium/{{this._id}}' method='post'>
+              <input type='submit' value='Cambiar rol' />
+            </form>
+            <button class='BotonEliminar' data-idUser='{{this._id}}'>Eliminar
+              Usuario</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</section>
 
 <h1>AÑADIR PRODUCTOS:</h1>
 
@@ -93,6 +91,9 @@
     style='padding: 10px 20px; background-color: #007bff; color: #fff; border: none; cursor: pointer; margin-top: 10px;'
   />
 </form>
+<script>
+  let AdminToken = '{{token}}';
+</script>
 
 <script src='/socket.io/socket.io.js'></script>
-<script src='/js/allproducts.js'></script>
+<script src='/js/admin.js'></script>

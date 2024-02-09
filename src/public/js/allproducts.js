@@ -1,7 +1,7 @@
 const Botones = document.getElementsByClassName('AddToCart');
 const socketclient = io();
-let token = userToken
 let CartID = carrito
+let Token = token
 
 for (const Boton of Botones) {
     const ProductID = Boton.getAttribute('data-product-id');
@@ -10,15 +10,13 @@ for (const Boton of Botones) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${Token}`
             },
             body: JSON.stringify({ ProductID, CartID })
         }).then(alert('añadido al carrito'))
     });
 }
 
-
-// Selecciona el formulario y los campos de entrada
 const form = document.getElementById('Mensajes');
 const nameInput = document.getElementById('name');
 const messageInput = document.getElementById('message');

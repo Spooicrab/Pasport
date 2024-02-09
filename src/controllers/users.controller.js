@@ -41,11 +41,15 @@ class UserController {
     FindUser =
         async (req, res) => {
             const { idUser } = req.params
-
             const user = await UserService.findById(idUser)
-
             res.status(200).json({ message: 'user found', user })
         }
+
+    DeleteUser = async (req, res) => {
+        const { idUser } = req.params
+        await UserService.Delete(idUser)
+        res.status(200).json({ message: 'deleted', idUser })
+    }
 
     Login = async (req, res) => {
         res.cookie('jwt', req.user.token, { httpOnly: false });
@@ -53,7 +57,6 @@ class UserController {
             if (err) {
                 consolelogger.error(err)
             } else {
-                consolelogger.debug(decodedToken)
                 const userRole = decodedToken.role;
                 await UserService.updateLastLog(req.user._id)
                 if (userRole === 'admin') { res.redirect('/views/admin') }
@@ -97,7 +100,7 @@ class UserController {
                         `
                     }
 
-                    await usersManager.deleteOne(user.id);
+                    await UserService.Delete(user.id);
                     await transporter.sendMail(opt)
                 }
                 res.send('Se eliminaron usuarios')

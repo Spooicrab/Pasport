@@ -10,6 +10,8 @@ UserRouter.get('/', UsersController.getAll)
 
 UserRouter.delete('/', passport.authenticate('jwt', { session: false }), UsersController.ClearUsers)
 
+UserRouter.delete('/:idUser', passport.authenticate('jwt', { session: false }), UsersController.DeleteUser)
+
 UserRouter.post('/signup', passport.authenticate('signup'), UsersController.Register)
 
 UserRouter.post('/premium/:uid', UsersController.Premium)

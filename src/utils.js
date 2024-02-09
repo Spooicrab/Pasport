@@ -19,6 +19,6 @@ export const CompareData = async (data, HashedData) => {
 const JWTSECRET = config.jwtsecret
 
 export const generateToken = (data) => {
-    const token = jwt.sign(data, JWTSECRET, { expiresIn: 60000 })
+    const token = jwt.sign(data, JWTSECRET, { expiresIn: 3600000 })
     return token
 }

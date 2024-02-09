@@ -6,6 +6,7 @@ import { CompareData, HashData } from "../utils.js";
 import { consolelogger } from "../winston.js";
 
 class UserServices {
+
     async findAll() {
         try {
             const users = await usersManager.findAll()
@@ -14,6 +15,7 @@ class UserServices {
                     first_name,
                     last_name,
                     email,
+                    _id,
                     role,
                     last_connection
                 }) => {
@@ -21,6 +23,7 @@ class UserServices {
                         first_name,
                         last_name,
                         email,
+                        _id,
                         role,
                         last_connection
                     })
@@ -48,6 +51,16 @@ class UserServices {
 
     }
 
+    async Delete(id) {
+        try {
+            const response = await usersManager.deleteOne(id)
+            return response
+        } catch (error) {
+            consolelogger.error(error)
+            CustomError.createError(ErrorMessages.USER_NOT_DELETED)
+        }
+    }
+
     async updateDocs(id, docName, fileName) {
         try {
             const user = await this.findById(id)
@@ -63,8 +76,6 @@ class UserServices {
             consolelogger.error(error)
         }
     }
-
-
 
     async findById(id) {
         try {

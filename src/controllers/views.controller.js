@@ -1,7 +1,6 @@
 import { ProductsService } from "../services/Product.services.js"
 import { CartService } from "../services/Cart.services.js"
 import { ChatService } from "../services/Chat.services.js"
-import { Cookie } from "express-session"
 import { UserService } from "../services/User.services.js"
 
 class ViewController {
@@ -19,7 +18,7 @@ class ViewController {
                     role: req.user.role,
                     cart: req.user.cart._id,
                     id: req.user.id,
-                    token: req.user.token
+                    token: req.cookies['jwt']
                 }
             ))
         }
@@ -70,13 +69,16 @@ class ViewController {
 
     admin =
         async (req, res) => {
-            let Productos = await ProductsService.GetAll(req.query)
             const userRole = req.user.role;
+            let Productos = await ProductsService.GetAll(req.query)
+            const users = await UserService.findAll()
             if (userRole === 'admin') {
                 res.render('admin', ({
                     Productos,
+                    users,
                     first_name: req.user.first_name,
                     email: req.user.email,
+                    token: req.cookies['jwt'],
                     role: req.user.role,
                 }))
             } else { res.status(403).send('No tienes permiso para acceder a esta página') }
