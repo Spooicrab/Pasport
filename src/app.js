@@ -25,8 +25,6 @@ import swaggerUi from "swagger-ui-express";
 import sessionRouter from "./routes/sessions.router.js";
 import ChatRouter from "./routes/Chat.router.js";
 import restoreRouter from "./routes/restore.router.js";
-import { CartService } from "./services/Cart.services.js";
-import { ChatService } from "./services/Chat.services.js";
 import { errorMiddleware } from "./middleware/error.js";
 import { consolelogger } from "./winston.js";
 
@@ -41,7 +39,7 @@ app.use(express.static(__dirname + '/public'))
 const URI = config.mongo_uri
 app.use(session({
     secret: 'key',
-    cookie: { maxAge: 600000 },
+    cookie: { maxAge: 3600000 },
     store: new mongoStore({ mongoUrl: URI })
 }))
 

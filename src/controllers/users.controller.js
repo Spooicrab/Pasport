@@ -19,13 +19,13 @@ class UserController {
                 if (hasId && hasDomicilio && hasAccountStatus) {
                     user.role = 'premium'
                     await user.save()
-                    res.status(200).json({ message: 'user updated', user })
-                } else { res.status(200).json({ message: 'some data is missing', user }) }
+                    res.render('RoleUpdate')
+                } else { res.status(500).json({ message: 'some data is missing', user }) }
             }
             else {
                 user.role = 'user'
                 await user.save()
-                res.send('User changed back to user')
+                res.render('RoleUpdate')
             }
         }
 
