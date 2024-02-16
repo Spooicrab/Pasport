@@ -9,30 +9,16 @@ class CartsController {
         } catch (error) { return res.status(400).json(error) }
     }
 
-    GetCartById = async (req, res) => {
-        const { cid } = req.params
-        try {
-            const Cart = await CartService.findByID(cid)
-            return res.status(200).json(Cart)
-        } catch (error) { throw new Error('Cart Not Found') }
-    }
-
     CrearCarrito = async (req, res) => {
         try {
-            const CarritoNuevo = req.body
             const add = await CartService.Add(req.body);
+
+
             res.status(200).json({ message: 'Carrito con productos creado', add })
+
+
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
-
-    VaciarCarrito = async (req, res) => {
-        const { cid } = req.params;
-        try {
-            const Vaciar = await CartService.Vaciar(cid);
-            return res.status(200).json({ message: "Carrito vaciado" });
-        } catch (error) { res.status(500).json({ error: error.message }) }
-    }
-
 
     AgregarCantidad =
         async (req, res) => {
@@ -41,15 +27,34 @@ class CartsController {
                 const response = await CartService.AgregarCantidad(data.CartID, data.ProductID);
                 return response
             } catch (error) { res.status(500).json({ error: error.message }) }
-
         }
+
+    GetCartById = async (req, res) => {
+        const { cid } = req.params
+        try {
+            const Cart = await CartService.findByID(cid)
+            return res.status(200).json(Cart)
+        } catch (error) { throw new Error('Cart Not Found') }
+    }
+
+    VaciarCarrito = async (req, res) => {
+        const { cid } = req.params;
+        try {
+            const response = await CartService.Vaciar(cid);
+            return res.status(200).json(response);
+        } catch (error) { res.status(500).json({ error: error.message }) }
+    }
 
     ActualizarCarrito = async (req, res) => {
         const { cid } = req.params;
         const obj = req.body
         try {
-            await CartService.Actualizar(cid, obj);
-            return res.status(200).json({ message: "Actualizado" })
+            const actualizar = await CartService.Actualizar(cid, obj);
+
+
+            return res.status(200).json(actualizar)
+
+
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
@@ -57,9 +62,10 @@ class CartsController {
         try {
             const { cid } = req.params;
             const { pid } = req.params;
-            await CartService.AgregarCantidad(cid, pid);
+            const response = await CartService.AgregarCantidad(cid, pid);
 
-            return res.status(200).json('Actualizado')
+            return res.status(200).json(response)
+
         } catch (error) { res.status(500).json({ error: error.message }) }
     }
 
